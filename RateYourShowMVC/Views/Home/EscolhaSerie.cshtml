@@ -1,0 +1,289 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EscolhaSerie</title>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Main Font -->
+    <script src="~/Scripts/webfontloader.min.js"></script>
+
+    <script>
+        WebFont.load({
+            google: {
+                families: ['Roboto:300,400,500,700:latin']
+            }
+        });
+    </script>
+
+    <!--Bootstrap CSS-->
+    <link href="~/Content/bootstrap-reboot.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-grid.css" rel="stylesheet" />
+
+    <!-- Main Styles CSS -->
+    <link href="~/Content/main.css" rel="stylesheet" />
+    <link href="~/Content/fonts.css" rel="stylesheet" />
+</head>
+<body>
+    
+    <div class="header-spacer"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <!-- PAINEL DE FOTOS -->               
+                    <h1 style="text-align:center; font-size:5em; margin-bottom:1em; color: rgb(255, 94, 58); font-weight: 700;";> Siga suas séries!</h1>
+                    <div class="tab-pane active" id="album-page" role="tabpanel">
+
+                        <div class="photo-album-wrapper">                           
+                            <!-- CARD DE FOTO-->
+                            <div class="photo-album-item-wrap col-4-width">
+
+                                <div class="photo-album-item" data-mh="album-item">
+                                    <div class="photo-item">
+                                        <img src="~/img/photo-item2.jpg" alt="photo">
+                                                                              
+                                        <div class="checkbox" style="text-align:right; background: #ffffff;">
+                                            <label>
+                                                <input type="checkbox" name="optionsCheckboxes">                                                
+                                            </label>
+                                        </div>
+                                       
+                                    </div>
+
+                                    <div class="content">
+                                        <a href="#" class="title h5">Nome da Série</a>
+                                        <span class="sub-title">Gênero</span>
+                                    </div>
+                                    
+
+                                </div>
+                            </div>
+                            <!-- FIM CARD DE FOTO-->
+                            <div class="photo-album-item-wrap col-4-width">
+                                <div class="photo-album-item" data-mh="album-item">
+                                    <div class="photo-item">
+                                        <img src="~/img/photo-album1.jpg" alt="photo">
+                                        <div class="overlay overlay-dark"></div>
+                                        <a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
+                                        <a href="#" class="post-add-icon">
+                                            <svg class="olymp-heart-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-heart-icon"></use></svg>
+                                            <span>324</span>
+                                        </a>
+
+                                        <a href="#" data-toggle="modal" data-target="#open-photo-popup-v1" class="  full-block"></a>
+                                    </div>
+
+                                    <div class="content">
+                                        <a href="#" class="title h5">Photoshoot Summer 2016</a>
+                                        <span class="sub-title">Last Added: 5 weeks ago</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="photo-album-item-wrap col-4-width">
+                                <div class="photo-album-item" data-mh="album-item">
+                                    <div class="photo-item">
+                                        <img src="~/img/photo-album2.jpg" alt="photo">
+                                        <div class="overlay overlay-dark"></div>
+                                        <a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
+                                        <a href="#" class="post-add-icon">
+                                            <svg class="olymp-heart-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-heart-icon"></use></svg>
+                                            <span>324</span>
+                                        </a>
+
+                                        <a href="#" data-toggle="modal" data-target="#open-photo-popup-v1" class="  full-block"></a>
+                                    </div>
+
+                                    <div class="content">
+                                        <a href="#" class="title h5">Amazing Street Food</a>
+                                        <span class="sub-title">Last Added: 6 mins ago</span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="photo-album-item-wrap col-4-width">
+
+                                <div class="photo-album-item" data-mh="album-item">
+                                    <div class="photo-item">
+                                        <img src="~/img/photo-album3.jpg" alt="photo">
+                                        <div class="overlay overlay-dark"></div>
+                                        <a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
+                                        <a href="#" class="post-add-icon">
+                                            <svg class="olymp-heart-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-heart-icon"></use></svg>
+                                            <span>324</span>
+                                        </a>
+
+                                        <a href="#" data-toggle="modal" data-target="#open-photo-popup-v1" class="  full-block"></a>
+                                    </div>
+
+                                    <div class="content">
+                                        <a href="#" class="title h5">Graffiti & Street Art</a>
+                                        <span class="sub-title">Last Added: 16 hours ago</span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="photo-album-item-wrap col-4-width">
+                                <div class="photo-album-item" data-mh="album-item">
+                                    <div class="photo-item">
+                                        <img src="~/img/photo-album4.jpg" alt="photo">
+                                        <div class="overlay overlay-dark"></div>
+                                        <a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
+                                        <a href="#" class="post-add-icon">
+                                            <svg class="olymp-heart-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-heart-icon"></use></svg>
+                                            <span>324</span>
+                                        </a>
+
+                                        <a href="#" data-toggle="modal" data-target="#open-photo-popup-v1" class="  full-block"></a>
+                                    </div>
+
+                                    <div class="content">
+                                        <a href="#" class="title h5">Amazing Landscapes</a>
+                                        <span class="sub-title">Last Added: 13 mins ago</span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="photo-album-item-wrap col-4-width">
+                                <div class="photo-album-item" data-mh="album-item">
+                                    <div class="photo-item">
+                                        <img src="~/img/photo-item6.jpg" alt="photo">
+                                        <div class="overlay overlay-dark"></div>
+                                        <a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
+                                        <a href="#" class="post-add-icon">
+                                            <svg class="olymp-heart-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-heart-icon"></use></svg>
+                                            <span>324</span>
+                                        </a>
+
+                                        <a href="#" data-toggle="modal" data-target="#open-photo-popup-v1" class="  full-block"></a>
+                                    </div>
+
+                                    <div class="content">
+                                        <a href="#" class="title h5">The Majestic Canyon</a>
+                                        <span class="sub-title">Last Added: 57 mins ago</span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="photo-album-item-wrap col-4-width">
+                                <div class="photo-album-item" data-mh="album-item">
+                                    <div class="photo-item">
+                                        <img src="~/img/photo-album5.jpg" alt="photo">
+                                        <div class="overlay overlay-dark"></div>
+                                        <a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
+                                        <a href="#" class="post-add-icon">
+                                            <svg class="olymp-heart-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-heart-icon"></use></svg>
+                                            <span>324</span>
+                                        </a>
+
+                                        <a href="#" data-toggle="modal" data-target="#open-photo-popup-v1" class="  full-block"></a>
+                                    </div>
+
+                                    <div class="content">
+                                        <a href="#" class="title h5">Winter 2015 Portraits</a>
+                                        <span class="sub-title">Last Added: 1 year ago</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="photo-album-item-wrap col-4-width">
+                                <div class="photo-album-item" data-mh="album-item">
+                                    <div class="photo-item">
+                                        <img src="~/img/photo-album5.jpg" alt="photo">
+                                        <div class="overlay overlay-dark"></div>
+                                        <a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
+                                        <a href="#" class="post-add-icon">
+                                            <svg class="olymp-heart-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-heart-icon"></use></svg>
+                                            <span>324</span>
+                                        </a>
+
+                                        <a href="#" data-toggle="modal" data-target="#open-photo-popup-v1" class="  full-block"></a>
+                                    </div>
+
+                                    <div class="content">
+                                        <a href="#" class="title h5">Winter 2015 Portraits</a>
+                                        <span class="sub-title">Last Added: 1 year ago</span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                <!-- FIM PAINEL DE FOTOS -->
+                <form action="/" method="post">
+                    <div class="col col-lg-3 col-md-6 col-sm-12 col-12 ml-auto" style="margin-top:1.5rem;">
+                        <a href="#" class="btn btn-purple btn-lg">Concluido</a>                       
+                    </div>
+
+                </form>
+
+
+                </div>
+
+            </div>
+        </div>  
+    
+
+    <!-- JS Scripts -->
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/jquery.appear.js"></script>
+    <script src="~/Scripts/jquery.mousewheel.js"></script>
+    <script src="~/Scripts/perfect-scrollbar.js"></script>
+    <script src="~/Scripts/jquery.matchHeight.js"></script>
+    <script src="~/Scripts/svgxuse.js"></script>
+    <script src="~/Scripts/imagesloaded.pkgd.js"></script>
+    <script src="~/Scripts/Headroom.js"></script>
+    <script src="~/Scripts/velocity.js"></script>
+    <script src="~/Scripts/ScrollMagic.js"></script>
+    <script src="~/Scripts/jquery.waypoints.js"></script>
+    <script src="~/Scripts/jquery.countTo.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/material.min.js"></script>
+    <script src="~/Scripts/bootstrap-select.js"></script>
+    <script src="~/Scripts/smooth-scroll.js"></script>
+    <script src="~/Scripts/selectize.js"></script>
+    <script src="~/Scripts/swiper.jquery.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/daterangepicker.js"></script>
+    <script src="~/Scripts/simplecalendar.js"></script>
+    <script src="~/Scripts/fullcalendar.js"></script>
+    <script src="~/Scripts/isotope.pkgd.js"></script>
+    <script src="~/Scripts/ajax-pagination.js"></script>
+    <script src="~/Scripts/Chart.js"></script>
+    <script src="~/Scripts/chartjs-plugin-deferred.js"></script>
+    <script src="~/Scripts/circle-progress.js"></script>
+    <script src="~/Scripts/loader.js"></script>
+    <script src="~/Scripts/run-chart.js"></script>
+    <script src="~/Scripts/jquery.magnific-popup.js"></script>
+    <script src="~/Scripts/jquery.gifplayer.js"></script>
+    <script src="~/Scripts/mediaelement-and-player.js"></script>
+    <script src="~/Scripts/mediaelement-playlist-plugin.min.js"></script>
+    <script src="~/Scripts/base-init.js"></script>
+
+    <script defer src="~/fonts/fontawesome-all.js"></script>
+
+    <script src="Bootstrap/dist/js/bootstrap.bundle.js"></script>
+
+
+    </body>
+</html>

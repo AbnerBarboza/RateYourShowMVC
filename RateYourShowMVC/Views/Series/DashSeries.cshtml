@@ -1,0 +1,67 @@
+﻿@model IEnumerable<RateYourShowMVC.Models.Series>
+
+@{
+    ViewBag.Title = "DashSeries";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="header-spacer"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="ui-block">
+                <div class="top-header">
+                    <div class="top-header-thumb">
+                        <img src="~/img/top-header1.jpg" alt="nature">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="ui-block responsive-flex">
+                <div class="ui-block-title">
+                    <div class="h6 title">Galeria de Séries</div>
+                    <form class="w-search">
+                        <div class="form-group with-button is-empty">
+                            <input class="form-control" placeholder="procure séries..." type="text" />
+                            <button>
+                                <svg class="olymp-magnifying-glass-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use></svg>
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Album séries-->
+<div class="container">
+    @foreach (var item in Model)
+    {
+
+        <div class="photo-item col-4-width">
+            @foreach (var mid in item.Midia.Where(m => m.TipoMidiaId == 1))
+            {
+                <img src="~/Uploads/@mid.Link" style="height:200px;width:300px" stalt="photo">
+            }
+            <div class="overlay overlay-dark"></div>
+            <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="  full-block"></a>
+            <div class="content">
+                @Html.ActionLink(item.Nome, "Perfil", new { id = item.SeriesId }, htmlAttributes: new { @class = "h4" })
+            </div>
+        </div>
+    }
+</div>
+<!-- end Album séries-->
