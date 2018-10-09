@@ -21,8 +21,9 @@ namespace RateYourShowMVC.Controllers
 
         public ActionResult DashSeries()
         {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
 
-            Usuario usu = db.Usuario.Find(1);
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
 
             Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
@@ -39,9 +40,9 @@ namespace RateYourShowMVC.Controllers
         }
         public ActionResult Perfil(int? id)
         {
-            //HttpCookie cookie = Request.Cookies.Get("UsuId");
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
 
-            Usuario usu = db.Usuario.Find(1);
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
 
             Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
@@ -67,9 +68,9 @@ namespace RateYourShowMVC.Controllers
 
         public ActionResult Ranking()
         {
-            //HttpCookie cookie = Request.Cookies.Get("UsuId");
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
 
-            Usuario usu = db.Usuario.Find(1);
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
 
             Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
@@ -83,11 +84,11 @@ namespace RateYourShowMVC.Controllers
 
             return View();
         }
-        public ActionResult Personagem()
+        public ActionResult Personagem(int? id)
         {
-            //HttpCookie cookie = Request.Cookies.Get("UsuId");
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
 
-            Usuario usu = db.Usuario.Find(1);
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
 
             Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
@@ -99,7 +100,17 @@ namespace RateYourShowMVC.Controllers
                 ViewBag.Imagem = mid.Link;
             }
 
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Equipe equipe = db.Equipe.Find(id);
+            if (equipe == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(equipe);
         }
     }
 }

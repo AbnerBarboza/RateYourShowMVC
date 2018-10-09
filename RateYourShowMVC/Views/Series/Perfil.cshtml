@@ -168,16 +168,10 @@
                         {
                             <img src="~/Uploads/@mid.Link" style="width:332px;height:284px" alt="photo">
                         }
-                        <div class="overlay overlay-dark"></div>
-                        <a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
-                        <a href="#" class="post-add-icon">
-                            <svg class="olymp-heart-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-heart-icon"></use></svg>
-                        </a>
-                        <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="  full-block"></a>
                     </div>
 
                     <div class="content">
-                        <a href="#" class="title h5">@atr.Equipe.Nome</a>
+                        @Html.ActionLink(atr.Equipe.Nome, "Personagem", new { id = atr.Equipe.EquipeId }, htmlAttributes: new { @class = "h5" })
                         <span class="sub-title">@atr.Personagem</span>
                     </div>
 
@@ -215,17 +209,10 @@
                         {
                             <img src="~/Uploads/@mid.Link" style="width:332px;height:284px" alt="photo">
                         }
-                        <div class="overlay overlay-dark"></div>
-                        <a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
-                        <a href="#" class="post-add-icon">
-                            <svg class="olymp-heart-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-heart-icon"></use></svg>
-                            <span>324</span>
-                        </a>
-                        <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="  full-block"></a>
                     </div>
 
                     <div class="content">
-                        <a href="#" class="title h5">@atr.Equipe.Nome</a>
+                        @Html.ActionLink(atr.Equipe.Nome, "Personagem", new { id = atr.Equipe.EquipeId }, htmlAttributes: new { @class = "h5" })
                         <span class="sub-title">@atr.EquipeTipo.Descricao</span>
                     </div>
 
