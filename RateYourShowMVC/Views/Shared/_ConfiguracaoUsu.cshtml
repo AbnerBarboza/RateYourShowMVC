@@ -67,7 +67,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="18-MusicAndPlaylists.html">
+                        <a href="~/Series/DashAtores">
                             <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="ATORES"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use></svg>
                         </a>
                     </li>
@@ -122,7 +122,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="18-MusicAndPlaylists.html">
+                        <a href="~/Series/DashAtores">
                             <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="ATORES"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use></svg>
                             <span class="left-menu-title">Atores</span>
                         </a>
@@ -1102,8 +1102,7 @@
                         </div>
 
                         <div class="ui-block-title">
-                            <a href="33-YourAccount-Notifications.html" class="h6 title">Pedidos de amizade</a>
-                            <a href="#" class="items-round-little bg-primary">8</a>
+                            <a data-toggle="modal" data-target="#faqs-popup" href="#" class="h6 title">Desativar Conta</a>                         
                         </div>
                     </div>
 
@@ -1114,6 +1113,77 @@
             </div>
         </div>
     </div>
+
+    <!-- desativarConta Popup -->
+
+    <div class="modal fade" id="faqs-popup" tabindex="-1" role="dialog" aria-labelledby="faqs-popup" aria-hidden="true">
+        <div class="modal-dialog window-popup faqs-popup" role="document">
+            <div class="modal-content">
+                <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+                </a>
+
+                <div class="modal-header">
+                    <h6 class="title">Desativar Conta</h6>
+                </div>
+
+                <div class="modal-body">
+                    <div id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingOne">
+                                <h6 class="mb-0">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#modouso" aria-expanded="false" aria-controls="modouso">
+                                        Não sabe como utiliar o <span class="c-green">RYS?</span> 
+                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                    </a>
+                                </h6>
+                            </div>
+
+                            <div id="modouso" class="collapse show" role="tabpanel" aria-expanded="true" aria-labelledby="headingOne">
+                                <p>
+                                    Algum  texto hei de pensar
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingTwo">
+                                <h6 class="mb-0">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#desativar" aria-expanded="true" aria-controls="desativar">
+                                        Desativar
+                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                    </a>
+                                </h6>
+                            </div>
+
+                            <div id="desativar" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                                <form>
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label">Email</label>
+                                        <input class="form-control" placeholder="" value="" type="text">
+                                    </div>
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label">Senha</label>
+                                        <input class="form-control" placeholder="" value="" type="text">
+                                    </div>
+                                    <div class="form-group">                                       
+                                        <button class="class=btn btn-primary btn-lg full-width">Desativar
+                                           
+                                        </button>
+                                        
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ... end desativarConta Popup -->
+
 
     <!-- ... end Your Account Personal Information -->
     <!-- JS Scripts -->
