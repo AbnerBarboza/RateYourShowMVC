@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Alterar Foto";
+    Layout = "~/Views/Shared/_ConfiguracaoUsu.cshtml";
+}
+
+<div class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+    <div class="ui-block">
+        <div class="ui-block-title">
+            <h6 class="title">Alterar Senha</h6>
+        </div>
+        <div class="ui-block-content">
+
+
+            <!-- Change Password Form -->
+
+            @using (Html.BeginForm("AlterarFoto", "ConfiguracoesUsuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="row">
+
+                    <input name="arq" class="form-control" type="file" />
+
+                <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+                    <input type="submit" value="Alterar Foto" class="btn btn-primary btn-lg full-width" />
+                </div>
+            </div>
+        }
+
+            <!-- ... end Change Password Form -->
+        </div>
+    </div>
+    </div>

@@ -47,6 +47,9 @@ namespace RateYourShowMVC.Models
         [Required]
         public TipoUsuario TipoUsuario { get; set; }
 
+        public virtual ICollection<Midia> Midia { get; set; }
+
+
     }
 
 }

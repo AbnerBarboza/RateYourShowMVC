@@ -662,6 +662,8 @@
     <Content Include="img\post__thumb7.jpg" />
     <Content Include="img\post__thumb8.jpg" />
     <Content Include="img\Prancheta 1-100.jpg" />
+    <Content Include="img\Prancheta 2-100.jpg" />
+    <Content Include="img\Prancheta 3-100.jpg" />
     <Content Include="img\product-small1.png" />
     <Content Include="img\product-small2.png" />
     <Content Include="img\product-small3.png" />
@@ -1016,7 +1018,9 @@
     <Content Include="Uploads\thumb-CHUCK.jpg" />
     <Content Include="Uploads\thumb-POSE.jpg" />
     <Content Include="Uploads\thumb-TBBT.jpg" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -1059,6 +1063,8 @@
     <Content Include="Views\Series\Ranking.cshtml" />
     <Content Include="Views\Home\ReportarErro.cshtml" />
     <Content Include="Views\Series\DashAtores.cshtml" />
+    <Content Include="Views\Series\DashPessoas.cshtml" />
+    <Content Include="Views\ConfiguracoesUsuario\AlterarFoto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

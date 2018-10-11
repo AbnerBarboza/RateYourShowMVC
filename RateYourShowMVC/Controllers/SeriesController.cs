@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RateYourShowMVC.Models;
+using RateYourShowMVC.ViewsModel;
 
 namespace RateYourShowMVC.Controllers
 {
@@ -55,8 +56,28 @@ namespace RateYourShowMVC.Controllers
                 ViewBag.Imagem = mid.Link;
             }
 
-            var serie = db.Serie;
-            return View(serie.ToList());
+            var equipe = db.Equipe;
+            return View(equipe.ToList());
+        }
+
+        public ActionResult DashPessoas()
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            ViewBag.Usuario = usu;
+
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+
+            var pessoas = db.Usuario;
+            return View(pessoas.ToList());
         }
 
         public ActionResult Perfil(int? id)
@@ -103,7 +124,14 @@ namespace RateYourShowMVC.Controllers
                 ViewBag.Imagem = mid.Link;
             }
 
+            var rank = db.UsuarioSerie.GroupBy(g => g.Series.SeriesId).Select(s => new {
+                Codigo = s.Key,
+                Nome = s.Select(a => a.Series.Nome).FirstOrDefault(),
+                Soma = s.Sum(a => a.Avaliacao) }).OrderByDescending(o => o.Soma).ToList();
+
+
             return View();
+
         }
         public ActionResult Personagem(int? id)
         {

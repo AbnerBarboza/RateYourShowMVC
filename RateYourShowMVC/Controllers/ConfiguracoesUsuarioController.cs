@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RateYourShowMVC.Models;
@@ -106,6 +109,78 @@ namespace RateYourShowMVC.Controllers
             db.Entry(usu).State = EntityState.Modified;
             db.SaveChanges();
 
+            return View();
+        }
+
+        public ActionResult AlterarFoto()
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+            ViewBag.Usuario = usu;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AlterarFoto([Bind(Include = "Id,Nome")] Midia midia, HttpPostedFileBase arq)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+            ViewBag.Usuario = usu;
+
+            string valor = "";
+
+            if (arq != null)
+            {
+                Upload.CriarDiretorio();
+                string nomearq = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(arq.FileName);
+                valor = Upload.UploadArquivo(arq, nomearq);
+                if (valor == "sucesso")
+                {
+                    if (mid == null)
+                    {
+                        midia.Link = nomearq;
+                        midia.UsuarioId = usu.UsuarioId;
+                        midia.TipoMidiaId = 5;
+
+                            db.Midia.Add(midia);
+                            db.SaveChanges();
+
+                        return View();
+                    }
+                    else
+                    {
+                        midia = mid;
+                        midia.Link = nomearq;
+
+                            db.Entry(midia).State = EntityState.Modified;
+                            db.SaveChanges();
+
+                        return View();
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", valor);
+                }
+            }
             return View();
         }
 

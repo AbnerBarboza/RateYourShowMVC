@@ -1,6 +1,7 @@
-﻿
+﻿@model IEnumerable<RateYourShowMVC.Models.Equipe>
+
 @{
-    ViewBag.Title = "DashAtores";
+    ViewBag.Title = "Atores";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,7 +13,7 @@
             <div class="ui-block">
                 <div class="top-header">
                     <div class="top-header-thumb">
-                        <img src="~/img/Prancheta 1-100.jpg" alt="nature">
+                        <img src="~/img/Prancheta 3-100.jpg" style="width:1600px;height:425px" alt="nature">
                     </div>
                 </div>
             </div>
@@ -47,14 +48,20 @@
 
 <!-- Album atores-->
 <div class="container">
-    <div class="photo-item col-4-width">
-        <img src="~/img/photo-item3.jpg" alt="photo">
-        <div class="overlay overlay-dark"></div>
-        <!-- link do ator aqui--><a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="  full-block"></a>
-        <div class="content">
-            <a href="#" class="h6 title">Capaldão</a>
+    @foreach (var item in Model)
+    {
+
+        <div class="photo-item col-4-width">
+            @foreach (var mid in item.Midia.Where(m => m.TipoMidiaId == 2))
+            {
+                <img src="~/Uploads/@mid.Link" style="height:300px;width:310px" stalt="photo">
+            }
+            <div class="overlay overlay-dark"></div>
+            <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="  full-block"></a>
+            <div class="content">
+                @Html.ActionLink(item.Nome, "Personagem", new { id = item.EquipeId }, htmlAttributes: new { @class = "h4" })
+            </div>
         </div>
-    </div>
+    }
 </div>
 <!-- end Album atores-->
-
