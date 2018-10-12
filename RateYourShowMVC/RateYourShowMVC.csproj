@@ -1065,6 +1065,7 @@
     <Content Include="Views\Series\DashAtores.cshtml" />
     <Content Include="Views\Series\DashPessoas.cshtml" />
     <Content Include="Views\ConfiguracoesUsuario\AlterarFoto.cshtml" />
+    <Content Include="Views\Home\RequisicaoSerie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
