@@ -49,7 +49,7 @@
 
 <!-- Album atores-->
 <div class="container">
-    @foreach (var item in Model)
+    @foreach (var item in Model.OrderBy(s => s.Nome))
     {
 
         <div class="photo-item col-4-width">

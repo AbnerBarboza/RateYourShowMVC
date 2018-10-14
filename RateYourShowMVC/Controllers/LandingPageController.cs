@@ -26,7 +26,7 @@ namespace RateYourShowMVC.Controllers
 
 
             ViewBag.Usuario = usu;
-            return View();
+            return View(db.Publicacao.ToList());
         }
     }
 }

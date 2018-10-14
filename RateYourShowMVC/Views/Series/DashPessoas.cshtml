@@ -50,7 +50,7 @@
 
 <!-- Album atores-->
 <div class="container">
-    @foreach (var item in Model.OrderBy(n => n.Nome))
+    @foreach (var item in Model.Where(p => p.UsuarioId != 4).OrderBy(n => n.Nome))
     {
         foto = false;
         <div class="photo-item col-4-width">

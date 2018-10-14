@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<RateYourShowMVC.Models.Publicacao>
+
 @{
     ViewBag.Title = "Linha do Tempo";
     Layout = Layout;
@@ -15,6 +16,8 @@
         <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
 
             <div class="ui-block">
+
+
 
                 <!-- News Feed Form  -->
 
@@ -87,6 +90,8 @@
                             </form>
                         </div>
 
+
+
                         <div class="tab-pane" id="blog" role="tabpanel" aria-expanded="true">
                             <form>
                                 <div class="author-thumb">
@@ -118,10 +123,37 @@
                     </div>
                 </div>
 
+
+
                 <!-- ... end News Feed Form  -->
             </div>
-            <div id="newsfeed-items-grid">
-            </div>
+            <!-- Post -->
+            @foreach (var post in Model.Where(p => p.UsuarioId == 4).OrderBy(p => p.Data))
+            {
+                <div id="newsfeed-items-grid">
+                    <div class="ui-block">
+                        <article class="hentry post video">
+                            <div class="post__author author vcard inline-items">
+                                @foreach (var mid in post.Usuario.Midia.Where(m => m.TipoMidiaId == 5))
+                                {
+                                    <img src="~/Uploads/@mid.Link" alt="author">
+                                }
+                                <div class="author-date">
+                                    <a class="h6 post__author-name fn" href="#">@post.Usuario.Nome</a>
+                                    <div class="post__date">
+                                        <time class="published" datetime="2004-07-24T18:18">
+                                            @post.Data
+                                        </time>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>@post.Descricao</p>
+                        </article>
+                    </div>
+                </div>
+            }
+            <!-- End Post -->
+
             <a id="load-more-button" href="#" class="btn btn-control btn-more" data-load-link="items-to-load.html" data-container="newsfeed-items-grid"><svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
 
         </main>
@@ -137,7 +169,6 @@
                 </div>
 
                 <!-- W-Friend-Pages-Added -->
-
                 <!-- .. end W-Friend-Pages-Added -->
             </div>
         </aside>
@@ -158,10 +189,7 @@
 
                 <!-- W-Action -->
 
-                <ul class="widget w-friend-pages-added notification-list friend-requests">
-
-
-                </ul>
+                <ul class="widget w-friend-pages-added notification-list friend-requests"></ul>
 
                 <!-- ... end W-Action -->
             </div>
@@ -174,8 +202,7 @@
 
 
                 <!-- W-Activity-Feed -->
-                <ul class="widget w-activity-feed notification-list">
-                </ul>
+                <ul class="widget w-activity-feed notification-list"></ul>
 
                 <!-- .. end W-Activity-Feed -->
             </div>

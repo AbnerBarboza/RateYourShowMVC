@@ -193,7 +193,7 @@ namespace RateYourShowMVC.Controllers
                 Soma = s.Sum(a => a.Avaliacao) }).OrderByDescending(o => o.Soma).ToList();
 
 
-            return View();
+            return View(db.UsuarioSerie.ToList());
 
         }
         public ActionResult Personagem(int? id)

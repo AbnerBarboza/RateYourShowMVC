@@ -22,21 +22,21 @@ namespace RateYourShowMVC.Models
         public string Descricao { get; set; }
 
         [Required]
-        public int Episodio { get; set; }
+        public int? Episodio { get; set; }
 
         [Required]
-        public int Temporada { get; set; }
+        public int? Temporada { get; set; }
 
         [Required]
         public Inativo Inativo { get; set; }
 
         [Required]
         [ForeignKey("Usuario")]
-        public int UsuarioId { get; set; }
+        public int? UsuarioId { get; set; }
 
         [Required]
         [ForeignKey("Series")]
-        public int SeriesId { get; set; }
+        public int? SeriesId { get; set; }
 
         public virtual Usuario Usuario { get; set; }
         public virtual Series Series { get; set; }

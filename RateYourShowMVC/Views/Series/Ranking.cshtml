@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<RateYourShowMVC.Models.Usuarioserie>
+
+@{
     ViewBag.Title = "Ranking";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -12,7 +14,7 @@
             <div class="ui-block">
                 <div class="top-header">
                     <div class="top-header-thumb">
-                        <img src="~/img/top-header1.jpg" alt="nature">
+                        <img src="~/img/ranking img teste.jpg" style="width:1600px;height:425px" alt="nature">
                     </div>
                 </div>
             </div>
@@ -39,30 +41,37 @@
             <div class="ui-block">
                 <table class="event-item-table">
                     <tbody>
-                        @foreach (var rank in ViewBag.Ranking.ToList())
+                        @foreach (var rank in Model.GroupBy(g => g.Series.SeriesId).Select(s => new
                         {
-                            <tr class="event-item">
-                                <td class="upcoming">
-                                    <div class="date-event">
-                                        <span class="day">1</span>
-                                        <span style="text-transform:uppercase;">Posição</span>
+                            Codigo = s.Key,
+                            Nome = s.Select(a => a.Series.Nome).FirstOrDefault(),
+                            Soma = s.Sum(a => a.Avaliacao),
+                            Id = s.Select(b => b.Series.SeriesId).FirstOrDefault(),
+                        }).OrderByDescending(o => o.Soma).ToList())
+                        {
+                        <tr class="event-item">
+                            <td class="upcoming">
+                                <div class="date-event">
+                                    <span class="day">@rank.Codigo</span>
+                                    <span style="text-transform:uppercase;">Posição</span>
+                                </div>
+                            </td>
+                            <td class="author">
+                                <div class="event-author inline-items">
+                                    <div class="author-date">
+                                        <a href="#" class="author-name h6">@rank.Nome</a>
                                     </div>
-                                </td>
-                                <td class="author">
-                                    <div class="event-author inline-items">
-                                        <div class="author-thumb">
-                                            <img src="~/img/avatar66-sm.jpg" alt="author">
-                                        </div>
-                                        <div class="author-date">
-                                            <a href="#" class="author-name h6">@rank.Nome</a>
-                                        </div>
+                                    <div class="author-thumb">
+                                        <label>@rank.Soma Votos</label>
                                     </div>
-                                </td>
+                                </div>
+                            </td>
 
-                                <td class="add-event">
-                                    <a href="20-CalendarAndEvents-MonthlyCalendar.html" class="btn btn-breez btn-sm">Seguir Série</a>
-                                </td>
-                            </tr>
+                            <td class="add-event">
+                                @Html.ActionLink("Seguir Série", "Perfil", new { id = rank.Id }, htmlAttributes: new { @class = "btn btn-breez btn-sm" })
+
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>
