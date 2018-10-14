@@ -27,15 +27,16 @@
             <div class="ui-block responsive-flex">
                 <div class="ui-block-title">
                     <div class="h6 title">Galeria de Atores</div>
-                    <form class="w-search">
+                    @using (Html.BeginForm("DashAtores", "Series", FormMethod.Post, htmlAttributes: new { @class = "w-search" }))
+                    {
+
                         <div class="form-group with-button is-empty">
-                            <input class="form-control" placeholder="procure atores..." type="text" />
-                            <button>
+                            <input class="form-control" id="procurar" name="procurar" placeholder="procure atores..." type="text" />
+                            <button type="submit">
                                 <svg class="olymp-magnifying-glass-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use></svg>
                             </button>
                         </div>
-
-                    </form>
+                    }
 
                 </div>
             </div>

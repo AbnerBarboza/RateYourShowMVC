@@ -40,6 +40,27 @@ namespace RateYourShowMVC.Controllers
             return View(serie.ToList());
         }
 
+        [HttpPost]
+        public ActionResult DashSeries(string procurar)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            ViewBag.Usuario = usu;
+
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+
+            var serie = db.Serie.Where(s => s.Nome.Contains(procurar));
+            return View(serie.ToList());
+        }
+
         public ActionResult DashAtores()
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
@@ -60,6 +81,27 @@ namespace RateYourShowMVC.Controllers
             return View(equipe.ToList());
         }
 
+        [HttpPost]
+        public ActionResult DashAtores(string procurar)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            ViewBag.Usuario = usu;
+
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+
+            var equipe = db.Equipe.Where(e => e.Nome.Contains(procurar));
+            return View(equipe.ToList());
+        }
+
         public ActionResult DashPessoas()
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
@@ -77,6 +119,27 @@ namespace RateYourShowMVC.Controllers
             }
 
             var pessoas = db.Usuario;
+            return View(pessoas.ToList());
+        }
+
+        [HttpPost]
+        public ActionResult DashPessoas(string procurar)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            ViewBag.Usuario = usu;
+
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+
+            var pessoas = db.Usuario.Where(u => u.Nome.Contains(procurar));
             return View(pessoas.ToList());
         }
 
