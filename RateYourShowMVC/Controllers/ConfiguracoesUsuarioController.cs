@@ -163,7 +163,8 @@ namespace RateYourShowMVC.Controllers
                             db.Midia.Add(midia);
                             db.SaveChanges();
 
-                        return View();
+                        return RedirectToAction("Index", "LandingPage");
+
                     }
                     else
                     {
@@ -173,7 +174,8 @@ namespace RateYourShowMVC.Controllers
                             db.Entry(midia).State = EntityState.Modified;
                             db.SaveChanges();
 
-                        return View();
+                        return RedirectToAction("Index", "LandingPage");
+
                     }
                 }
                 else
