@@ -14,23 +14,23 @@
             <div class="ui-block">
                 @using (Html.BeginForm("RequisicaoSerie", "Home", FormMethod.Post, htmlAttributes: new { @class = "" }))
                 {
-                    <div class="ui-block-content">
-
-                        <div class="row">
-                            <div class="col col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
-                                <h5>Não encontrou sua série? Informe-nos que logo logo estaremos adicionando para você</h5>
-                            </div>
+                <div class="ui-block-content">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="row">
+                        <div class="col col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+                            <h5>Não encontrou sua série? Informe-nos que logo logo estaremos adicionando para você</h5>
                         </div>
-                        <br />
-                        <br />
-                        <div class="row">
-                            <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <label class="control-label">Qual é a série?</label>
-                                <input class="form-control" placeholder="Série" id="Serie" name="Serie" type="text" required>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary btn-md-2" type="submit">Enviar</button>
                     </div>
+                    <br />
+                    <br />
+                    <div class="row">
+                        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <label class="control-label">Qual é a série?</label>
+                            <input class="form-control" placeholder="Série" id="Serie" name="Serie" type="text" required>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-md-2" type="submit">Enviar</button>
+                </div>
                 }
             </div>
         </div>

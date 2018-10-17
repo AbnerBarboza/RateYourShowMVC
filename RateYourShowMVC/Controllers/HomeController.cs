@@ -68,6 +68,12 @@ namespace RateYourShowMVC.Controllers
                 ViewBag.Imagem = mid.Link;
             }
 
+            if (erro.Length > 1000)
+            {
+                ModelState.AddModelError("", "Limite de 1000 Caractéres.");
+                return View();
+            }
+
             TempData["MSG"] = Funcoes.EnviarEmail("rys.rateyourshow@gmail.com", "[ERRO] - " + usu.UsuarioId, erro);
 
             return View();
@@ -104,6 +110,7 @@ namespace RateYourShowMVC.Controllers
 
             ViewBag.Imagem = "default.jpg";
 
+            
             if (mid != null)
             {
                 ViewBag.Imagem = mid.Link;
@@ -118,10 +125,18 @@ namespace RateYourShowMVC.Controllers
                 Data = DateTime.Now
             };
 
+            if (Serie.Length > 1000)
+            {
+                ModelState.AddModelError("", "Limite de 1000 Caractéres.");
+                return View();
+            }
+
+
             db.Requisicao.Add(req);
             db.SaveChanges();
 
             TempData["MSG"] = Funcoes.EnviarEmail("rys.rateyourshow@gmail.com", "[REQUISICAO] - "+usu.UsuarioId+" - "+ Serie,"Requisição de Cadastro da Série "+Serie);
+
 
             return View();
         }

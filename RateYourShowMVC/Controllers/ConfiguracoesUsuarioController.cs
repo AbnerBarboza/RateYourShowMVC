@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using RateYourShowMVC.Models;
@@ -211,6 +212,8 @@ namespace RateYourShowMVC.Controllers
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
 
+            string Senha = "^(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+
             ViewBag.Imagem = "default.jpg";
 
             if (mid != null)
@@ -223,6 +226,11 @@ namespace RateYourShowMVC.Controllers
             {
                 ModelState.AddModelError("", "Senha incorreta.");
                 return View();
+            }
+
+            if (!Regex.IsMatch(SenhaNova, Senha))
+            {
+                ModelState.AddModelError("", "A senha do usuário deve conter no minimo 8 caractéres, caractéres especiais, 1 número e 1 letra maiúscula");
             }
 
             if (SenhaNova != ConfirmarSenha)
