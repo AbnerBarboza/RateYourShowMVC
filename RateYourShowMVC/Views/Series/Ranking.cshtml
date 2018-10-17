@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Ranking";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int cont = 0;
 }
 
 
@@ -49,10 +50,11 @@
                             Id = s.Select(b => b.Series.SeriesId).FirstOrDefault(),
                         }).OrderByDescending(o => o.Soma).ToList())
                         {
+                            cont++;
                         <tr class="event-item">
                             <td class="upcoming">
                                 <div class="date-event">
-                                    <span class="day">@rank.Codigo</span>
+                                    <span class="day">@cont</span>
                                     <span style="text-transform:uppercase;">Posição</span>
                                 </div>
                             </td>

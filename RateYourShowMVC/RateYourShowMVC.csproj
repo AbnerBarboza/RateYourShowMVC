@@ -563,6 +563,7 @@
     <Content Include="img\map-marker.png" />
     <Content Include="img\marker-google.png" />
     <Content Include="img\music-bottom.png" />
+    <Content Include="img\open-512.png" />
     <Content Include="img\open-photo1.jpg" />
     <Content Include="img\open-photo2.jpg" />
     <Content Include="img\paper-plane.png" />
@@ -721,6 +722,7 @@
     <Content Include="img\top-header7.png" />
     <Content Include="img\twitter-avatar.png" />
     <Content Include="img\twitter-avatar1.png" />
+    <Content Include="img\user-plus-512.png" />
     <Content Include="img\video-thumb.png" />
     <Content Include="img\video-youtube.jpg" />
     <Content Include="img\video-youtube1.jpg" />
@@ -984,6 +986,7 @@
     <Content Include="svg-icons\sprites\icons-weather.svg" />
     <Content Include="svg-icons\sprites\icons.svg" />
     <Content Include="svg-icons\sprites\television.svg" />
+    <Content Include="svg-icons\sprites\user-plus-solid.svg" />
     <Content Include="Uploads\12MONKEYSimg.jpg" />
     <Content Include="Uploads\13178764_869740516470079_3950338722203181008_n.jpg" />
     <Content Include="Uploads\20180927203738592.jpg" />

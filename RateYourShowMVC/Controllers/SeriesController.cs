@@ -149,6 +149,18 @@ namespace RateYourShowMVC.Controllers
 
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
+            Usuarioserie uss = db.UsuarioSerie.Find(usu.UsuarioId, id);
+
+            ViewBag.Seguir = 1;
+
+
+            if (uss != null)
+            {
+                if (uss.Seguindo == Seguindo.Sim)
+                {
+                    ViewBag.Seguir = 0;
+                }
+            }
 
             Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
 
@@ -169,6 +181,75 @@ namespace RateYourShowMVC.Controllers
                 return HttpNotFound();
             }
             return View(series);
+
+        }
+
+        [HttpPost]
+        public ActionResult Perfil(int? id, string seguir)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            ViewBag.Usuario = usu;
+            Usuarioserie uss = new Usuarioserie();
+
+            uss = db.UsuarioSerie.Where(us => us.UsuarioId == usu.UsuarioId && us.SeriesId == id).FirstOrDefault();
+
+            ViewBag.Seguir = 1;
+
+
+
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Series series = db.Serie.Find(id);
+            if (series == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (uss == null)
+            {
+                Usuarioserie use = new Usuarioserie
+                {
+                    UsuarioId = usu.UsuarioId,
+                    SeriesId = Convert.ToInt32(id),
+                    Spoiler = false,
+                    Avaliacao = 0,
+                    Datedeinicio = DateTime.Now,
+                    Seguindo = Seguindo.Sim
+                };
+
+                db.UsuarioSerie.Add(use);
+                db.SaveChanges();
+            }
+            else
+            {
+                db.UsuarioSerie.Remove(uss);
+                db.SaveChanges();
+            }
+
+            if (uss != null)
+            {
+                if (uss.Seguindo == Seguindo.Sim)
+                {
+                    ViewBag.Seguir = 0;
+                }
+            }
+
+
+            return RedirectToAction("Perfil", "Series");
+
         }
 
         public ActionResult Ranking()
@@ -187,10 +268,12 @@ namespace RateYourShowMVC.Controllers
                 ViewBag.Imagem = mid.Link;
             }
 
-            var rank = db.UsuarioSerie.GroupBy(g => g.Series.SeriesId).Select(s => new {
+            var rank = db.UsuarioSerie.GroupBy(g => g.Series.SeriesId).Select(s => new
+            {
                 Codigo = s.Key,
                 Nome = s.Select(a => a.Series.Nome).FirstOrDefault(),
-                Soma = s.Sum(a => a.Avaliacao) }).OrderByDescending(o => o.Soma).ToList();
+                Soma = s.Sum(a => a.Avaliacao)
+            }).OrderByDescending(o => o.Soma).ToList();
 
 
             return View(db.UsuarioSerie.ToList());

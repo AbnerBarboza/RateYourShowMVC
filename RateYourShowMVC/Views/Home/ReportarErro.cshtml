@@ -11,7 +11,8 @@
             <h2 class="presentation-margin">Reportar Erro</h2>
 
             <div class="ui-block">
-                <form>
+                @using (Html.BeginForm("ReportarErro", "Home", FormMethod.Post, htmlAttributes: new { @class = "" }))
+                {
                     <div class="ui-block-content">
 
                         <div class="row">
@@ -24,12 +25,12 @@
                         <div class="row">
                             <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <label class="control-label">Descreva seu erro</label>
-                                <textarea class="form-control" placeholder="Descreva seu erro" id="erro" name="erro"></textarea>
+                                <input class="form-control" placeholder="Descreva seu erro" id="erro" name="erro" type="text" required />
                             </div>
                         </div>
                         <button class="btn btn-primary btn-md-2" type="submit">Enviar</button>
                     </div>
-                </form>
+                }
             </div>
         </div>
     </div>

@@ -9,7 +9,7 @@ using RateYourShowMVC.Services;
 using System.Web.Security;
 using CryptSharp;
 using System.Data.Entity;
-
+using System.Text.RegularExpressions;
 namespace RateYourShowMVC.Controllers
 {
     public class HomeController : Controller
@@ -51,6 +51,28 @@ namespace RateYourShowMVC.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult ReportarErro(string erro)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            ViewBag.Usuario = usu;
+
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+
+            TempData["MSG"] = Funcoes.EnviarEmail("rys.rateyourshow@gmail.com", "[ERRO] - " + usu.UsuarioId, erro);
+
+            return View();
+        }
+
         public ActionResult RequisicaoSerie()
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
@@ -71,9 +93,8 @@ namespace RateYourShowMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult ReportarErro(string erro)
+        public ActionResult RequisicaoSerie(string Serie)
         {
-            string batata = erro;
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
@@ -87,14 +108,33 @@ namespace RateYourShowMVC.Controllers
             {
                 ViewBag.Imagem = mid.Link;
             }
-            
-            return RedirectToAction("Index","LandingPage");
+
+            Requisicao req = new Requisicao
+            {
+                UsuarioId = usu.UsuarioId,
+                Nomedaserie = Serie,
+                Tipo = Tipo.Requisicao,
+                Descricao = "Requisição da Série " + Serie + " .",
+                Data = DateTime.Now
+            };
+
+            db.Requisicao.Add(req);
+            db.SaveChanges();
+
+            TempData["MSG"] = Funcoes.EnviarEmail("rys.rateyourshow@gmail.com", "[REQUISICAO] - "+usu.UsuarioId+" - "+ Serie,"Requisição de Cadastro da Série "+Serie);
+
+            return View();
         }
+
+
+
 
         [HttpPost]
         public ActionResult Cadastro([Bind(Include = "Nome,Email,Senha,DatadeNascimento,Sexo,ConfirmarSenha,TermosdeUso")] CadastroUsuario usuario, string button, string email, string senha)
         {
             ViewBag.Sexo = new SelectList(Enum.GetValues(typeof(Sexo)));
+
+            string Senha = "^(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
 
             if (button == "cadastrar")
             {
@@ -119,6 +159,12 @@ namespace RateYourShowMVC.Controllers
                     ModelState.AddModelError("", "A senha do usuário deve conter entre 6 e 300 caractéres.");
                     return View(usuario);
                 }
+                if(!Regex.IsMatch(usuario.Senha, Senha))
+                {
+                    ModelState.AddModelError("", "A senha do usuário deve conter no minimo 8 caractéres, caractéres especiais, 1 número e 1 letra maiúscula");
+                }
+
+
                 if (usuario.Senha != usuario.ConfirmarSenha)
                 {
                     ModelState.AddModelError("", "Senhas não conhecidem.");
@@ -147,7 +193,7 @@ namespace RateYourShowMVC.Controllers
                         db.SaveChanges();
                         TempData["MSG"] = Funcoes.EnviarEmail(usuario.Email, "Cadastro Rate Your Show", "<div style='background:rgb(245,245,245); width:760px; padding-bottom:30px'>" +
                         "			<h1 style='margin:0px; padding:16px 30px'>" +
-                        "			<a href='#'><img src='https://imagizer.imageshack.com/v2/34x34q90/921/luCC0y.png' alt=''></a>" +
+                        "			<a href='#'><img src='https://i.imgur.com/tF57D8G.png' alt=''></a>" +
                         "			</h1>" +
                         "			<div style='padding:0px 30px'>" +
                         "				<img src='https://imagizer.imageshack.com/v2/700x280q90/921/0vhXWJ.jpg' alt='' style='vertical-align:top' width='700' height='280'>" +
@@ -250,7 +296,7 @@ namespace RateYourShowMVC.Controllers
                         db.SaveChanges();
                         TempData["MSG"] = Funcoes.EnviarEmail(usu.Email, "RYS - Recuperar Senha", "<div style= 'background:rgb(245,245,245); width:760px; padding-bottom:30px '>" +
                     "			<h1 style= 'margin:0px; padding:16px 30px '>" +
-                    "           <a href='# '><img src='https://imagizer.imageshack.com/v2/34x34q90/921/luCC0y.png' alt=''></a>" +
+                    "           <a href='# '><img src='https://i.imgur.com/tF57D8G.png' alt=''></a>" +
                     "			</h1>" +
                     "			<div style= 'padding:0px 30px '>" +
                     "				<img src='https://imagizer.imageshack.com/v2/700x280q90/923/T6Lqa5.jpg' alt= '' style= 'vertical-align:top 'width= '700' height= '280'>" +
