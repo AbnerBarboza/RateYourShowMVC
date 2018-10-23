@@ -21,7 +21,6 @@ namespace RateYourShowMVC.Controllers
         {
             return View();
         }
-
        
         public ActionResult Cadastro()
         {
@@ -169,12 +168,8 @@ namespace RateYourShowMVC.Controllers
                     ModelState.AddModelError("", "O nome do usuário deve conter entre 3 e 250 caractéres.");
                     return View(usuario);
                 }
-                if (usuario.Senha.Length < 6 || usuario.Senha.Length > 300)
-                {
-                    ModelState.AddModelError("", "A senha do usuário deve conter entre 6 e 300 caractéres.");
-                    return View(usuario);
-                }
-                if(!Regex.IsMatch(usuario.Senha, Senha))
+
+                if (!Regex.IsMatch(usuario.Senha, Senha))
                 {
                     ModelState.AddModelError("", "A senha do usuário deve conter no minimo 8 caractéres, caractéres especiais, 1 número e 1 letra maiúscula");
                 }
@@ -250,10 +245,10 @@ namespace RateYourShowMVC.Controllers
                         return View();
                     }
                     string permissoes = "";
-                    permissoes += usu.TipoUsuario;
+                    permissoes += Enum.GetName(typeof(TipoUsuario),usu.TipoUsuario);
 
                     permissoes = permissoes.Substring(0, permissoes.Length - 1);
-                    FormsAuthentication.SetAuthCookie(usu.Nome, false);
+                    FormsAuthentication.SetAuthCookie(usu.Email, false);
                     FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, usu.Email, DateTime.Now, DateTime.Now.AddMinutes(30), false, permissoes);
                     string hash = FormsAuthentication.Encrypt(ticket);
                     HttpCookie cookie = new HttpCookie("UsuId", usu.UsuarioId.ToString());
@@ -281,6 +276,7 @@ namespace RateYourShowMVC.Controllers
         [ValidateInput(false)]
         public ActionResult RecuperarSenha(string email, string button, string codigo, string senha, string confirmarsenha)
         {
+            string Senha = "^(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
 
             if (button == "enviar")
             {
@@ -342,7 +338,7 @@ namespace RateYourShowMVC.Controllers
             }
             else
             {
-                ViewBag.Emai = "";
+                ViewBag.Email = "";
                 ViewBag.Trocar = "active";
                 int codigoUsu = Convert.ToInt32(codigo);
                 RecuperarSenha rec = db.RecuperarSenha.Where(t => t.Codigo == codigoUsu).ToList().FirstOrDefault();
@@ -355,10 +351,10 @@ namespace RateYourShowMVC.Controllers
                 {
                     Usuario usu = db.Usuario.Find(rec.UsuarioId);
 
-                    if (senha.Length < 6 || senha.Length > 300)
+                    
+                    if (!Regex.IsMatch(senha, Senha))
                     {
-                        ModelState.AddModelError("", "A nova senha do usuário deve conter entre 6 e 300 caractéres.");
-                        return View();
+                        ModelState.AddModelError("", "A senha do usuário deve conter no minimo 8 caractéres, caractéres especiais, 1 número e 1 letra maiúscula");
                     }
 
                     if (confirmarsenha != senha)
