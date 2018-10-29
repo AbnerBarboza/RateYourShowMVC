@@ -40,6 +40,27 @@ namespace RateYourShowMVC.Controllers
             return View(serie.ToList());
         }
 
+        public ActionResult PerfilAmigo()
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            ViewBag.Usuario = usu;
+
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+
+            var serie = db.Serie;
+            return View(serie.ToList());
+        }
+
+
         [HttpPost]
         public ActionResult DashSeries(string procurar)
         {

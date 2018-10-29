@@ -1,0 +1,132 @@
+﻿
+@{
+    ViewBag.Title = "Cadastro  Serie";
+    Layout = "~/Views/Shared/_Administrador.cshtml";
+}
+
+
+
+<div class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+    <div class="ui-block">
+        <div class="ui-block-title">
+            <h6 class="title">Cadastro de Série</h6>
+        </div>
+        <div class="ui-block-content">
+
+
+            <!-- Personal Information Form  -->
+
+            <form>
+                <div class="row ">
+
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Título</label>
+                            <input class="form-control" placeholder="" type="text" />
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                                <h6>Gênero</h6>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="optionsCheckboxes">
+                                        Drama   
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="optionsCheckboxes" checked>
+                                        Aventura
+                                    </label>
+                                </div>                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Origem</label>
+                            <input class="form-control" placeholder="" type="text" />
+                        </div>
+                    </div>
+                </div>              
+            </form>
+        </div>
+    </div>
+    <div class="ui-block">
+        <div class="ui-block-title">
+            <h6 class="title">Atores</h6>
+        </div>
+        <div class="ui-block-content">
+
+
+            <!-- form atores  -->
+
+            <form>
+                <div class="row ">
+
+                    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Nome do ator</label>
+                            <input class="form-control" placeholder="" type="text" />
+                        </div>
+                        <div class="form-group label-floating">
+                            <label class="control-label">Nome do ator</label>
+                            <input class="form-control" placeholder="" type="text" />
+                        </div>
+                        <div class="form-group label-floating">
+                            <label class="control-label">Nome do ator</label>
+                            <input class="form-control" placeholder="" type="text" />
+                        </div>
+                        <a href="#" class="add-field">
+                            <svg class="olymp-plus-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
+                            <span>Adicionar diretores</span>
+                        </a>
+                    </div>                    
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="ui-block">
+        <div class="ui-block-title">
+            <h6 class="title">Diretores</h6>
+        </div>
+        <div class="ui-block-content">
+
+
+            <!-- form diretores  -->
+
+            <form>
+                <div class="row ">
+
+                    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Nome do diretor</label>
+                            <input class="form-control" placeholder="" type="text" />
+                        </div>
+                        <div class="form-group label-floating">
+                            <label class="control-label">Nome do diretor</label>
+                            <input class="form-control" placeholder="" type="text" />
+                        </div>
+                        <div class="form-group label-floating">
+                            <label class="control-label">Nome do diretor</label>
+                            <input class="form-control" placeholder="" type="text" />
+                        </div>
+                        <a href="#" class="add-field">
+                            <svg class="olymp-plus-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
+                            <span>Adicionar diretores</span>
+                        </a>
+                    </div>
+
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <button class="btn btn-secondary btn-lg full-width">Restaurar Informações</button>
+                    </div>
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <button class="btn btn-primary btn-lg full-width">Salvar Informações</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

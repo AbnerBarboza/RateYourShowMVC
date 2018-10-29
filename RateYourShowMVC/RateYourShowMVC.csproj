@@ -157,6 +157,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdministradorController.cs" />
     <Compile Include="Controllers\ConfiguracoesUsuarioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LandingPageController.cs" />
@@ -1070,6 +1071,10 @@
     <Content Include="Views\Series\DashPessoas.cshtml" />
     <Content Include="Views\ConfiguracoesUsuario\AlterarFoto.cshtml" />
     <Content Include="Views\Home\RequisicaoSerie.cshtml" />
+    <Content Include="Views\Shared\_Administrador.cshtml" />
+    <Content Include="Views\Administrador\CadastroPersonalidade.cshtml" />
+    <Content Include="Views\Administrador\CadastroSerie.cshtml" />
+    <Content Include="Views\Series\PerfilAmigo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
