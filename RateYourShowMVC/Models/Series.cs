@@ -34,6 +34,7 @@ namespace RateYourShowMVC.Models
         public virtual ICollection<Midia> Midia { get; set; }
         public virtual ICollection<SerieEquipe> SerieEquipe { get; set; }
         public virtual ICollection<SerieGenero> SerieGenero { get; set; }
+        public virtual ICollection<Usuarioserie> Usuarioserie { get; set; }
 
     }
 }

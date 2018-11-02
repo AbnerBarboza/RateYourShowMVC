@@ -40,12 +40,24 @@ namespace RateYourShowMVC.Controllers
             return View(serie.ToList());
         }
 
-        public ActionResult PerfilAmigo()
+        public ActionResult PerfilAmigo(int? id)
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
+            Usuarioserie uss = db.UsuarioSerie.Find(usu.UsuarioId, id);
+
+            ViewBag.Seguir = 1;
+
+
+            if (uss != null)
+            {
+                if (uss.Seguindo == Seguindo.Sim)
+                {
+                    ViewBag.Seguir = 0;
+                }
+            }
 
             Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
 
@@ -56,10 +68,26 @@ namespace RateYourShowMVC.Controllers
                 ViewBag.Imagem = mid.Link;
             }
 
-            var serie = db.Serie;
-            return View(serie.ToList());
-        }
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Usuario usuario = db.Usuario.Find(id);
+            if (usuario == null)
+            {
+                return HttpNotFound();
+            }
 
+            ViewBag.UsuSeries = db.UsuarioSerie.Where(
+                d => d.UsuarioId == usuario.UsuarioId).ToList().Select(
+                s => s.SeriesId
+                ).ToList();
+
+            ViewBag.Series = db.Serie.ToList();
+           
+            return View(usuario);
+
+        }
 
         [HttpPost]
         public ActionResult DashSeries(string procurar)

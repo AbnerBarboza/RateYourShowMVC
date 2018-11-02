@@ -1,7 +1,9 @@
-﻿
+﻿@model RateYourShowMVC.Models.Usuario
+
 @{
-    ViewBag.Title = "Rodolfo o otario";
+    ViewBag.Title = Model.Nome;
     Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<RateYourShowMVC.Models.Series> series = ViewBag.Series;
 }
 
 <!-- ... end Responsive Header-BP -->
@@ -17,11 +19,14 @@
                     <div class="top-header-thumb">
                         <img src="~/img/top-header2.jpg" alt="nature">
                         <div class="top-header-author">
-                            <div class="author-thumb">
-                                <img src="~/img/author-main2.jpg" alt="author">
-                            </div>
+                            @foreach (var mid in Model.Midia)
+                            {
+                                <div class="author-thumb">
+                                    <img src="~/Uploads/@mid.Link" style="width:120px;height:120px;" alt="author">
+                                </div>
+                            }
                             <div class="author-content">
-                                <a href="#" class="h3 author-name">Rodolfo o otario</a>
+                                <label class="h3 author-name">@Model.Nome</label>
                             </div>
                         </div>
                     </div>
@@ -43,7 +48,21 @@
         <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="ui-block responsive-flex">
                 <div class="ui-block-title">
-                    <div class="h6 title">Séries</div>
+                    @foreach (var item in series.Where())
+                    {
+
+                        <div class="photo-item col-4-width">
+                            @foreach (var mid in item.Midia.Where(m => m.TipoMidiaId == 1))
+                            {
+                                <img src="~/Uploads/@mid.Link" style="height:200px;width:300px" stalt="photo">
+                            }
+                            <div class="overlay overlay-dark"></div>
+                            <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="  full-block"></a>
+                            <div class="content">
+                                @Html.ActionLink(item.Nome, "Perfil", new { id = item.SeriesId }, htmlAttributes: new { @class = "h4" })
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
