@@ -673,6 +673,7 @@
     <Content Include="img\product2.png" />
     <Content Include="img\product3.png" />
     <Content Include="img\ranking img teste.jpg" />
+    <Content Include="img\ranking.jpg" />
     <Content Include="img\rocket.png" />
     <Content Include="img\rocket1.png" />
     <Content Include="img\scale1.png" />
@@ -1075,6 +1076,11 @@
     <Content Include="Views\Administrador\CadastroPersonalidade.cshtml" />
     <Content Include="Views\Administrador\CadastroSerie.cshtml" />
     <Content Include="Views\Series\PerfilAmigo.cshtml" />
+    <Content Include="Views\Administrador\Series.cshtml" />
+    <Content Include="Views\Administrador\Personalidades.cshtml" />
+    <Content Include="Views\Administrador\Usuarios.cshtml" />
+    <Content Include="Views\Administrador\EditarSerie.cshtml" />
+    <Content Include="Views\Administrador\EditarPersonalidade.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
