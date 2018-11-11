@@ -4,6 +4,7 @@
     ViewBag.Title = "Pessoas";
     Layout = "~/Views/Shared/_Layout.cshtml";
     Boolean foto;
+    RateYourShowMVC.Models.Usuario usuario = ViewBag.Usuario;
 }
 
 <div class="header-spacer"></div>
@@ -50,7 +51,7 @@
 
 <!-- Album atores-->
 <div class="container">
-    @foreach (var item in Model.Where(p => p.UsuarioId != 4).OrderBy(n => n.Nome))
+    @foreach (var item in Model.Where(p => p.UsuarioId != 4 && p.UsuarioId != usuario.UsuarioId).OrderBy(n => n.Nome))
     {
         foto = false;
         <div class="photo-item col-4-width">
@@ -66,7 +67,7 @@
 
             }
             <div class="overlay overlay-dark"></div>
-            <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="  full-block"></a>
+            <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="full-block"></a>
             <div class="content">
                 @Html.ActionLink(item.Nome, "PerfilAmigo", new { id = item.UsuarioId }, htmlAttributes: new { @class = "h4" })
             </div>

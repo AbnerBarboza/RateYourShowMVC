@@ -16,7 +16,6 @@ namespace RateYourShowMVC.Models
     {
         Pendente = 'P',
         Aceito = 'A',
-        Rejeitado = 'R'
     }
 
     public enum Tipo

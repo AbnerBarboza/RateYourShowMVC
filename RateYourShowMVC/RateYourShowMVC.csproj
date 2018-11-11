@@ -391,6 +391,7 @@
     <Content Include="img\controls-playlist.png" />
     <Content Include="img\crew.png" />
     <Content Include="img\danger.png" />
+    <Content Include="img\default.png" />
     <Content Include="img\event-bottom.png" />
     <Content Include="img\event-private.jpg" />
     <Content Include="img\event-public.jpg" />
@@ -1081,6 +1082,9 @@
     <Content Include="Views\Administrador\Usuarios.cshtml" />
     <Content Include="Views\Administrador\EditarSerie.cshtml" />
     <Content Include="Views\Administrador\EditarPersonalidade.cshtml" />
+    <Content Include="Views\Administrador\CadastroSerie2.cshtml" />
+    <Content Include="Views\Series\backup.cshtml" />
+    <Content Include="Views\Administrador\EditarUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

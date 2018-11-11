@@ -1,5 +1,9 @@
-﻿<!DOCTYPE html>
-
+﻿@using RateYourShowMVC.Models;
+<!DOCTYPE html>
+@{
+    IEnumerable<RateYourShowMVC.Models.Amizade> amizade = ViewBag.Amizade;
+    IEnumerable<RateYourShowMVC.Models.Usuario> pessoa = ViewBag.Pessoa;
+}
 <html>
 <head>
     <link rel="icon" type="image/png" href="~/img/logo.png" sizes="16x16">
@@ -299,51 +303,43 @@
 
                 <div class="control-icon more has-items">
                     <svg class="olymp-happy-face-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
-                    <!--<div class="label-avatar bg-blue">6</div>-->
+                    <div class="label-avatar bg-blue">@amizade.Where(a => a.UsuarioId2 == ViewBag.usuario.UsuarioId && a.Status != Status.Aceito).Count()</div>
 
                     <div class="more-dropdown more-with-triangle triangle-top-center">
                         <div class="ui-block-title ui-block-title-small">
                             <h6 class="title">Pedidos de amizade</h6>
                         </div>
+                        @foreach (var item in amizade.Where(a => a.UsuarioId2 == ViewBag.usuario.UsuarioId && a.Status != Status.Aceito).OrderBy(a => a.Datadeconvite))
+                        {
+                            <div class="mCustomScrollbar" data-mcs-theme="dark">
+                                <ul class="notification-list friend-requests">
+                                    <li>
+                                        @foreach (var pes in pessoa.Where(p => p.UsuarioId == item.UsuarioId1))
+                                        {
+                                            foreach (var mid in pes.Midia.Where(p => p.TipoMidiaId == 5))
+                                            {
+                                                <img src="~/Uploads/@mid.Link" style="height:34px;width:34px" stalt="photo">
+                                            }
 
-                        <div class="mCustomScrollbar" data-mcs-theme="dark">
-                            <ul class="notification-list friend-requests">
-                                <li>
-                                    <div class="author-thumb">
-                                        <img src="~/img/avatar55-sm.jpg" alt="author">
-                                    </div>
-                                    <div class="notification-event">
-                                        <a href="#" class="h6 notification-friend">Tamara Romanoff</a>
-                                        <span class="chat-message-item">Mutual Friend: Sarah Hetfield</span>
-                                    </div>
-                                    <span class="notification-icon">
-                                        <a href="#" class="accept-request">
-                                            <span class="icon-add without-text">
-                                                <svg class="olymp-happy-face-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
+                                            <div class="notification-event">
+                                                <a href="#" class="h6 notification-friend">@pes.Nome</a>
+                                                <span class="chat-message-item">@item.Datadeconvite</span>
+                                            </div>
+                                            <span class="notification-icon">
+                                                @Html.ActionLink("Responder", "PerfilAmigo", "Series", new { id = pes.UsuarioId }, htmlAttributes: new { @class = "btn btn-blue" })
                                             </span>
-                                        </a>
+                                        }
 
-                                        <a href="#" class="accept-request request-del">
-                                            <span class="icon-minus">
-                                                <svg class="olymp-happy-face-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
-                                            </span>
-                                        </a>
-
-                                    </span>
-
-                                    <div class="more">
-                                        <svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <a href="#" class="view-all bg-blue">Todas os pedidos de amizades</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
                     </div>
                 </div>
-
+                <!--
                 <div class="control-icon more has-items">
                     <svg class="olymp-chat---messages-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
-                    <!--  <div class="label-avatar bg-purple">2</div>-->
+                      <div class="label-avatar bg-purple">2</div>
 
                     <div class="more-dropdown more-with-triangle triangle-top-center">
                         <div class="ui-block-title ui-block-title-small">
@@ -375,7 +371,7 @@
                         <a href="#" class="view-all bg-purple">Todas as conversas</a>
                     </div>
                 </div>
-
+                    -->
                 <div class="author-page author vcard inline-items more">
                     <div class="author-thumb">
                         <img src="~/Uploads/@ViewBag.Imagem" style="width:36px;height:36px;" class="avatar">
@@ -857,7 +853,7 @@
                                 <div class="card-header" role="tab" id="headingOne">
                                     <h6 class="mb-0">
                                         <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                            Cadastros  
+                                            Cadastros
                                             <svg class="olymp-dropdown-arrow-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
                                         </a>
                                     </h6>
@@ -870,7 +866,7 @@
                                         </li>
                                         <li>
                                             <a href="~/Administrador/CadastroPersonalidade">Adicionar Personalidades</a>
-                                        </li>                                     
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -885,7 +881,7 @@
         </div>
     </div>
 
-   
+
 
     <!-- ... end desativarConta Popup -->
     <!-- ... end Your Account Personal Information -->

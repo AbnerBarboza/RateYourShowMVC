@@ -15,14 +15,13 @@ namespace RateYourShowMVC.Controllers
     {
         private Contexto db = new Contexto();
         // GET: Series
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         public ActionResult DashSeries()
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
 
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
@@ -44,18 +43,42 @@ namespace RateYourShowMVC.Controllers
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
+            ViewBag.Publicacao = db.Publicacao.ToList();
+
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
+
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
-            Usuarioserie uss = db.UsuarioSerie.Find(usu.UsuarioId, id);
-
-            ViewBag.Seguir = 1;
 
 
-            if (uss != null)
+            ViewBag.Convite = 0;
+
+            Amizade ami = db.Amizade.Find(usu.UsuarioId, id);
+            Amizade ami2 = db.Amizade.Find(id, usu.UsuarioId);
+
+            if(ami != null)
             {
-                if (uss.Seguindo == Seguindo.Sim)
+                if(ami.Status == Status.Aceito)
                 {
-                    ViewBag.Seguir = 0;
+                    ViewBag.Convite = 2;
+                }
+                if (ami.Status == Status.Pendente)
+                {
+                    ViewBag.Convite = 1;
+                }
+            }
+
+            if(ami2 != null)
+            {
+                if(ami2.Status == Status.Aceito)
+                {
+                    ViewBag.Convite = 2;
+                }
+                if(ami2.Status == Status.Pendente)
+                {
+                    ViewBag.Convite = 3;
                 }
             }
 
@@ -84,7 +107,123 @@ namespace RateYourShowMVC.Controllers
                 ).ToList();
 
             ViewBag.Series = db.Serie.ToList();
-           
+
+
+
+            return View(usuario);
+
+        }
+
+        [HttpPost]
+        public ActionResult PerfilAmigo(int? id, string Convite)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            ViewBag.Publicacao = db.Publicacao.ToList();
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            ViewBag.Usuario = usu;
+
+            ViewBag.Convite = 0;
+
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Usuario usuario = db.Usuario.Find(id);
+            if (usuario == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.UsuSeries = db.UsuarioSerie.Where(
+                d => d.UsuarioId == usuario.UsuarioId).ToList().Select(
+                s => s.SeriesId
+                ).ToList();
+
+            ViewBag.Series = db.Serie.ToList();
+
+
+            if(Convite == "1")
+            {
+                Amizade ami = new Amizade
+                {
+                    Datadeconvite = DateTime.Now,
+                    Status = Status.Pendente,
+                    UsuarioId1 = usu.UsuarioId,
+                    UsuarioId2 = Convert.ToInt32(id),
+                    Dataresposta = null
+                };
+
+                ViewBag.Convite = 1;
+
+                db.Amizade.Add(ami);
+                db.SaveChanges();
+                return View(usuario);
+
+            }
+            if (Convite == "2")
+            {
+                Amizade ami = db.Amizade.Find(usu.UsuarioId, id);
+
+                db.Amizade.Remove(ami);
+                db.SaveChanges();
+                ViewBag.Convite = 0;
+                return View(usuario);
+            }
+            if (Convite == "3")
+            {
+                Amizade ami = db.Amizade.Find(usu.UsuarioId, id);
+                Amizade ami2 = db.Amizade.Find(id, usu.UsuarioId);
+                if(ami != null) { 
+                db.Amizade.Remove(ami);
+                db.SaveChanges();
+                }
+                else
+                {
+                    db.Amizade.Remove(ami2);
+                    db.SaveChanges();
+                }
+                ViewBag.Convite = 0;
+
+                return View(usuario);
+            }
+            if (Convite == "4")
+            {
+                Amizade ami = db.Amizade.Find(id,usu.UsuarioId);
+
+                ami.Status = Status.Aceito;
+                ami.Dataresposta = DateTime.Now;
+
+                db.Entry(ami).State = EntityState.Modified;
+                db.SaveChanges();
+
+                ViewBag.Convite = 2;
+                return View(usuario);
+            }
+
+            if (Convite == "5")
+            {
+                Amizade ami = db.Amizade.Find(id, usu.UsuarioId);
+
+                db.Amizade.Remove(ami);
+                db.SaveChanges();
+                ViewBag.Convite = 0;
+                return View(usuario);
+            }
+
             return View(usuario);
 
         }
@@ -93,6 +232,9 @@ namespace RateYourShowMVC.Controllers
         public ActionResult DashSeries(string procurar)
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
 
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
@@ -113,6 +255,9 @@ namespace RateYourShowMVC.Controllers
         public ActionResult DashAtores()
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
 
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
@@ -135,6 +280,9 @@ namespace RateYourShowMVC.Controllers
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
+
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
 
@@ -154,6 +302,9 @@ namespace RateYourShowMVC.Controllers
         public ActionResult DashPessoas()
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
 
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
@@ -176,6 +327,9 @@ namespace RateYourShowMVC.Controllers
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
+
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
 
@@ -195,6 +349,9 @@ namespace RateYourShowMVC.Controllers
         public ActionResult Perfil(int? id)
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
 
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
@@ -237,6 +394,9 @@ namespace RateYourShowMVC.Controllers
         public ActionResult Perfil(int? id, string seguir)
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
 
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
@@ -305,6 +465,9 @@ namespace RateYourShowMVC.Controllers
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
+
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
 
@@ -331,6 +494,9 @@ namespace RateYourShowMVC.Controllers
         public ActionResult Personagem(int? id)
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
 
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;

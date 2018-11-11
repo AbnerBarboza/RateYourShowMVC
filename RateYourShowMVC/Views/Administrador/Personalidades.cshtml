@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<RateYourShowMVC.Models.Equipe>
+
 @{
     ViewBag.Title = "Personalidades";
     Layout = "~/Views/Shared/_Administrador.cshtml";
@@ -14,11 +15,11 @@
                     <div class="ui-block-title">
                         <div class="h6 title">Galeria de Personalidades</div>
 
-                        @using (Html.BeginForm("DashSeries", "Series", FormMethod.Post, htmlAttributes: new { @class = "w-search" }))
+                        @using (Html.BeginForm("Personalidades", "Administrador", FormMethod.Post, htmlAttributes: new { @class = "w-search" }))
                         {
 
                             <div class="form-group with-button is-empty">
-                                <input class="form-control" id="procurar" name="procurar" placeholder="procure séries..." type="text" />
+                                <input class="form-control" id="procurar" name="procurar" placeholder="procure atores..." type="text" />
                                 <button type="submit">
                                     <svg class="olymp-magnifying-glass-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use></svg>
                                 </button>
@@ -33,16 +34,21 @@
 
 
     <div class="container">
+        @foreach (var item in Model.OrderBy(s => s.Nome))
+        {
 
-        <div class="photo-item col-4-width">
-            <img src="~/img/photo-item2.jpg" alt="photo">
-            <div class="overlay overlay-dark"></div>
-            <a href="~/Administrador/EditarPersonalidade" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
-            <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="  full-block"></a>
-            <div class="content">
-                <a href="~/Administrador/EditarPersonalidade" class="h6 title">Nome</a>
+            <div class="photo-item col-4-width">
+                @foreach (var mid in item.Midia.Where(m => m.TipoMidiaId == 2))
+                {
+                    <img src="~/Uploads/@mid.Link" style="height:200px;width:300px" stalt="photo">
+                }
+                <div class="overlay overlay-dark"></div>
+                <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="  full-block"></a>
+                <div class="content">
+                    @Html.ActionLink(item.Nome, "EditarPersonalidade", new { id = item.EquipeId }, htmlAttributes: new { @class = "h4" })
+                </div>
             </div>
-        </div>
-    </div>    
+        }
+    </div>
 </div>
 

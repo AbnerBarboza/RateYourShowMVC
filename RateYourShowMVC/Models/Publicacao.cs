@@ -21,10 +21,8 @@ namespace RateYourShowMVC.Models
         [MaxLength(255)]
         public string Descricao { get; set; }
 
-        [Required]
         public int? Episodio { get; set; }
 
-        [Required]
         public int? Temporada { get; set; }
 
         [Required]
@@ -34,7 +32,6 @@ namespace RateYourShowMVC.Models
         [ForeignKey("Usuario")]
         public int? UsuarioId { get; set; }
 
-        [Required]
         [ForeignKey("Series")]
         public int? SeriesId { get; set; }
 

@@ -1,8 +1,15 @@
-﻿@model IEnumerable<RateYourShowMVC.Models.Publicacao>
+﻿@using RateYourShowMVC.Models;
+@model IEnumerable<RateYourShowMVC.Models.Publicacao>
 
 @{
     ViewBag.Title = "Linha do Tempo";
     Layout = Layout;
+    IEnumerable<RateYourShowMVC.Models.Series> series = ViewBag.Series;
+    IEnumerable<RateYourShowMVC.Models.Amizade> amizades = ViewBag.Amizades;
+    IEnumerable<RateYourShowMVC.Models.Usuario> usuarios = ViewBag.Pessoa;
+
+    int cont = 1;
+    Boolean existe = false;
 }
 <!-- ... end Responsive Header-BP -->
 <div class="header-spacer"></div>
@@ -37,28 +44,20 @@
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div class="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
-                            <form>
+                            @using (Html.BeginForm("Index", "LandingPage", FormMethod.Post, htmlAttributes: new { }))
+                            {
                                 <div class="author-thumb">
                                     <img src="~/Uploads/@ViewBag.Imagem" style="width:36px;height:36px;">
                                 </div>
                                 <div class="form-group with-icon label-floating is-empty">
-                                    <textarea class="form-control" placeholder=""></textarea>
+                                    <textarea class="form-control" id="texto" name="texto" placeholder=""></textarea>
                                 </div>
                                 <div class="add-options-message">
-                                    <a href="#" class="options-message" data-toggle="tooltip" data-placement="top" data-original-title="ADD FOTOS">
-                                        <svg class="olymp-camera-icon" data-toggle="modal" data-target="#update-header-photo"><use xlink:href="svg-icons/sprites/icons.svg#olymp-camera-icon"></use></svg>
-                                    </a>
-                                    <a href="#" class="options-message" data-toggle="tooltip" data-placement="top" data-original-title="TAG SEUS AMIGOS">
-                                        <svg class="olymp-computer-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-computer-icon"></use></svg>
-                                    </a>
-
-
-                                    <button class="btn btn-primary btn-md-2">Realizar Postagem</button>
-
-
+                                    <button class="btn btn-primary btn-md-2" type="submit">Realizar Postagem</button>
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 </div>
 
-                            </form>
+                            }
                         </div>
 
                         <div class="tab-pane" id="profile-1" role="tabpanel" aria-expanded="true">
@@ -128,7 +127,34 @@
                 <!-- ... end News Feed Form  -->
             </div>
             <!-- Post -->
-            @foreach (var post in Model.Where(p => p.UsuarioId == 4).OrderBy(p => p.Data))
+            @foreach (var amz in amizades.Where(a => a.UsuarioId1 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito || a.UsuarioId2 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito))
+            {
+                foreach (var post in Model.Where(p => p.UsuarioId == amz.UsuarioId1 || p.UsuarioId == amz.UsuarioId2).OrderByDescending(p => p.Data))
+                {
+                    <div id="newsfeed-items-grid">
+                        <div class="ui-block">
+                            <article class="hentry post video">
+                                <div class="post__author author vcard inline-items">
+                                    @foreach (var mid in post.Usuario.Midia.Where(m => m.TipoMidiaId == 5))
+                                    {
+                                        <img src="~/Uploads/@mid.Link" alt="author">
+                                    }
+                                    <div class="author-date">
+                                        @Html.ActionLink(post.Usuario.Nome, "PerfilAmigo", "Series", new { id = post.Usuario.UsuarioId }, htmlAttributes: new { @class = "h6 post__author-name fn" })
+                                        <div class="post__date">
+                                            <time class="published" datetime="2004-07-24T18:18">
+                                                @post.Data
+                                            </time>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p>@post.Descricao</p>
+                            </article>
+                        </div>
+                    </div>
+                }
+            }
+            @foreach (var post in Model.Where(p => p.UsuarioId == 4).OrderByDescending(p => p.Data))
             {
                 <div id="newsfeed-items-grid">
                     <div class="ui-block">
@@ -165,10 +191,33 @@
 
             <div class="ui-block">
                 <div class="ui-block-title">
-                    <h6 class="title">Sugestões de séries</h6>
+                    <h6 class="title">Séries Recentes</h6>
                 </div>
 
                 <!-- W-Friend-Pages-Added -->
+                <ul class="widget w-friend-pages-added notification-list friend-requests">
+                    @foreach (var ser in series.OrderByDescending(m => m.SeriesId))
+                    {
+                        cont++;
+                        <li class="inline-items">
+                            <div class="author-thumb">
+                                @foreach (var mid in ser.Midia.Where(m => m.TipoMidiaId == 1))
+                                {
+                                    <img src="~/Uploads/@mid.Link" style="height:36px;width:36px" stalt="photo">
+                                }
+                            </div>
+                            <div class="notification-event">
+                                @Html.ActionLink(ser.Nome, "Perfil", "Series", new { id = ser.SeriesId }, htmlAttributes: new { @class = "h6" })
+                            </div>
+                        </li>
+                        if (cont > 5)
+                        {
+                            cont = 1;
+                            break;
+                        }
+                    }
+
+                </ul>
                 <!-- .. end W-Friend-Pages-Added -->
             </div>
         </aside>
@@ -189,7 +238,42 @@
 
                 <!-- W-Action -->
 
-                <ul class="widget w-friend-pages-added notification-list friend-requests"></ul>
+                <ul class="widget w-friend-pages-added notification-list friend-requests">
+
+                    @foreach (var pes in usuarios.Where(u => u.UsuarioId != 4))
+                    {
+                        foreach (var amz in amizades.Where(a => a.UsuarioId1 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito || a.UsuarioId2 == ViewBag.Usuario.UsuarioId))
+                        {
+                            if (pes.UsuarioId == amz.UsuarioId1 || pes.UsuarioId == amz.UsuarioId2) {
+                                existe = true;
+                            }
+                        }
+
+                        if (existe)
+                        {
+                            existe = false;
+                            continue;
+                        }
+
+                        cont++;
+                        <li class="inline-items">
+                            <div class="author-thumb">
+                                @foreach (var mid in pes.Midia.Where(m => m.TipoMidiaId == 5))
+                                {
+                                    <img src="~/Uploads/@mid.Link" style="height:36px;width:36px" stalt="photo">
+                                }
+                            </div>
+                            <div class="notification-event">
+                                @Html.ActionLink(pes.Nome, "PerfilAmigo", "Series", new { id = pes.UsuarioId }, htmlAttributes: new { @class = "h6" })
+                            </div>
+                        </li>
+                        if (cont > 5)
+                        {
+                            break;
+                        }
+                    }
+
+                </ul>
 
                 <!-- ... end W-Action -->
             </div>
@@ -200,11 +284,8 @@
                     <h6 class="title">Atividade de amigos</h6>
                 </div>
 
+                <ul class="widget w-friend-pages-added notification-list friend-requests"></ul>
 
-                <!-- W-Activity-Feed -->
-                <ul class="widget w-activity-feed notification-list"></ul>
-
-                <!-- .. end W-Activity-Feed -->
             </div>
         </aside>
 

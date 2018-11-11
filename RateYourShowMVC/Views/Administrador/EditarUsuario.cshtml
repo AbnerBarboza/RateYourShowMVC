@@ -9,10 +9,10 @@
 }
 
 <div class="header-spacer"></div>
-
 <div class="container">
     <div class="row">
         <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <button class="btn btn-grey-light btn-lg full-width" style="color:red;" type="submit" name="button" value="cadastrar">Inativar Conta!</button>
             <div class="ui-block responsive-flex">
                 <div class="ui-block-title">
                     <div class="h6 title">@Model.Nome</div>
@@ -26,37 +26,7 @@
         <div class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-12 col-12">
             <div class="ui-block">
                 <div class="ui-block-title">
-                    @using (Html.BeginForm("PerfilAmigo", "Series", new { id = Model.UsuarioId }, FormMethod.Post, htmlAttributes: new { @class = "control-block-button" }))
-                    {
 
-                        if (ViewBag.Convite == 0)
-                        {
-                            <button class="btn-control bg-account" type="submit" id="Convite" name="Convite" value="1">
-                                <svg class="olymp-plus-icon" data-toggle="tooltip" data-placement="top" data-original-title="Enviar Convite"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
-                            </button>
-                        }
-                        if (ViewBag.Convite == 1)
-                        {
-                            <button class="btn-control bg-blue" type="submit" id="Convite" name="Convite" value="2">
-                                <svg class="olymp-plus-icon" data-toggle="tooltip" data-placement="top" data-original-title="Cancelar Convite"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
-                            </button>
-                        }
-                        if (ViewBag.Convite == 2)
-                        {
-                            <button class="btn-control bg-badges" type="submit" id="Convite" name="Convite" value="3">
-                                <svg class="olymp-plus-icon" data-toggle="tooltip" data-placement="top" data-original-title="Desfazer Amizade"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
-                            </button>
-                        }
-                        if (ViewBag.Convite == 3)
-                        {
-                            <button class="btn-control bg-birthday" type="submit" id="Convite" name="Convite" value="4">
-                                <svg class="olymp-plus-icon" data-toggle="tooltip" data-placement="top" data-original-title="Aceitar Amizade"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
-                            </button>
-                            <button class="btn-control bg-badges" type="submit" id="Convite" name="Convite" value="5">
-                                <svg class="olymp-plus-icon" data-toggle="tooltip" data-placement="top" data-original-title="Recusar Amizade"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
-                            </button>
-                        }
-                    }
                     @foreach (var mid in Model.Midia)
                     {
                         <img src="~/Uploads/@mid.Link" style="height:300px;width:310px" stalt="photo">
@@ -95,36 +65,6 @@
         </div>
 
         <div class="col col-xl-9 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-12 col-12">
-
-            <div class="row">
-                <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="ui-block responsive-flex">
-                        <div class="ui-block-title">
-                            <div class="h6 title">Filmografia</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--FIlmes-->
-            @for (int i = 0; i < ViewBag.UsuSeries.Count; i++)
-            {
-                foreach (var item in series.Where(s => s.SeriesId == ViewBag.UsuSeries[i]))
-                {
-
-                    <div class="photo-item col-4-width">
-                        @foreach (var mid in item.Midia.Where(m => m.TipoMidiaId == 1))
-                        {
-                            <img src="~/Uploads/@mid.Link" style="height:200px;width:300px" stalt="photo">
-                        }
-                        <div class="overlay overlay-dark"></div>
-                        <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="  full-block"></a>
-                        <div class="content">
-                            @Html.ActionLink(item.Nome, "Perfil", new { id = item.SeriesId }, htmlAttributes: new { @class = "h4" })
-                        </div>
-                    </div>
-                }
-            }
-
             <!--end FIlmes-->
 
             <div class="row">

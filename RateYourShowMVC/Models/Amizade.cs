@@ -28,7 +28,7 @@ namespace RateYourShowMVC.Models
         [Required]
         public DateTime Datadeconvite {get;set;}
 
-        public DateTime Dataresposta { get; set; }
+        public DateTime? Dataresposta { get; set; }
 
         public virtual Usuario Usuario { get; set; }
         public virtual Usuario Usuario2 { get; set; }

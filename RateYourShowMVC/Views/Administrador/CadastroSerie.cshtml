@@ -16,182 +16,39 @@
 
             <!-- Personal Information Form  -->
 
-            <form>
-                <div class="row ">
+            @using (Html.BeginForm("CadastroSerie", "Administrador", FormMethod.Post, htmlAttributes: new { }))
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+                <div class="row ">
                     <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
                         <div class="form-group label-floating">
                             <label class="control-label">Título</label>
-                            <input class="form-control" placeholder="" type="text" />
+                            <input class="form-control" placeholder="" name="nome" id="nome" type="text" />
                         </div>
 
-                        <div class="row">
-                            <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
-                                <h6>Gênero</h6>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="optionsCheckboxes">
-                                        Drama
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="optionsCheckboxes" checked>
-                                        Aventura
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                     <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
                         <div class="form-group label-floating">
                             <label class="control-label">Origem</label>
-                            <input class="form-control" placeholder="" type="text" />
+                            <input class="form-control" placeholder="" name="Paisdeorigem" id="Paisdeorigem" type="text" />
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
-    </div>
-    <div class="ui-block">
-        <div class="ui-block-title">
-            <h6 class="title">Atores</h6>
-        </div>
-        <div class="ui-block-content">
-
-
-            <!-- form atores  -->
-
-            <form>
-                <div class="row ">
-
-                    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset>
-                        <fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset>
-                        <fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset>
-
-                        <a href="#" class="add-field">
-                            <svg class="olymp-plus-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
-                            <span>Adicionar diretores</span>
-                        </a>
+                <div class="row">
+                    <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Descrição</label>
+                            <input class="form-control" placeholder="" name="Descricao" id="Descricao" type="text" />
+                        </div>
                     </div>
                 </div>
-            </form>
-        </div>
-    </div>
-    <div class="ui-block">
-        <div class="ui-block-title">
-            <h6 class="title">Diretores</h6>
-        </div>
-        <div class="ui-block-content">
-
-
-            <!-- form diretores  -->
-
-            <form>
-                <div class="row ">
-
-                    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset><fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset><fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset>
-                        <a href="#" class="add-field">
-                            <svg class="olymp-plus-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
-                            <span>Adicionar diretores</span>
-                        </a>
-                    </div>
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <button class="btn btn-primary btn-lg full-width" style="margin-left: 28em;" type="submit">Próximo Passo</button>
                 </div>
-            </form>
+            }
         </div>
     </div>
-    <div class="ui-block">
-        <div class="ui-block-title">
-            <h6 class="title">Imagens</h6>
-        </div>
-        <div class="ui-block-content">
 
-
-            <!-- form diretores  -->
-
-            <form>
-                <div class="row ">
-
-                    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset><fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset><fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset>
-                        <a href="#" class="add-field">
-                            <svg class="olymp-plus-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
-                            <span>Adicionar diretores</span>
-                        </a>
-                    </div>
-
-                    
-                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
-                        <button class="btn btn-primary btn-lg full-width" style="margin-left: 28em;">Adicionar Série</button>
-                    </div>
-
-                </div>
-            </form>
-        </div>
-    </div>
 </div>
