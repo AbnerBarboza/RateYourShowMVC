@@ -204,6 +204,7 @@
     <Compile Include="ViewsModel\CadastroUsuario.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="svg-icons\sprites\minus.svg" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -1083,7 +1084,6 @@
     <Content Include="Views\Administrador\EditarSerie.cshtml" />
     <Content Include="Views\Administrador\EditarPersonalidade.cshtml" />
     <Content Include="Views\Administrador\CadastroSerie2.cshtml" />
-    <Content Include="Views\Series\backup.cshtml" />
     <Content Include="Views\Administrador\EditarUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>

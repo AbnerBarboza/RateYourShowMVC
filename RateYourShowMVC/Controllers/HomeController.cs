@@ -19,6 +19,10 @@ namespace RateYourShowMVC.Controllers
 
         public ActionResult Index()
         {
+            HttpCookie cookie = new HttpCookie("UsuId", null);
+
+            Response.Cookies.Add(cookie);
+
             return View();
         }
        
@@ -34,6 +38,11 @@ namespace RateYourShowMVC.Controllers
         public ActionResult ReportarErro()
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if (cookie.Value == "")
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
@@ -87,6 +96,11 @@ namespace RateYourShowMVC.Controllers
         public ActionResult RequisicaoSerie()
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if (cookie.Value == "")
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
@@ -256,6 +270,13 @@ namespace RateYourShowMVC.Controllers
                         ModelState.AddModelError("", "Senha Incorreta!");
                         return View();
                     }
+
+                    if(usu.Bloqueado == Bloqueado.Sim)
+                    {
+                        ModelState.AddModelError("", "Usuario Bloqueado!");
+                        return View();
+                    }
+
                     string permissoes = "";
                     permissoes += Enum.GetName(typeof(TipoUsuario),usu.TipoUsuario);
 

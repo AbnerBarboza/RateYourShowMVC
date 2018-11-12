@@ -416,6 +416,14 @@
                                             <span>Reportar Erro</span>
                                         </a>
                                     </li>
+                                    @if (ViewBag.Usuario.TipoUsuario == TipoUsuario.Administrado)
+                                    {
+                                        <li>
+                                            <a href="~/Administrador/Series">
+                                                <span>Administrador</span>
+                                            </a>
+                                        </li>
+                                    }
                                 </ul>
                             </div>
 

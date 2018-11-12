@@ -1,4 +1,5 @@
 ﻿@model RateYourShowMVC.Models.Usuario
+@using RateYourShowMVC.Models;
 
 @{
     ViewBag.Title = Model.Nome;
@@ -10,16 +11,28 @@
 
 <div class="header-spacer"></div>
 <div class="container">
-    <div class="row">
-        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <button class="btn btn-grey-light btn-lg full-width" style="color:red;" type="submit" name="button" value="cadastrar">Inativar Conta!</button>
-            <div class="ui-block responsive-flex">
-                <div class="ui-block-title">
-                    <div class="h6 title">@Model.Nome</div>
+
+    @using (Html.BeginForm("EditarUsuario", "Administrador", FormMethod.Post, htmlAttributes: new { }))
+    {
+        <div class="row">
+            <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                @if (Model.Bloqueado == Bloqueado.Não)
+                {
+                    <button class="btn cart-btn-wrap btn-lg full-width" style="color:red;" type="submit" name="acao" value="@Model.UsuarioId">Bloquear Conta!</button>
+                }
+                else
+                {
+                    <button class="btn cart-btn-wrap btn-lg full-width" style="color:blue;" type="submit" name="acao" value="@Model.UsuarioId">Desbloquear Conta!</button>
+                }
+
+                <div class="ui-block responsive-flex">
+                    <div class="ui-block-title">
+                        <div class="h6 title">@Model.Nome</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 </div>
 <div class="container">
     <div class="row">

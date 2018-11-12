@@ -36,7 +36,7 @@
     <link href="~/Content/bootstrap-reboot.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-grid.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <!-- Main Styles CSS -->
     <link href="~/Content/main.css" rel="stylesheet" />
     <link href="~/Content/fonts.css" rel="stylesheet" />
@@ -425,6 +425,14 @@
                                             <span>Reportar Erro</span>
                                         </a>
                                     </li>
+                                    @if (ViewBag.Usuario.TipoUsuario == TipoUsuario.Administrado)
+                                    {
+                                        <li>
+                                            <a href="~/Administrador/Series">
+                                                <span>Administrador</span>
+                                            </a>
+                                        </li>
+                                    }
                                 </ul>
                             </div>
 

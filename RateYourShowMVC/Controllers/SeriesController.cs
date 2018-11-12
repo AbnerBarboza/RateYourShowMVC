@@ -20,6 +20,11 @@ namespace RateYourShowMVC.Controllers
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
+            if (cookie.Value == "")
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
 
@@ -42,6 +47,11 @@ namespace RateYourShowMVC.Controllers
         public ActionResult PerfilAmigo(int? id)
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if (cookie.Value == "")
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             ViewBag.Publicacao = db.Publicacao.ToList();
 
@@ -256,6 +266,11 @@ namespace RateYourShowMVC.Controllers
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
+            if (cookie.Value == "")
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
 
@@ -303,6 +318,11 @@ namespace RateYourShowMVC.Controllers
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
+            if (cookie.Value == "")
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
 
@@ -318,7 +338,7 @@ namespace RateYourShowMVC.Controllers
                 ViewBag.Imagem = mid.Link;
             }
 
-            var pessoas = db.Usuario;
+            var pessoas = db.Usuario.Where(u => u.Bloqueado != Bloqueado.Sim);
             return View(pessoas.ToList());
         }
 
@@ -342,13 +362,18 @@ namespace RateYourShowMVC.Controllers
                 ViewBag.Imagem = mid.Link;
             }
 
-            var pessoas = db.Usuario.Where(u => u.Nome.Contains(procurar));
+            var pessoas = db.Usuario.Where(u => u.Nome.Contains(procurar) && u.Bloqueado != Bloqueado.Sim);
             return View(pessoas.ToList());
         }
 
         public ActionResult Perfil(int? id)
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if (cookie.Value == "")
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
@@ -465,6 +490,11 @@ namespace RateYourShowMVC.Controllers
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
+            if (cookie.Value == "")
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
 
@@ -494,6 +524,11 @@ namespace RateYourShowMVC.Controllers
         public ActionResult Personagem(int? id)
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if (cookie.Value == "")
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();

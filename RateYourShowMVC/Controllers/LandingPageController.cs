@@ -15,6 +15,11 @@ namespace RateYourShowMVC.Controllers
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
+            if (cookie.Value == "")
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
 

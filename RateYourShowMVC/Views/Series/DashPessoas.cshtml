@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<RateYourShowMVC.Models.Usuario>
+@using RateYourShowMVC.Models;
 
 @{
     ViewBag.Title = "Pessoas";
@@ -51,7 +52,7 @@
 
 <!-- Album atores-->
 <div class="container">
-    @foreach (var item in Model.Where(p => p.UsuarioId != 4 && p.UsuarioId != usuario.UsuarioId).OrderBy(n => n.Nome))
+    @foreach (var item in Model.Where(p => p.UsuarioId != 4 && p.UsuarioId != usuario.UsuarioId && p.Bloqueado != Bloqueado.Sim).OrderBy(n => n.Nome))
     {
         foto = false;
         <div class="photo-item col-4-width">

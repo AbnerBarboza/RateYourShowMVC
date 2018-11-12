@@ -601,6 +601,11 @@ Description: "HTML-template"
   width: 8px;
   height: 8px; }
 
+.minus {
+    width: 8px;
+    height: 8px;
+}
+
 .olymp-trophy-icon {
   width: 18px;
   height: 16px; }

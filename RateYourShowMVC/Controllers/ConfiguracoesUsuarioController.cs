@@ -20,6 +20,11 @@ namespace RateYourShowMVC.Controllers
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
+            if (cookie.Value == "")
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
 
@@ -80,6 +85,11 @@ namespace RateYourShowMVC.Controllers
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
+            if (cookie.Value == "")
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
 
@@ -128,6 +138,11 @@ namespace RateYourShowMVC.Controllers
         public ActionResult AlterarFoto()
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if (cookie.Value == "")
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
@@ -208,6 +223,11 @@ namespace RateYourShowMVC.Controllers
         public ActionResult AlterarSenha()
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if (cookie.Value == "")
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
