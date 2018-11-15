@@ -174,7 +174,7 @@ namespace RateYourShowMVC.Controllers
         {
             ViewBag.Sexo = new SelectList(Enum.GetValues(typeof(Sexo)));
 
-            string Senha = "^(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+            string Senha = "^(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,100}$";
 
             if (button == "cadastrar")
             {
@@ -198,6 +198,7 @@ namespace RateYourShowMVC.Controllers
                 if (!Regex.IsMatch(usuario.Senha, Senha))
                 {
                     ModelState.AddModelError("", "A senha do usuário deve conter no minimo 8 caractéres, caractéres especiais, 1 número e 1 letra maiúscula");
+                    return View(usuario);
                 }
 
 
@@ -298,43 +299,6 @@ namespace RateYourShowMVC.Controllers
 
             }
         }
-
-        /*
-        [HttpPost]
-        public ActionResult Login(string email, string senha, string ReturnUrl)
-        {
-            Usuario usu = db.Usuario.Where(t => t.Email == email && t.Senha == senha).ToList().FirstOrDefault();
-            if (usu != null)
-            {
-                string permissoes = "";
-                foreach (UsuarioPerfil p in usu.UsuarioPerfil)
-                    permissoes += p.Perfil.Descricao + ",";
-                permissoes = permissoes.Substring(0, permissoes.Length - 1);
-                FormsAuthentication.SetAuthCookie(usu.Nome, false);
-                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, usu.Email, DateTime.Now, DateTime.Now.AddMinutes(30), false, permissoes);
-                string hash = FormsAuthentication.Encrypt(ticket);
-                HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, hash);
-                if (ticket.IsPersistent)
-                    cookie.Expires = ticket.Expiration;
-                Response.Cookies.Add(cookie);
-                if (String.IsNullOrEmpty(ReturnUrl))
-                    return RedirectToAction("Index", "Perfils");
-                else
-                {
-                    var decodedUrl = Server.UrlDecode(ReturnUrl);
-                    if (Url.IsLocalUrl(decodedUrl))
-                        return Redirect(decodedUrl);
-                    else
-                        return RedirectToAction("Index", "Perfils");
-                }
-            }
-            else
-            {
-                ModelState.AddModelError("", "Usuário/Senha inválidos");
-                return View();
-            }
-        }
-             */
 
         public ActionResult RecuperarSenha()
         {

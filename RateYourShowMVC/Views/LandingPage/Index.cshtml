@@ -129,7 +129,7 @@
             <!-- Post -->
             @foreach (var amz in amizades.Where(a => a.UsuarioId1 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito || a.UsuarioId2 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito))
             {
-                foreach (var post in Model.Where(p => p.UsuarioId == amz.UsuarioId1 || p.UsuarioId == amz.UsuarioId2).OrderByDescending(p => p.Data))
+                foreach (var post in Model.Where(p => p.UsuarioId == amz.UsuarioId1 || p.UsuarioId == amz.UsuarioId2 && p.Usuario.Bloqueado != Bloqueado.Sim).OrderByDescending(p => p.Data))
                 {
                     <div id="newsfeed-items-grid">
                         <div class="ui-block">
@@ -166,11 +166,6 @@
                                 }
                                 <div class="author-date">
                                     <a class="h6 post__author-name fn" href="#">@post.Usuario.Nome</a>
-                                    <div class="post__date">
-                                        <time class="published" datetime="2004-07-24T18:18">
-                                            @post.Data
-                                        </time>
-                                    </div>
                                 </div>
                             </div>
                             <p>@post.Descricao</p>
@@ -240,7 +235,7 @@
 
                 <ul class="widget w-friend-pages-added notification-list friend-requests">
 
-                    @foreach (var pes in usuarios.Where(u => u.UsuarioId != 4))
+                    @foreach (var pes in usuarios.Where(u => u.UsuarioId != 4 && u.Bloqueado != Bloqueado.Sim))
                     {
                         foreach (var amz in amizades.Where(a => a.UsuarioId1 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito || a.UsuarioId2 == ViewBag.Usuario.UsuarioId))
                         {

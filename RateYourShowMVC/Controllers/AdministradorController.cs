@@ -74,8 +74,23 @@ namespace RateYourShowMVC.Controllers
 
             ViewBag.Sexo = new SelectList(Enum.GetValues(typeof(Sexo)), usu.Sexo);
 
+            if(equipe.Nome.Length < 3 || equipe.Nome.Length > 200)
+            {
+                ModelState.AddModelError("", "Nome deve ter entre 3 e 200 caractéres.");
+                return View();
+            }
 
+            if (equipe.Nacionalidade.Length < 3 || equipe.Nacionalidade.Length > 200)
+            {
+                ModelState.AddModelError("", "Nacionalidade deve ter entre 3 e 200 caractéres.");
+                return View();
+            }
 
+            if(arq == null)
+            {
+                ModelState.AddModelError("", "Imagem não pode ser nula.");
+                return View();
+            }
 
             string valor = "";
 
@@ -594,10 +609,6 @@ namespace RateYourShowMVC.Controllers
 
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
-            ViewBag.Genero = db.Genero.ToList();
-
-            IEnumerable<RateYourShowMVC.Models.Genero> generos = db.Genero.ToList();
-
 
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();

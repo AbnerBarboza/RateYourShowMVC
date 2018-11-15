@@ -186,7 +186,7 @@
 
 <div class="container">
     <div class="photo-album-wrapper">
-        @foreach (var atr in Model.SerieEquipe.Where(se => se.EquipeTipoId == 2))
+        @foreach (var atr in Model.SerieEquipe.Where(se => se.EquipeTipoId == 2 || se.EquipeTipoId == 3))
         {
             <div class="photo-album-item-wrap col-4-width">
 
