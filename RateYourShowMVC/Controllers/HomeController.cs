@@ -39,7 +39,7 @@ namespace RateYourShowMVC.Controllers
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
-            if (cookie.Value == "")
+            if ((cookie == null || cookie.Value == ""))
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -97,7 +97,7 @@ namespace RateYourShowMVC.Controllers
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
-            if (cookie.Value == "")
+            if ((cookie == null || cookie.Value == ""))
             {
                 return RedirectToAction("Index", "Home");
             }
