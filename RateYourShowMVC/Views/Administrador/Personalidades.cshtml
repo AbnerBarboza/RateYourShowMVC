@@ -43,6 +43,17 @@
                     <img src="~/Uploads/@mid.Link" style="height:200px;width:300px" stalt="photo">
                 }
                 <div class="overlay overlay-dark"></div>
+                div class="more" style="z-index:1;  ">
+                <svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+                <ul class="more-dropdown" style="width:160px; padding: 5px 5px 5px 20px;">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#batata">Desativar</a>
+                    </li>
+                    <li>
+                        <a href="#">Editar personalidade</a>
+                    </li>
+                </ul>
+            </div>
                 <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="  full-block"></a>
                 <div class="content">
                     @Html.ActionLink(item.Nome, "EditarPersonalidade", new { id = item.EquipeId }, htmlAttributes: new { @class = "h6 title" })
