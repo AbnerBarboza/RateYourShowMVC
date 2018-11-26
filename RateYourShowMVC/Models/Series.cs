@@ -27,6 +27,9 @@ namespace RateYourShowMVC.Models
         [MaxLength(1000)]
         public string Descricao { get; set; }
 
+        [Required]
+        public Inativo Inativo { get; set; }
+
         [ForeignKey("Quizzes")]
         public int? QuizzesId { get; set; }
 

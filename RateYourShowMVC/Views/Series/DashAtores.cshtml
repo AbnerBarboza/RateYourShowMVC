@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<RateYourShowMVC.Models.Equipe>
+@using RateYourShowMVC.Models;
 
 @{
     ViewBag.Title = "Atores";
@@ -49,7 +50,7 @@
 
 <!-- Album atores-->
 <div class="container">
-    @foreach (var item in Model.OrderBy(s => s.Nome))
+    @foreach (var item in Model.Where(u => u.Inativo == Inativo.Não ).OrderBy(s => s.Nome))
     {
 
         <div class="photo-item col-4-width">

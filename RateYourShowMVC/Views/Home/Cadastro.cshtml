@@ -13,6 +13,7 @@
     <link rel="icon" type="image/x-icon" href="~/img/logo.png">
     <link rel="shortcut icon" type="image/x-icon" href="~/img/logo.png" />
 
+
     <title>RYS| Bem-vindo!</title>
 
     <!-- Required meta tags always come first -->
@@ -310,6 +311,18 @@
     <script src="~/Scripts/webfontloader.min.js"></script>
 
     <script src="~/Scripts/base-init.js"></script>
+    <script src="~/Scripts/sweetalert2.min.js"></script>
+    <script src="~/Scripts/sweetalert2.js"></script>
+    <script src="~/Scripts/sweetalert2.all.js"></script>
+    <script src="~/Scripts/sweetalert2.all.min.js"></script>
+
+    @* swall *@
+    <script src="sweetalert2.all.min.js"></script>
+    <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+    <script src="sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="sweetalert2.min.css">
+
 
 
     <script>
@@ -319,5 +332,38 @@
             }
         });
     </script>
+        @if (TempData["Sucesso"] != null)
+        {
+            <script type="text/javascript">
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+
+                toast({
+                    type: 'success',
+                    title: 'Cadastrado com Sucesso'
+                })
+            </script>
+        }
+        @if (TempData["erro"] != null)
+        {
+            <script type="text/javascript">
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+
+                toast({
+                    type: 'error',
+                    title: 'Erro no Cadastro'
+                })
+            </script>
+        }
+
 </body>
 </html>

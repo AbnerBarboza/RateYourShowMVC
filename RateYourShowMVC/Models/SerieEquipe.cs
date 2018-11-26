@@ -12,6 +12,7 @@ namespace RateYourShowMVC.Models
         [Required]
         [MinLength(3)]
         [MaxLength(200)]
+        [Key, Column(Order = 3)]
         public string Personagem { get; set; }
 
         [Required]

@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<RateYourShowMVC.Models.Usuario>
-
+@using RateYourShowMVC.Models;
 @{
     ViewBag.Title = "Usuarios";
     Layout = "~/Views/Shared/_Administrador.cshtml";
@@ -22,7 +22,7 @@
 
                             <div class="form-group with-button is-empty">
                                 <input class="form-control" id="procurar" name="procurar" placeholder="procure usuários..." type="text" />
-                                <button type="submit">
+                                <button type="submit" name="button" id="buscar" value="buscar">
                                     <svg class="olymp-magnifying-glass-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use></svg>
                                 </button>
                             </div>
@@ -36,7 +36,10 @@
 
 
     <div class="container">
-        @foreach (var item in Model.OrderBy(n => n.Nome))
+
+
+
+        @foreach (var item in Model.Where(u => u.UsuarioId != usuario.UsuarioId).OrderBy(n => n.Nome))
         {
             foto = false;
             <div class="photo-item col-4-width">
@@ -52,22 +55,28 @@
 
                 }
                 <div class="overlay overlay-dark"></div>
-                <div class="more" style="z-index:1;  ">
+                <div class="more" style="z-index:1;">
                     <svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
                     <ul class="more-dropdown" style="width:160px; padding: 5px 5px 5px 20px;">
                         <li>
-                            <a href="#" data-toggle="modal" data-target="#batata">Bloquear</a>
+                            @if (item.Bloqueado == Bloqueado.Não)
+                            {
+                                <a href="#" data-toggle="modal" id="@item.UsuarioId" onclick="ShowId('UsuarioId',this.id)" data-target="#batata">Bloquear</a>
+                            }
+                            else
+                            {
+                                <a href="#" data-toggle="modal" id="@item.UsuarioId" onclick="ShowId('UsuId',this.id)" data-target="#desativarcer">Desbloquear</a>
+                            }
                         </li>
                         <li>
-                            <a href="#">Perfil</a>
-                        </li>                                               
+                            @Html.ActionLink("Perfil", "EditarUsuario", new { id = item.UsuarioId }, htmlAttributes: new { })
+                        </li>
                     </ul>
                 </div>
-                
-                <a href="#" data-toggle="modal" data-target="#batata" class="full-block"></a>
+
                 <div class="content">
                     <!--<a href="#" class="h6 title">Header Photos</a>-->
-                    @Html.ActionLink(item.Nome, "EditarUsuario", new { id = item.UsuarioId }, htmlAttributes: new { @class = "h6 title" })
+                    <h6 class="title">@item.Nome</h6>
                 </div>
             </div>
         }
@@ -78,49 +87,103 @@
 <!-- desativar usuario Popup -->
 
 <div class="modal fade" id="batata" tabindex="-1" role="dialog" aria-labelledby="batata" aria-hidden="true">
-    <div class="modal-dialog window-popup batata" role="document">        
-            <div class="modal-content" style="margin-left:300px; margin-right:300px;">
-                <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
-                    <svg class="olymp-close-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
-                </a>
+    <div class="modal-dialog window-popup batata" role="document">
+        <div class="modal-content" style="margin-left:300px; margin-right:300px;">
+            <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                <svg class="olymp-close-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+            </a>
 
-                <div class="modal-header">
-                    <h6 class="title">Desativar usuário</h6>
-                </div>
+            <div class="modal-header">
+                <h6 class="title">Bloquear usuário</h6>
+            </div>
 
-                <div class="modal-body">
-                    <div id="accordion" role="tablist" aria-multiselectable="true">
-                        <div class="card">
-                            <div class="card-header" role="tab" id="headingTwo">
-                                <h6 class="mb-0">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#desativar" aria-expanded="true" aria-controls="desativar">
-                                        Tem certeza que deseja desativar usuário?
-                                        <svg class="olymp-dropdown-arrow-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
-                                    </a>
-                                </h6>
-                            </div>
-
-                            <div id="desativar" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-                                <form>
-                                    <div class="form-group label-floating is-empty">
-                                        <br />
-                                        <textarea rows="4" cols="100" placeholder="Motivos para desativar"></textarea>
-                                    </div>
-
-
-                                    <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
-                                        <button class="btn btn-primary btn-lg full-width">Desativar</button>
-                                    </div>
-
-                                </form>
-                            </div>
+            <div class="modal-body">
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingTwo">
+                            <h6 class="mb-0">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#desativar" aria-expanded="true" aria-controls="desativar">
+                                    Motivo do bloqueio desse usuário
+                                    <svg class="olymp-dropdown-arrow-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+                                </a>
+                            </h6>
                         </div>
 
+                        <div id="desativar" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                            @using (Html.BeginForm("Usuarios", "Administrador", FormMethod.Post, htmlAttributes: new { }))
+                            {
+                                <input id="UsuarioId" name="UsuarioId" hidden />
+                                <div class="form-group label-floating is-empty">
+                                    <br />
+                                    <textarea rows="4" id="motivo" name="motivo" cols="100" placeholder="Motivo do bloqueio"></textarea>
+                                </div>
+                                <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <button class="btn btn-primary btn-lg full-width" type="submit">Bloquear</button>
+                                </div>
+                            }
+                        </div>
                     </div>
+
                 </div>
             </div>
+
         </div>
     </div>
+</div>
 
 
+
+
+
+
+<div class="modal fade" id="desativarcer" tabindex="-1" role="dialog" aria-labelledby="desativarcer" aria-hidden="true">
+    <div class="modal-dialog window-popup batata" role="document">
+        <div class="modal-content" style="margin-left:300px; margin-right:300px;">
+            <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                <svg class="olymp-close-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+            </a>
+
+            <div class="modal-header">
+                <h6 class="title">Bloquear usuário</h6>
+            </div>
+
+            <div class="modal-body">
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingTwo">
+                            <h4 class="mb-0">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#desativarcer" aria-expanded="true" aria-controls="desativarcer">
+                                    Tem certeza que deseja desbloquear esse usuário?
+                                    <svg class="olymp-dropdown-arrow-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+                                </a>
+                            </h4>
+                            <br />
+                            <br />
+                            <br />
+                        </div>
+
+                        <div id="desativarcer" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                            @using (Html.BeginForm("Usuarios", "Administrador", FormMethod.Post, htmlAttributes: new { }))
+                            {
+                                <input id="UsuId" name="UsuarioId" hidden />
+                                <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <button class="btn btn-primary btn-lg full-width" type="submit">Desbloquear</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    const ShowId = (id, id2) => {
+        document.getElementById(id).value = id2;
+    }
+</script>
 <!-- ... end desativar usuario Popup -->

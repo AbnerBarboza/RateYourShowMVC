@@ -1,4 +1,5 @@
 ﻿@model RateYourShowMVC.Models.Series
+@using RateYourShowMVC.Models;
 
 @{
     ViewBag.Title = "Perfil";
@@ -144,7 +145,7 @@
 </div>
 <div class="container">
     <div class="photo-album-wrapper">
-        @foreach (var atr in Model.SerieEquipe.Where(se => se.EquipeTipoId == 1))
+        @foreach (var atr in Model.SerieEquipe.Where(se => se.EquipeTipoId == 1 && se.Equipe.Inativo == Inativo.Não))
         {
             <div class="photo-album-item-wrap col-4-width">
 
@@ -186,7 +187,7 @@
 
 <div class="container">
     <div class="photo-album-wrapper">
-        @foreach (var atr in Model.SerieEquipe.Where(se => se.EquipeTipoId == 2 || se.EquipeTipoId == 3))
+        @foreach (var atr in Model.SerieEquipe.Where(se => se.EquipeTipoId == 2 && se.Equipe.Inativo == Inativo.Não || se.EquipeTipoId == 3 && se.Equipe.Inativo == Inativo.Não))
         {
             <div class="photo-album-item-wrap col-4-width">
 

@@ -24,7 +24,7 @@ namespace RateYourShowMVC.Controllers
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
-            if((cookie == null || cookie.Value == ""))
+            if ((cookie == null || cookie.Value == ""))
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -43,7 +43,7 @@ namespace RateYourShowMVC.Controllers
             }
             ViewBag.Usuario = usu;
 
-            if(usu.TipoUsuario != TipoUsuario.Administrado)
+            if (usu.TipoUsuario != TipoUsuario.Administrado)
             {
                 return RedirectToAction("Index", "LandingPage");
             }
@@ -74,7 +74,7 @@ namespace RateYourShowMVC.Controllers
 
             ViewBag.Sexo = new SelectList(Enum.GetValues(typeof(Sexo)), usu.Sexo);
 
-            if(equipe.Nome.Length < 3 || equipe.Nome.Length > 200)
+            if (equipe.Nome.Length < 3 || equipe.Nome.Length > 200)
             {
                 ModelState.AddModelError("", "Nome deve ter entre 3 e 200 caractéres.");
                 return View();
@@ -86,7 +86,7 @@ namespace RateYourShowMVC.Controllers
                 return View();
             }
 
-            if(arq == null)
+            if (arq == null)
             {
                 ModelState.AddModelError("", "Imagem não pode ser nula.");
                 return View();
@@ -101,6 +101,7 @@ namespace RateYourShowMVC.Controllers
                 valor = Upload.UploadArquivo(arq, nomearq);
                 if (valor == "sucesso")
                 {
+                    equipe.Inativo = Inativo.Sim;
                     db.Equipe.Add(equipe);
                     db.SaveChanges();
 
@@ -125,7 +126,7 @@ namespace RateYourShowMVC.Controllers
             return View();
         }
 
-        public ActionResult Series()
+        public ActionResult Series(int? id)
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
@@ -151,6 +152,25 @@ namespace RateYourShowMVC.Controllers
             if (usu.TipoUsuario != TipoUsuario.Administrado)
             {
                 return RedirectToAction("Index", "LandingPage");
+            }
+
+            if (id != null)
+            {
+                Series ser = db.Serie.Find(id);
+
+                if (ser.Inativo == Inativo.Sim)
+                {
+                    ser.Inativo = Inativo.Não;
+
+                }
+                else
+                {
+                    ser.Inativo = Inativo.Sim;
+                }
+
+                db.Entry(ser).State = EntityState.Modified;
+                db.SaveChanges();
+                return View(db.Serie.ToList());
             }
 
             return View(db.Serie.ToList());
@@ -179,7 +199,7 @@ namespace RateYourShowMVC.Controllers
             return View(serie.ToList());
         }
 
-        public ActionResult Personalidades()
+        public ActionResult Personalidades(int? id)
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
@@ -207,6 +227,25 @@ namespace RateYourShowMVC.Controllers
                 return RedirectToAction("Index", "LandingPage");
             }
 
+            if (id != null)
+            {
+                Equipe equ = db.Equipe.Find(id);
+
+                if (equ.Inativo == Inativo.Sim)
+                {
+                    equ.Inativo = Inativo.Não;
+
+                }
+                else
+                {
+                    equ.Inativo = Inativo.Sim;
+                }
+
+                db.Entry(equ).State = EntityState.Modified;
+                db.SaveChanges();
+                return View(db.Equipe.ToList());
+            }
+
             return View(db.Equipe.ToList());
         }
 
@@ -231,6 +270,8 @@ namespace RateYourShowMVC.Controllers
 
             var equipe = db.Equipe.Where(e => e.Nome.Contains(procurar));
             return View(equipe.ToList());
+
+
         }
 
         public ActionResult Usuarios()
@@ -265,7 +306,7 @@ namespace RateYourShowMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult Usuarios(string procurar)
+        public ActionResult Usuarios(string procurar, string button, string UsuarioId, string motivo)
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
@@ -288,8 +329,34 @@ namespace RateYourShowMVC.Controllers
             }
             ViewBag.Usuario = usu;
 
-            var pessoas = db.Usuario.Where(u => u.Nome.Contains(procurar));
-            return View(pessoas.ToList());
+            if (button == "buscar")
+            {
+                var pessoas = db.Usuario.Where(u => u.Nome.Contains(procurar));
+                return View(pessoas.ToList());
+            }
+            else
+            {
+                Usuario usuario = db.Usuario.Find(Convert.ToInt32(UsuarioId));
+
+                if (usuario.Bloqueado == Bloqueado.Não)
+                {
+                    usuario.Bloqueado = Bloqueado.Sim;
+                    db.Entry(usuario).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    usuario.Bloqueado = Bloqueado.Não;
+                    db.Entry(usuario).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Usuarios");
+                }
+
+
+                TempData["MSG"] = Funcoes.EnviarEmail(usuario.Email, "RYS - Sua conta foi bloqueada", motivo + "<br /> <b>Caso você tenha sido bloqueado irregularmente entre em contato com nossa equipe respondendo esse e-mail e iremos analisar sua situação.<br /> Att, Equipe RYS</b>");
+
+                return RedirectToAction("Usuarios");
+            }
         }
 
         public ActionResult EditarUsuario(int? id)
@@ -297,6 +364,11 @@ namespace RateYourShowMVC.Controllers
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
             ViewBag.Publicacao = db.Publicacao.ToList();
+
+            if ((cookie == null || cookie.Value == ""))
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
 
             ViewBag.Amizade = db.Amizade.ToList();
@@ -342,61 +414,6 @@ namespace RateYourShowMVC.Controllers
 
 
             return View(usuario);
-
-        }
-
-        [HttpPost]
-        public ActionResult EditarUsuario(int acao)
-        {
-            HttpCookie cookie = Request.Cookies.Get("UsuId");
-
-            ViewBag.Publicacao = db.Publicacao.ToList();
-
-
-            ViewBag.Amizade = db.Amizade.ToList();
-            ViewBag.Pessoa = db.Usuario.ToList();
-
-            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
-            ViewBag.Usuario = usu;
-
-
-            ViewBag.Convite = 0;
-
-
-            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
-
-            ViewBag.Imagem = "default.jpg";
-
-            if (mid != null)
-            {
-                ViewBag.Imagem = mid.Link;
-            }
-            Usuario usuario = db.Usuario.Find(acao);
-            if (usuario == null)
-            {
-                return HttpNotFound();
-            }
-
-            ViewBag.UsuSeries = db.UsuarioSerie.Where(
-                d => d.UsuarioId == usuario.UsuarioId).ToList().Select(
-                s => s.SeriesId
-                ).ToList();
-
-            ViewBag.Series = db.Serie.ToList();
-
-            if (usuario.Bloqueado == Bloqueado.Não)
-            {
-                usuario.Bloqueado = Bloqueado.Sim;
-            }
-            else
-            {
-                usuario.Bloqueado = Bloqueado.Não;
-            }
-
-            db.Entry(usuario).State = EntityState.Modified;
-            db.SaveChanges();
-
-            return RedirectToAction("EditarUsuario");
 
         }
 
@@ -478,7 +495,7 @@ namespace RateYourShowMVC.Controllers
             return RedirectToAction("EditarPersonalidade");
         }
 
-        public ActionResult EditarSerie()
+        public ActionResult EditarSerie(int? id)
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
@@ -506,7 +523,236 @@ namespace RateYourShowMVC.Controllers
             }
             ViewBag.Usuario = usu;
 
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Series series = db.Serie.Find(id);
+            if (series == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(series);
+        }
+
+        public ActionResult AlterarDados(int? id)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if ((cookie == null || cookie.Value == ""))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            if (usu.TipoUsuario != TipoUsuario.Administrado)
+            {
+                return RedirectToAction("Index", "LandingPage");
+            }
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+            ViewBag.Usuario = usu;
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Series series = db.Serie.Find(id);
+            if (series == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(series);
+        }
+
+        [HttpPost]
+        public ActionResult AlterarDados([Bind(Include = "SeriesId,Nome,Paisdeorigem,Descricao")] Series series)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if ((cookie == null || cookie.Value == ""))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            if (usu.TipoUsuario != TipoUsuario.Administrado)
+            {
+                return RedirectToAction("Index", "LandingPage");
+            }
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+            ViewBag.Usuario = usu;
+
+            Series serie = db.Serie.Find(series.SeriesId);
+
+            if (series == null)
+            {
+                return HttpNotFound();
+            }
+
+            serie.Nome = series.Nome;
+            serie.Paisdeorigem = series.Paisdeorigem;
+            serie.Descricao = series.Descricao;
+
+            db.Entry(serie).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Series", "Administrador");
+        }
+
+        public ActionResult AdicionarPersonagem(int? id)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if ((cookie == null || cookie.Value == ""))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            if (usu.TipoUsuario != TipoUsuario.Administrado)
+            {
+                return RedirectToAction("Index", "LandingPage");
+            }
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+            ViewBag.Usuario = usu;
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Series series = db.Serie.Find(id);
+            if (series == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Equipe = db.Equipe.ToList();
+
+            return View(series);
+        }
+
+        [HttpPost]
+        public ActionResult AdicionarPersonagem([Bind(Include = "EquipeId,SeriesId,EquipeTipoId,Personagem")] SerieEquipe seriequipe, string button, string procurar)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if ((cookie == null || cookie.Value == ""))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+            ViewBag.Usuario = usu;
+
+            if (button == "buscar")
+            {
+                var equipes = db.Equipe.Where(u => u.Nome.Contains(procurar));
+                return View(equipes.ToList());
+            }
+            else
+            {
+                SerieEquipe sequipe = new SerieEquipe
+                {
+                    SeriesId = seriequipe.SeriesId,
+                    EquipeId = seriequipe.EquipeId,
+                    EquipeTipoId = seriequipe.EquipeTipoId,
+                    Personagem = seriequipe.Personagem
+                };
+
+                db.SerieEquipe.Add(sequipe);
+                db.SaveChanges();
+
+                return RedirectToAction("Series");
+            }
+        }
+
+        public ActionResult RemoverPersonagem(int? id)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if ((cookie == null || cookie.Value == ""))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            if (usu.TipoUsuario != TipoUsuario.Administrado)
+            {
+                return RedirectToAction("Index", "LandingPage");
+            }
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+            ViewBag.Usuario = usu;
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Series series = db.Serie.Find(id);
+            if (series == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Equipe = db.Equipe.ToList();
+
+            return View(series);
         }
 
         public ActionResult CadastroSerie()
@@ -538,6 +784,46 @@ namespace RateYourShowMVC.Controllers
             ViewBag.Usuario = usu;
 
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult RemoverPersonagem([Bind(Include = "EquipeId,SeriesId,EquipeTipoId,Personagem")] SerieEquipe seriequipe, string button, string procurar)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if ((cookie == null || cookie.Value == ""))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+            ViewBag.Usuario = usu;
+
+            if (button == "buscar")
+            {
+                var equipes = db.Equipe.Where(u => u.Nome.Contains(procurar));
+                return View(equipes.ToList());
+            }
+            else
+            {
+                SerieEquipe sequipe = db.SerieEquipe.Find(seriequipe.SeriesId,seriequipe.EquipeId,seriequipe.EquipeTipoId,seriequipe.Personagem);
+
+                db.SerieEquipe.Remove(sequipe);
+                db.SaveChanges();
+
+                return RedirectToAction("Series");
+            }
         }
 
         [HttpPost]

@@ -411,6 +411,12 @@ namespace RateYourShowMVC.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (series.Inativo == Inativo.Sim)
+            {
+                return RedirectToAction("Index", "LandingPage");
+            }
+
             return View(series);
 
         }
@@ -555,7 +561,88 @@ namespace RateYourShowMVC.Controllers
                 return HttpNotFound();
             }
 
+            if(equipe.Inativo == Inativo.Sim)
+            {
+                return RedirectToAction("Index", "LandingPage");
+            }
+
             return View(equipe);
+        }
+
+        public ActionResult ListaDeAmigos(int? id)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if ((cookie == null || cookie.Value == ""))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+
+            if(id != null)
+            {
+                Amizade ami = db.Amizade.Find(usu.UsuarioId, id);
+                Amizade ami2 = db.Amizade.Find(id, usu.UsuarioId);
+                if (ami != null)
+                {
+                    db.Amizade.Remove(ami);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    db.Amizade.Remove(ami2);
+                    db.SaveChanges();
+                }
+            }
+
+
+            ViewBag.Midia = db.Midia.ToList();
+            ViewBag.Series = db.Serie.ToList();
+            ViewBag.Amizades = db.Amizade.ToList();
+            ViewBag.Usuario = usu;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ListaDeAmigos(string procurar)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if ((cookie == null || cookie.Value == ""))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.Where(u => u.Nome.Contains(procurar) && u.Bloqueado != Bloqueado.Sim); 
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+
+            ViewBag.Midia = db.Midia.ToList();
+            ViewBag.Series = db.Serie.ToList();
+            ViewBag.Amizades = db.Amizade.ToList();
+            ViewBag.Usuario = usu;
+            return View();
         }
     }
 }

@@ -129,7 +129,7 @@
             <!-- Post -->
             @foreach (var amz in amizades.Where(a => a.UsuarioId1 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito || a.UsuarioId2 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito))
             {
-                foreach (var post in Model.Where(p => p.UsuarioId == amz.UsuarioId1 || p.UsuarioId == amz.UsuarioId2 && p.Usuario.Bloqueado != Bloqueado.Sim).OrderByDescending(p => p.Data))
+                foreach (var post in Model.Where(p => p.UsuarioId == amz.UsuarioId1 || p.UsuarioId == amz.UsuarioId2 && p.Usuario.Bloqueado != Bloqueado.Sim && p.Usuario.Inativo != Inativo.Sim).OrderByDescending(p => p.Data))
                 {
                     <div id="newsfeed-items-grid">
                         <div class="ui-block">
@@ -239,7 +239,8 @@
                     {
                         foreach (var amz in amizades.Where(a => a.UsuarioId1 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito || a.UsuarioId2 == ViewBag.Usuario.UsuarioId))
                         {
-                            if (pes.UsuarioId == amz.UsuarioId1 || pes.UsuarioId == amz.UsuarioId2) {
+                            if (pes.UsuarioId == amz.UsuarioId1 || pes.UsuarioId == amz.UsuarioId2)
+                            {
                                 existe = true;
                             }
                         }

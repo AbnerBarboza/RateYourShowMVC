@@ -42,6 +42,7 @@
     <link href="~/Content/fonts.css" rel="stylesheet" />
 
 
+
 </head>
 <body>
 
@@ -93,6 +94,11 @@
                     <li>
                         <a href="~/Series/Ranking">
                             <svg class="olymp-trophy-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="RANKING"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-trophy-icon"></use></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Series/ListaDeAmigos">
+                            <svg class="olymp-plus-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="LISTA DE AMIGOS"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
                         </a>
                     </li>
                 </ul>
@@ -151,6 +157,11 @@
                         <a href="~/Series/Ranking">
                             <svg class="olymp-trophy-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="RANKING"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-trophy-icon"></use></svg>
                             <span class="left-menu-title">Ranking</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Series/ListaDeAmigos">
+                            <svg class="olymp-plus-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="LISTA DE AMIGOS"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
                         </a>
                     </li>
                 </ul>
@@ -245,6 +256,11 @@
                         <a href="Mobile-31-YourAccount-HobbiesAndInterests.html">
                             <svg class="olymp-trophy-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="RANKING"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-trophy-icon"></use></svg>
                             <span class="left-menu-title">Ranking</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Series/ListaDeAmigos">
+                            <svg class="olymp-plus-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="LISTA DE AMIGOS"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
                         </a>
                     </li>
                 </ul>
@@ -428,7 +444,7 @@
                                     @if (ViewBag.Usuario.TipoUsuario == TipoUsuario.Administrado)
                                     {
                                         <li>
-                                            <a href="~/Administrador/Series">  
+                                            <a href="~/Administrador/Series">
                                                 <span style="color:orangered;">Administrador</span>
                                             </a>
                                         </li>
@@ -876,5 +892,12 @@
     <script defer src="~/fonts/fontawesome-all.js"></script>
 
     <script src="Bootstrap/dist/js/bootstrap.bundle.js"></script>
+
+    @* swall *@
+    <script src="sweetalert2.all.min.js"></script>
+    <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+    <script src="sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="sweetalert2.min.css">
 </body>
 </html>

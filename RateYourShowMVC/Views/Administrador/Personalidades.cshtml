@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<RateYourShowMVC.Models.Equipe>
+@using RateYourShowMVC.Models;
 
 @{
     ViewBag.Title = "Personalidades";
@@ -20,7 +21,7 @@
 
                             <div class="form-group with-button is-empty">
                                 <input class="form-control" id="procurar" name="procurar" placeholder="procure atores..." type="text" />
-                                <button type="submit">
+                                <button name="button" id="button" value="buscar" type="submit">
                                     <svg class="olymp-magnifying-glass-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use></svg>
                                 </button>
                             </div>
@@ -34,32 +35,52 @@
 
 
     <div class="container">
+        <div class="photo-item col-4-width">
+            <img src="~/img/adicionar-botao_318-32466.jpg" style="height:200px;width:300px" alt="Usuário">
+            <div class="overlay overlay-dark"></div>
+            <div class="more" style="z-index:1;">
+            </div>
+
+            <a href="#" data-toggle="modal" data-target="#batata" class="full-block"></a>
+            <div class="content">
+                <!--<a href="#" class="h6 title">Header Photos</a>-->
+                @Html.ActionLink("Adicionar Personlidade", "CadastroPersonalidade", new { }, htmlAttributes: new { @class = "h6 title" })
+            </div>
+        </div>
         @foreach (var item in Model.OrderBy(s => s.Nome))
         {
-
             <div class="photo-item col-4-width">
                 @foreach (var mid in item.Midia.Where(m => m.TipoMidiaId == 2))
                 {
                     <img src="~/Uploads/@mid.Link" style="height:200px;width:300px" stalt="photo">
                 }
                 <div class="overlay overlay-dark"></div>
-                div class="more" style="z-index:1;  ">
-                <svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
-                <ul class="more-dropdown" style="width:160px; padding: 5px 5px 5px 20px;">
-                    <li>
-                        <a href="#" data-toggle="modal" data-target="#batata">Desativar</a>
-                    </li>
-                    <li>
-                        <a href="#">Editar personalidade</a>
-                    </li>
-                </ul>
-            </div>
+                <div class="more" style="z-index:1;  ">
+                    <svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+                    <ul class="more-dropdown" style="width:160px; padding: 5px 5px 5px 20px;">
+                        <li>
+                            @if (item.Inativo == Inativo.Não)
+                            {
+                                @Html.ActionLink("Inativar", "Personalidades", new { id = item.EquipeId }, htmlAttributes: new { style = "color:red;" })
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Reativar", "Personalidades", new { id = item.EquipeId }, htmlAttributes: new { style="color:blue;"})
+
+                            }
+                        </li>
+                        <li>
+                            @Html.ActionLink("Editar Personalidade", "EditarPersonalidade", new { id = item.EquipeId }, htmlAttributes: new { })
+                        </li>
+                    </ul>
+                </div>
                 <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="  full-block"></a>
                 <div class="content">
-                    @Html.ActionLink(item.Nome, "EditarPersonalidade", new { id = item.EquipeId }, htmlAttributes: new { @class = "h6 title" })
+                    <h6 class="title">@item.Nome</h6>
                 </div>
             </div>
         }
     </div>
 </div>
+
 

@@ -173,8 +173,8 @@ namespace RateYourShowMVC.Controllers
         public ActionResult Cadastro([Bind(Include = "Nome,Email,Senha,DatadeNascimento,Sexo,ConfirmarSenha,TermosdeUso")] CadastroUsuario usuario, string button, string email, string senha)
         {
             ViewBag.Sexo = new SelectList(Enum.GetValues(typeof(Sexo)));
-
-            string Senha = "^(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,100}$";
+            
+            string Senha = "^(?=.*[0-9].*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
 
             if (button == "cadastrar")
             {
@@ -186,18 +186,21 @@ namespace RateYourShowMVC.Controllers
                 if (!usuario.TermosdeUso)
                 {
                     ModelState.AddModelError("", "É Necessário aceitar os Termos de Uso.");
+                    TempData["erro"] = "ok";
                     return View(usuario);
                 }
 
                 if (usuario.Nome.Length < 3 || usuario.Nome.Length > 250)
                 {
                     ModelState.AddModelError("", "O nome do usuário deve conter entre 3 e 250 caractéres.");
+                    TempData["erro"] = "ok";
                     return View(usuario);
                 }
 
                 if (!Regex.IsMatch(usuario.Senha, Senha))
                 {
                     ModelState.AddModelError("", "A senha do usuário deve conter no minimo 8 caractéres, caractéres especiais, 1 número e 1 letra maiúscula");
+                    TempData["erro"] = "ok";
                     return View(usuario);
                 }
 
@@ -205,6 +208,7 @@ namespace RateYourShowMVC.Controllers
                 if (usuario.Senha != usuario.ConfirmarSenha)
                 {
                     ModelState.AddModelError("", "Senhas não conhecidem.");
+                    TempData["erro"] = "ok";
                     return View(usuario);
                 }
                 Usuario usu = new Usuario
@@ -247,14 +251,15 @@ namespace RateYourShowMVC.Controllers
                         "				</div>" +
                         "			</div>" +
                         "		</div>");
-                        return RedirectToAction("Index");
+                        TempData["Sucesso"] = "ok";
+                        return RedirectToAction("Cadastro");
                     }
-
                     return View();
                 }
                 else
                 {
                     ModelState.AddModelError("", "O email informado já está cadastrado em nossa base.");
+                    TempData["erro"] = "ok";
                     return View();
                 }
             }
@@ -289,6 +294,12 @@ namespace RateYourShowMVC.Controllers
                     if (ticket.IsPersistent)
                         cookie.Expires = ticket.Expiration;
                     Response.Cookies.Add(cookie);
+
+                    if (usu.Inativo == Inativo.Sim)
+                    {
+                        return RedirectToAction("UsuarioInativo", "Home");
+                    }
+                    TempData["Login"] = "ok";
                     return RedirectToAction("Index", "LandingPage");
                 }
                 else
@@ -301,6 +312,13 @@ namespace RateYourShowMVC.Controllers
         }
 
         public ActionResult RecuperarSenha()
+        {
+            ViewBag.Email = "active";
+            ViewBag.Trocar = "";
+            return View();
+        }
+
+        public ActionResult UsuarioInativo()
         {
             ViewBag.Email = "active";
             ViewBag.Trocar = "";

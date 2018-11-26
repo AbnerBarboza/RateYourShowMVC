@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<RateYourShowMVC.Models.Series>
+@using RateYourShowMVC.Models;
 
 @{
     ViewBag.Title = "Séries";
@@ -13,7 +14,7 @@
             <div class="ui-block">
                 <div class="top-header">
                     <div class="top-header-thumb">
-                        <img src="~/img/Prancheta 1-100.jpg"  alt="nature">
+                        <img src="~/img/Prancheta 1-100.jpg" alt="nature">
                     </div>
                 </div>
             </div>
@@ -50,7 +51,7 @@
 
 <!-- Album séries-->
 <div class="container">
-    @foreach (var item in Model.OrderBy(s => s.Nome))
+    @foreach (var item in Model.Where(u => u.Inativo == Inativo.Não).OrderBy(s => s.Nome))
     {
 
         <div class="photo-item col-4-width">

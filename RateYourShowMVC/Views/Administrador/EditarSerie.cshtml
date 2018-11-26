@@ -1,6 +1,7 @@
-﻿
+﻿@model RateYourShowMVC.Models.Series
+
 @{
-    ViewBag.Title = "EditarSerie";
+    ViewBag.Title = Model.Nome;
     Layout = "~/Views/Shared/_Administrador.cshtml";
 }
 
@@ -14,183 +15,22 @@
 
             <!-- Personal Information Form  -->
 
-            <form>
-                <div class="row ">
 
-                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="form-group label-floating">
-                            <label class="control-label">Título</label>
-                            <input class="form-control" placeholder="" type="text" />
-                        </div>
+            <div class="row ">
 
-                        <div class="row">
-                            <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
-                                <h6>Gênero</h6>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="optionsCheckboxes">
-                                        Drama
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="optionsCheckboxes" checked>
-                                        Aventura
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="form-group label-floating">
-                            <label class="control-label">Origem</label>
-                            <input class="form-control" placeholder="" type="text" />
-                        </div>
-                    </div>
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+
+                    @Html.ActionLink("Alterar dados", "AlterarDados", new { id = Model.SeriesId }, htmlAttributes: new { style = "color:black;", @class = "btn btn-primary btn-lg full-width" })
+
+                    @Html.ActionLink("Adicionar personagem", "AdicionarPersonagem", new { id = Model.SeriesId }, htmlAttributes: new { style = "color:black;", @class = "btn btn-smoke btn-lg full-width" })
                 </div>
-            </form>
-        </div>
-    </div>
-    <div class="ui-block">
-        <div class="ui-block-title">
-            <h6 class="title">Atores</h6>
-        </div>
-        <div class="ui-block-content">
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    @Html.ActionLink("Modificar gêneros", "AlterarDados", new { id = Model.SeriesId }, htmlAttributes: new { style = "color:black;", @class = "btn btn-yellow btn-lg full-width" })
 
-
-            <!-- form atores  -->
-
-            <form>
-                <div class="row ">
-
-                    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset>
-                        <fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset>
-                        <fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset>
-
-                        <a href="#" class="add-field">
-                            <svg class="olymp-plus-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
-                            <span>Adicionar diretores</span>
-                        </a>
-                    </div>
+                    @Html.ActionLink("Remover personagem", "RemoverPersonagem", new { id = Model.SeriesId }, htmlAttributes: new { style = "color:black;", @class = "btn btn-smoke btn-lg full-width" })
                 </div>
-            </form>
-        </div>
-    </div>
-    <div class="ui-block">
-        <div class="ui-block-title">
-            <h6 class="title">Diretores</h6>
-        </div>
-        <div class="ui-block-content">
+            </div>
 
-
-            <!-- form diretores  -->
-
-            <form>
-                <div class="row ">
-
-                    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset><fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset><fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset>
-                        <a href="#" class="add-field">
-                            <svg class="olymp-plus-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
-                            <span>Adicionar diretores</span>
-                        </a>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="ui-block">
-        <div class="ui-block-title">
-            <h6 class="title">Imagens</h6>
-        </div>
-        <div class="ui-block-content">
-
-
-            <!-- form diretores  -->
-
-            <form>
-                <div class="row ">
-
-                    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset><fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset><fieldset class="form-group label-floating is-select">
-                            <label class="control-label">Nome do autor</label>
-                            <select class="selectpicker form-control">
-                                <option value="AL">United States (UTC-8)</option>
-                                <option value="2">Ontario (UTC−6)</option>
-                                <option value="WY">Alberta (UTC−6)</option>
-                            </select>
-                        </fieldset>
-                        <a href="#" class="add-field">
-                            <svg class="olymp-plus-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
-                            <span>Adicionar diretores</span>
-                        </a>
-                    </div>
-
-
-                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
-                        <button class="btn btn-primary btn-lg full-width" style="margin-left: 28em;">Salvar Alterações</button>
-                    </div>
-
-                </div>
-            </form>
         </div>
     </div>
 </div>
-

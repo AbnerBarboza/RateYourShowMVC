@@ -24,6 +24,10 @@ namespace RateYourShowMVC.Models
         [MaxLength(200)]
         public string Nacionalidade { get; set; }
 
+        [Required]
+        public Inativo Inativo { get; set; }
+
+
         public virtual ICollection<Midia> Midia { get; set; }
         public virtual ICollection<SerieEquipe> SerieEquipe { get; set; }
 

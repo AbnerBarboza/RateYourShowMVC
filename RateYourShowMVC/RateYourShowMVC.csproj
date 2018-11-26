@@ -204,6 +204,11 @@
     <Compile Include="ViewsModel\CadastroUsuario.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="img\adicionar-botao_318-32466.jpg" />
+    <Content Include="Scripts\sweetalert2.all.js" />
+    <Content Include="Scripts\sweetalert2.all.min.js" />
+    <Content Include="Scripts\sweetalert2.js" />
+    <Content Include="Scripts\sweetalert2.min.js" />
     <Content Include="svg-icons\sprites\minus.svg" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -1085,6 +1090,12 @@
     <Content Include="Views\Administrador\EditarPersonalidade.cshtml" />
     <Content Include="Views\Administrador\CadastroSerie2.cshtml" />
     <Content Include="Views\Administrador\EditarUsuario.cshtml" />
+    <Content Include="Views\ConfiguracoesUsuario\DesativarConta.cshtml" />
+    <Content Include="Views\Home\UsuarioInativo.cshtml" />
+    <Content Include="Views\Administrador\AlterarDados.cshtml" />
+    <Content Include="Views\Administrador\AdicionarPersonagem.cshtml" />
+    <Content Include="Views\Administrador\RemoverPersonagem.cshtml" />
+    <Content Include="Views\Series\ListaDeAmigos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
