@@ -1,0 +1,142 @@
+﻿@model RateYourShowMVC.Models.Series
+@using RateYourShowMVC.Models;
+
+@{
+    ViewBag.Title = "MarcarEpisodio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="header-spacer"></div>
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="ui-block">
+                <div class="top-header">
+                    @foreach (var mid in Model.Midia.Where(m => m.TipoMidiaId == 3))
+                    {
+
+                        <div class="top-header-thumb">
+                            <img src="~/Uploads/@mid.Link" alt="nature">
+                        </div>
+                    }
+                    <div class="profile-section">
+                        @using (Html.BeginForm("Perfil", "Series", new { id = Model.SeriesId }, FormMethod.Post, htmlAttributes: new { @class = "control-block-button" }))
+                        {
+
+                            if (ViewBag.Seguir == 1)
+                            {
+                                <button class="btn-control bg-account" type="submit" id="seguir" name="seguir">
+                                    <svg class="olymp-plus-icon" data-toggle="tooltip" data-placement="top" data-original-title="Seguir"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
+                                </button>
+                            }
+                            if (ViewBag.Seguir == 0)
+                            {
+                                <button class="btn-control bg-blue" type="submit" id="seguir" name="seguir">
+                                    <svg class="minus" data-toggle="tooltip" data-placement="top" data-original-title="Deixar de Seguir"><use xlink:href="~/svg-icons/sprites/minus.svg#minus"></use></svg>
+                                </button>
+                            }
+                        }
+                    </div>
+                    <div class="top-header-author">
+                        <a href="02-ProfilePage.html" class="author-thumb">
+                            @foreach (var mid in Model.Midia.Where(m => m.TipoMidiaId == 4))
+                            {
+                                <img src="~/Uploads/@mid.Link" style="height:125px;width:125px" alt="author">
+                            }
+                        </a>
+                        <div class="author-content">
+                            <h4 class="author-name">@Model.Nome</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="margin-bottom:40px;">
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="color: #515365; font-weight: 700;">
+                        1 Temporada
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+
+
+                    <table class="table">
+
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Nome do Episodio</td>
+                                <td>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="optionsCheckboxes">                                            
+                                        </label>
+                                    </div>
+                                </td>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="optionsCheckboxes">
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Larry</td>
+                                <td>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="optionsCheckboxes">
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="color: blue;">
+                        2 Temporada
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" style="color: blue;">
+                        3 Temporada
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

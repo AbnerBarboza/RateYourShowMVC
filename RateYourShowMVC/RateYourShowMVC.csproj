@@ -1096,6 +1096,7 @@
     <Content Include="Views\Administrador\AdicionarPersonagem.cshtml" />
     <Content Include="Views\Administrador\RemoverPersonagem.cshtml" />
     <Content Include="Views\Series\ListaDeAmigos.cshtml" />
+    <Content Include="Views\Series\MarcarEpisodio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

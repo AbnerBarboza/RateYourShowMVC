@@ -16,6 +16,65 @@ namespace RateYourShowMVC.Controllers
         private Contexto db = new Contexto();
         // GET: Series
 
+
+        public ActionResult MarcarEpisodio(int? id)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if ((cookie == null || cookie.Value == ""))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            ViewBag.Usuario = usu;
+            Usuarioserie uss = db.UsuarioSerie.Find(usu.UsuarioId, id);
+
+            ViewBag.Seguir = 1;
+
+
+            if (uss != null)
+            {
+                if (uss.Seguindo == Seguindo.Sim)
+                {
+                    ViewBag.Seguir = 0;
+                }
+            }
+
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Series series = db.Serie.Find(id);
+            if (series == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (series.Inativo == Inativo.Sim)
+            {
+                return RedirectToAction("Index", "LandingPage");
+            }
+
+            return View(series);
+
+        }
+
+
+
+
         public ActionResult DashSeries()
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
