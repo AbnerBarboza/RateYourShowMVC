@@ -1,0 +1,101 @@
+﻿@using RateYourShowMVC.Models;
+@model IEnumerable<RateYourShowMVC.Models.Publicacao>
+
+@{
+    ViewBag.Title = "Lista de Amigos";
+    Layout = Layout;
+    IEnumerable<RateYourShowMVC.Models.Series> series = ViewBag.Series;
+    IEnumerable<RateYourShowMVC.Models.Amizade> amizades = ViewBag.Amizades;
+    IEnumerable<RateYourShowMVC.Models.Usuario> usuarios = ViewBag.Pessoa;
+    IEnumerable<RateYourShowMVC.Models.Midia> midia = ViewBag.Midia;
+    Boolean existe = false;
+}
+
+
+<div class="header-spacer"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+            <div class="ui-block">
+                <div class="container">
+                    <div class="row">
+                        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="ui-block-title">
+                                <div class="h6 title">Amigos de @ViewBag.Usuario.Nome</div>
+                                @using (Html.BeginForm("ListaDeAmigos", "Series", FormMethod.Post, htmlAttributes: new { @class = "w-search" }))
+                                {
+
+                                    <div class="form-group with-button is-empty">
+                                        <input class="form-control" id="procurar" name="procurar" placeholder="procure usuários..." type="text" />
+                                        <button type="submit">
+                                            <svg class="olymp-magnifying-glass-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use></svg>
+                                        </button>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-block-title ui-block-title-small">
+                    <h6 class="title">Lista de Amigos</h6>
+                </div>
+                <table class="event-item-table">
+                    <tbody>
+                        @foreach (var pes in usuarios.Where(u => u.UsuarioId != 4 && u.Bloqueado != Bloqueado.Sim && u.UsuarioId != ViewBag.Usuario.UsuarioId))
+                        {
+                            foreach (var amz in amizades.Where(a => a.UsuarioId1 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito || a.UsuarioId2 == ViewBag.Usuario.UsuarioId))
+                            {
+                                if (pes.UsuarioId == amz.UsuarioId1 || pes.UsuarioId == amz.UsuarioId2)
+                                {
+                                    existe = true;
+                                }
+                            }
+
+                            if (!existe)
+                            {
+                                existe = false;
+                                continue;
+                            }
+                            <tr class="event-item">
+
+
+                                @foreach (var mid in midia.Where(m => m.UsuarioId == pes.UsuarioId && m.TipoMidiaId == 5))
+                                {
+                                    <td class="upcoming">
+                                        <div class="author-thumb">
+                                            <img src="~/Uploads/@mid.Link" style="height:60px;width:60px" class="avatar">
+                                        </div>
+                                    </td>
+                                }
+
+                                <td class="author">
+                                    <div class="event-author inline-items">
+                                        <div class="author-date">
+                                            <a href="#" class="author-name h6">@pes.Nome</a>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="add-event">
+                                    @Html.ActionLink("Visualizar Perfil", "PerfilAmigo", new { id = pes.UsuarioId }, htmlAttributes: new { @class = "btn btn-breez btn-sm" })
+                                    @Html.ActionLink("Desfazer Amizade", "ListaDeAmigos", new { id = pes.UsuarioId }, htmlAttributes: new { @class = "btn btn-danger btn-sm" })
+                                </td>
+                            </tr>
+                        }
+
+                       
+                    </tbody>
+                </table>
+
+                <div class="ui-block-title ui-block-title-small">
+                    <h6 class="title">Lista de Amigos</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

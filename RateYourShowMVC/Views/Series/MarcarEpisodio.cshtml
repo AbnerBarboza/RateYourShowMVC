@@ -2,8 +2,12 @@
 @using RateYourShowMVC.Models;
 
 @{
-    ViewBag.Title = "MarcarEpisodio";
+    ViewBag.Title = "Marcar Episodio";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<RateYourShowMVC.Models.Episodio> episodios = ViewBag.Episodio;
+    int temporadas = episodios.Where(e => e.SeriesId == Model.SeriesId).Select(e => e.Temporada).Distinct().Count();
+    IEnumerable<RateYourShowMVC.Models.Usuarioepisodio> uep = ViewBag.usuarioEpi;
+    Boolean assistido;
 }
 <div class="header-spacer"></div>
 <div class="container">
@@ -19,22 +23,6 @@
                         </div>
                     }
                     <div class="profile-section">
-                        @using (Html.BeginForm("Perfil", "Series", new { id = Model.SeriesId }, FormMethod.Post, htmlAttributes: new { @class = "control-block-button" }))
-                        {
-
-                            if (ViewBag.Seguir == 1)
-                            {
-                                <button class="btn-control bg-account" type="submit" id="seguir" name="seguir">
-                                    <svg class="olymp-plus-icon" data-toggle="tooltip" data-placement="top" data-original-title="Seguir"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
-                                </button>
-                            }
-                            if (ViewBag.Seguir == 0)
-                            {
-                                <button class="btn-control bg-blue" type="submit" id="seguir" name="seguir">
-                                    <svg class="minus" data-toggle="tooltip" data-placement="top" data-original-title="Deixar de Seguir"><use xlink:href="~/svg-icons/sprites/minus.svg#minus"></use></svg>
-                                </button>
-                            }
-                        }
                     </div>
                     <div class="top-header-author">
                         <a href="02-ProfilePage.html" class="author-thumb">
@@ -55,6 +43,7 @@
 
 <div class="container" style="margin-bottom:40px;">
     <div class="accordion" id="accordionExample">
+<<<<<<< HEAD
         <div class="card">
             <div class="card-header" id="headingOne">
                 <h5 class="mb-0">
@@ -63,80 +52,65 @@
                     </button>
                 </h5>
             </div>
+=======
+        @for (int i = 1; i <= temporadas; i++)
+        {
+            <div class="card">
+>>>>>>> 0e2ba932128afff7521fc44520bf7783426c70d3
 
-            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                <div class="card-body">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#@i" aria-expanded="false" aria-controls="collapseOne" style="color: #515365; font-weight: 700;">
+                            @i Temporada
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="@i" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
 
 
-                    <table class="table">
+                        <table class="table">
 
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Nome do Episodio</td>
-                                <td>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="optionsCheckboxes">                                            
-                                        </label>
-                                    </div>
-                                </td>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="optionsCheckboxes">
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="optionsCheckboxes">
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            <tbody>
+                                @foreach (var epi in episodios.Where(e => e.SeriesId == Model.SeriesId && e.Temporada == i))
+                                {
+                                    assistido = false;
 
+                                    foreach (var pes in uep.Where(e => e.EpisodioId == epi.EpisodioId && e.UsuarioId == ViewBag.Usuario.UsuarioId))
+                                    {
+                                        assistido = true;
+                                    }
+
+                                    <tr>
+                                        <th scope="row">@epi.Numero </th>
+                                        <td>@epi.Titulo</td>
+                                        <td>
+                                            <label>
+                                                <a href="@Url.Action("MarcarEpisodio", "Series", new { Epid = epi.EpisodioId })">
+                                                    @if (assistido)
+                                                    {
+                                                        <span style="font-size: 1.8em; color: #FF5E3A;">
+                                                            <i class="fas fa-eye"></i>
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {<span style="font-size: 1.8em; color: #3F4257;">
+                                                            <i class="fas fa-eye"></i>
+                                                        </span>
+                                                    }
+                                                </a>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="card-header" id="headingTwo">
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="color: blue;">
-                        2 Temporada
-                    </button>
-                </h5>
-            </div>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header" id="headingThree">
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" style="color: blue;">
-                        3 Temporada
-                    </button>
-                </h5>
-            </div>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                </div>
-            </div>
-        </div>
+        }
     </div>
 </div>
 

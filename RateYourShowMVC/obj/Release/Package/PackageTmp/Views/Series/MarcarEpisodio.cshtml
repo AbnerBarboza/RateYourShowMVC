@@ -1,0 +1,105 @@
+﻿@model RateYourShowMVC.Models.Series
+@using RateYourShowMVC.Models;
+
+@{
+    ViewBag.Title = "Marcar Episodio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<RateYourShowMVC.Models.Episodio> episodios = ViewBag.Episodio;
+    int temporadas = episodios.Where(e => e.SeriesId == Model.SeriesId).Select(e => e.Temporada).Distinct().Count();
+    IEnumerable<RateYourShowMVC.Models.Usuarioepisodio> uep = ViewBag.usuarioEpi;
+    Boolean assistido;
+}
+<div class="header-spacer"></div>
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="ui-block">
+                <div class="top-header">
+                    @foreach (var mid in Model.Midia.Where(m => m.TipoMidiaId == 3))
+                    {
+
+                        <div class="top-header-thumb">
+                            <img src="~/Uploads/@mid.Link" alt="nature">
+                        </div>
+                    }
+                    <div class="profile-section">
+                    </div>
+                    <div class="top-header-author">
+                        <a href="02-ProfilePage.html" class="author-thumb">
+                            @foreach (var mid in Model.Midia.Where(m => m.TipoMidiaId == 4))
+                            {
+                                <img src="~/Uploads/@mid.Link" style="height:125px;width:125px" alt="author">
+                            }
+                        </a>
+                        <div class="author-content">
+                            <h4 class="author-name">@Model.Nome</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="margin-bottom:40px;">
+    <div class="accordion" id="accordionExample">
+        @for (int i = 1; i <= temporadas; i++)
+        {
+            <div class="card">
+
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#@i" aria-expanded="false" aria-controls="collapseOne" style="color: #515365; font-weight: 700;">
+                            @i Temporada
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="@i" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+
+
+                        <table class="table">
+
+                            <tbody>
+                                @foreach (var epi in episodios.Where(e => e.SeriesId == Model.SeriesId && e.Temporada == i))
+                                {
+                                    assistido = false;
+
+                                    foreach (var pes in uep.Where(e => e.EpisodioId == epi.EpisodioId && e.UsuarioId == ViewBag.Usuario.UsuarioId))
+                                    {
+                                        assistido = true;
+                                    }
+
+                                    <tr>
+                                        <th scope="row">@epi.Numero </th>
+                                        <td>@epi.Titulo</td>
+                                        <td>
+                                            <label>
+                                                <a href="@Url.Action("MarcarEpisodio", "Series", new { Epid = epi.EpisodioId })">
+                                                    @if (assistido)
+                                                    {
+                                                        <span style="font-size: 1.8em; color: #FF5E3A;">
+                                                            <i class="fas fa-eye"></i>
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {<span style="font-size: 1.8em; color: #3F4257;">
+                                                            <i class="fas fa-eye"></i>
+                                                        </span>
+                                                    }
+                                                </a>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

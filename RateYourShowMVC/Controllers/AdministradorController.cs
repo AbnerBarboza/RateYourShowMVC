@@ -938,5 +938,94 @@ namespace RateYourShowMVC.Controllers
 
             return View();
         }
+
+        public ActionResult AdicionarEpisodio(int? id)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if ((cookie == null || cookie.Value == ""))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            if (usu.TipoUsuario != TipoUsuario.Administrado)
+            {
+                return RedirectToAction("Index", "LandingPage");
+            }
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+            ViewBag.Usuario = usu;
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Series series = db.Serie.Find(id);
+            if (series == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Equipe = db.Equipe.ToList();
+
+            return View(series);
+        }
+
+        [HttpPost]
+        public ActionResult AdicionarEpisodio([Bind(Include = "EpisodioId,Numero,Titulo,Temporada,SeriesId")] Episodio episodio)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if ((cookie == null || cookie.Value == ""))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            if (usu.TipoUsuario != TipoUsuario.Administrado)
+            {
+                return RedirectToAction("Index", "LandingPage");
+            }
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+            ViewBag.Usuario = usu;
+
+            Series series = db.Serie.Find(episodio.SeriesId);
+            if (series == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Equipe = db.Equipe.ToList();
+
+            if (ModelState.IsValid)
+            {
+                db.Episodio.Add(episodio);
+                db.SaveChanges();
+            }
+
+            return View(series);
+        }
     }
 }

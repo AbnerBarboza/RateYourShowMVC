@@ -205,6 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="img\adicionar-botao_318-32466.jpg" />
+    <Content Include="img\eye.png" />
     <Content Include="Scripts\sweetalert2.all.js" />
     <Content Include="Scripts\sweetalert2.all.min.js" />
     <Content Include="Scripts\sweetalert2.js" />
@@ -774,6 +775,7 @@
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\toastr.less" />
     <Content Include="Content\toastr.scss" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\chartjs-plugin-deferred.js" />
@@ -1097,6 +1099,7 @@
     <Content Include="Views\Administrador\RemoverPersonagem.cshtml" />
     <Content Include="Views\Series\ListaDeAmigos.cshtml" />
     <Content Include="Views\Series\MarcarEpisodio.cshtml" />
+    <Content Include="Views\Administrador\AdicionarEpisodio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Cadastro Serie";
+    Layout = "~/Views/Shared/_Administrador.cshtml";
+    
+}
+
+
+
+<div class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+    <div class="ui-block">
+        <div class="ui-block-title">
+            <h6 class="title">Cadastro de Série 2</h6>
+        </div>
+        <div class="ui-block-content">
+
+
+            <!-- Personal Information Form  -->
+
+            @using (Html.BeginForm("CadastroSerie", "Administrador", FormMethod.Post, htmlAttributes: new { }))
+            {
+                <div class="row">
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <h6>Gênero</h6>
+                        <div class="row">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <button class="btn btn-primary btn-lg full-width" style="margin-left: 28em;" type="submit">Próximo Passo</button>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

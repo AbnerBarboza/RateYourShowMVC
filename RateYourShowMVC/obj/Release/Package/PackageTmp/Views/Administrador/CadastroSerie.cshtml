@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Cadastro Serie";
+    Layout = "~/Views/Shared/_Administrador.cshtml";
+}
+
+
+
+<div class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+    <div class="ui-block">
+        <div class="ui-block-title">
+            <h6 class="title">Cadastro de Série</h6>
+        </div>
+        <div class="ui-block-content">
+
+
+            <!-- Personal Information Form  -->
+
+            @using (Html.BeginForm("CadastroSerie", "Administrador", FormMethod.Post, htmlAttributes: new { }))
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="row ">
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Título</label>
+                            <input class="form-control" placeholder="" name="nome" id="nome" type="text" />
+                        </div>
+
+
+                    </div>
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Origem</label>
+                            <input class="form-control" placeholder="" name="Paisdeorigem" id="Paisdeorigem" type="text" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Descrição</label>
+                            <input class="form-control" placeholder="" name="Descricao" id="Descricao" type="text" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <button class="btn btn-primary btn-lg full-width" style="margin-left: 28em;" type="submit">Próximo Passo</button>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

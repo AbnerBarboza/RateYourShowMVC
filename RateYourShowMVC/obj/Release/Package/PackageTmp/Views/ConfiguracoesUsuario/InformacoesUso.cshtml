@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewBag.Title = "Informações de Uso";
+    Layout = "~/Views/Shared/_ConfiguracaoUsu.cshtml";
+}
+
+
+<div class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+    <div class="ui-block">
+        <div class="ui-block-title">
+            <h6 class="title">Informações de uso</h6>
+        </div>
+        <div class="ui-block-content">
+
+
+            <!-- Personal Account Settings Form -->
+
+            @using (Html.BeginForm("InformacoesUso", "ConfiguracoesUsuario", FormMethod.Post, htmlAttributes: new { }))
+            {
+                <div class="row">
+                    <!--
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-group label-floating is-select">
+                            <label class="control-label">Quem pode ser seu amigo?</label>
+                            <select class="selectpicker form-control">
+                                <option value="EO">Todo mundo</option>
+                                <option value="NO">Ninguém</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-group label-floating is-select">
+                            <label class="control-label">Quem pode ver suas postagens</label>
+                            <select class="selectpicker form-control">
+                                <option value="US">Apenas amigos</option>
+                                <option value="EO">Todo mundo</option>
+                            </select>
+                        </div>
+                    </div>
+                        -->
+                    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="description-toggle">
+                            <div class="description-toggle-content">
+                                <div class="h6">Notificações de séries</div>
+                                <p>Receber notificações quando uma série estiver retornando</p>
+                            </div>
+
+                            <div class="togglebutton">
+                                <label>
+
+                                    @if (@ViewBag.Usuario.SerieNotificacoes == true)
+                                    {
+                                        @Html.CheckBox("SerieNotificacoes", true);
+                                    }
+                                    @if (@ViewBag.Usuario.SerieNotificacoes == false)
+                                    {
+                                        @Html.CheckBox("SerieNotificacoes", false);
+                                    }
+
+                                </label>
+                            </div>
+                        </div>
+                        <div class="description-toggle">
+                            <div class="description-toggle-content">
+                                <div class="h6">Notificações de episodios</div>
+                                <p>Receber notificações quando um episódio for lançar</p>
+                            </div>
+
+                            <div class="togglebutton">
+                                <label>
+
+                                    @if (@ViewBag.Usuario.EpiNotificacoes == true)
+                                    {
+                                        @Html.CheckBox("EpiNotificacoes", true);
+                                    }
+                                    @if (@ViewBag.Usuario.EpiNotificacoes == false)
+                                    {
+                                        @Html.CheckBox("EpiNotificacoes", false);
+                                    }
+
+                                </label>
+                            </div>
+                        </div>
+                        <div class="description-toggle">
+                            <div class="description-toggle-content">
+                                <div class="h6">Spoilers</div>
+                                <p>Receber spoiler das séries que está seguindo</p>
+                            </div>
+
+                            <div class="togglebutton">
+                                <label>
+
+                                    @if (@ViewBag.Usuario.Spoiler == true)
+                                    {
+                                        @Html.CheckBox("Spoiler", true);
+                                    }
+                                    @if (@ViewBag.Usuario.Spoiler == false)
+                                    {
+                                        @Html.CheckBox("Spoiler", false);
+                                    }
+
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <button class="btn btn-secondary btn-lg full-width">Restaurar Informações</button>
+                    </div>
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <button class="btn btn-primary btn-lg full-width" type="submit">Salvar Informações</button>
+                    </div>
+                </div>
+            }
+
+            <!-- ... end Personal Account Settings Form  -->
+
+        </div>
+    </div>
+</div>
+
+

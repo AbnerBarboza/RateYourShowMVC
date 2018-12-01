@@ -1,0 +1,101 @@
+﻿@model RateYourShowMVC.Models.Usuario
+@using RateYourShowMVC.Models;
+
+@{
+    ViewBag.Title = Model.Nome;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<RateYourShowMVC.Models.Series> series = ViewBag.Series;
+    IEnumerable<RateYourShowMVC.Models.Publicacao> pub = ViewBag.Publicacao;
+
+}
+
+<div class="header-spacer"></div>
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-12 col-12">
+            <div class="ui-block">
+                <div class="ui-block-title">
+
+                    @foreach (var mid in Model.Midia)
+                    {
+                        <img src="~/Uploads/@mid.Link" style="height:300px;width:310px" stalt="photo">
+
+                    }
+
+                </div>
+
+                <div class="ui-block-content">
+
+
+
+                    <!-- W-Personal-Info -->
+                    <h6 class="title">Perfil</h6>
+
+                    <ul class="widget w-personal-info item-block">
+                        <li>
+                            <span class="title">Nome:</span>
+                            <span class="text">@Model.Nome</span>
+                        </li>
+                        <li>
+                            <span class="title">Data de nascimento:</span>
+                            <span class="text">@Model.DatadeNascimento.ToString("dd/MM/yyyy")</span>
+                        </li>
+                        <li>
+                            <span class="title">E-mail:</span>
+                            <a href="#" class="text">@Model.Email</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+        <div class="col col-xl-9 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-12 col-12">
+            <!--end FIlmes-->
+
+            <div class="row">
+                <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="ui-block responsive-flex">
+                        <div class="ui-block-title">
+                            <div class="h6 title">Publicações</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @foreach (var post in pub.Where(p => p.UsuarioId == Model.UsuarioId).OrderByDescending(p => p.Data))
+            {
+                <div id="newsfeed-items-grid">
+                    <div class="ui-block">
+                        <article class="hentry post video">
+                            <div class="post__author author vcard inline-items">
+                                @foreach (var mid in post.Usuario.Midia.Where(m => m.TipoMidiaId == 5))
+                                {
+                                    <img src="~/Uploads/@mid.Link" alt="author">
+                                }
+                                <div class="author-date">
+                                    @Html.ActionLink(post.Usuario.Nome, "PerfilAmigo", "Series", new { id = post.Usuario.UsuarioId }, htmlAttributes: new { @class = "h6 post__author-name fn" })
+                                    <div class="post__date">
+                                        <time class="published" datetime="2004-07-24T18:18">
+                                            @post.Data
+                                        </time>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>@post.Descricao</p>
+                        </article>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+

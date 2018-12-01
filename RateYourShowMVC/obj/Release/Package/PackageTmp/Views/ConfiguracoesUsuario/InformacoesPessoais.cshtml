@@ -1,0 +1,85 @@
+﻿@model RateYourShowMVC.Models.Usuario
+
+@{
+    ViewBag.Title = "Informações Pessoais";
+    Layout = "~/Views/Shared/_ConfiguracaoUsu.cshtml";
+}
+
+
+<div class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+    <div class="ui-block">
+        <div class="ui-block-title">
+            <h6 class="title">Informações Pessoais</h6>
+        </div>
+        <div class="ui-block-content">
+
+            <!-- Personal Information Form  -->
+
+            @using (Html.BeginForm("InformacoesPessoais", "ConfiguracoesUsuario", FormMethod.Post, htmlAttributes: new { }))
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="row">
+
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Nome</label>
+                            <input class="form-control" placeholder="" id="Nome" name="Nome" type="text" value="@ViewBag.Usuario.Nome">
+                        </div>
+
+
+                        <div class="form-group date-time-picker label-floating">
+                            <label class="control-label">Data de nascimento</label>
+                            <input name="datetimepicker" disabled value=@ViewBag.Usuario.DatadeNascimento />
+                            <span class="input-group-addon">
+                                <svg class="olymp-month-calendar-icon icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-month-calendar-icon"></use></svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Email</label>
+                            <input class="form-control" placeholder="" id="Email" name="Email" type="email" value=@ViewBag.Usuario.Email>
+                        </div>
+
+                        <div class="form-group label-floating is-select">
+                            <label class="control-label">Gênero</label>
+                            @Html.DropDownListFor(model => model.Sexo, (ViewBag.Genero as SelectList), htmlAttributes: new { @class = "" })
+                        </div>
+
+                    </div>
+
+                    <!--
+                    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="form-group with-icon label-floating">
+                            <label class="control-label">Your Facebook Account</label>
+                            <input class="form-control" type="text" value="www.facebook.com/james-spiegel95321">
+                            <i class="fab fa-facebook-f c-facebook" aria-hidden="true"></i>
+                        </div>
+                        <div class="form-group with-icon label-floating">
+                            <label class="control-label">Your Twitter Account</label>
+                            <input class="form-control" type="text" value="www.twitter.com/james_spiegelOK">
+                            <i class="fab fa-twitter c-twitter" aria-hidden="true"></i>
+                        </div>
+                        <div class="form-group with-icon label-floating is-empty">
+                            <label class="control-label">Your Spotify Account</label>
+                            <input class="form-control" type="text">
+                            <i class="fab fa-spotify c-spotify" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                        -->
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <button class="btn btn-secondary btn-lg full-width" href="~/ConfiguracoesUsuario/InformacoesPessoais">Restaurar Informações</button>
+                    </div>
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <button class="btn btn-primary btn-lg full-width">Salvar Informações</button>
+                    </div>
+
+                </div>
+            }
+
+            <!-- ... end Personal Information Form  -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,317 @@
+﻿@using RateYourShowMVC.Models;
+@model IEnumerable<RateYourShowMVC.Models.Publicacao>
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = Layout;
+    IEnumerable<RateYourShowMVC.Models.Series> series = ViewBag.Series;
+    IEnumerable<RateYourShowMVC.Models.Amizade> amizades = ViewBag.Amizades;
+    IEnumerable<RateYourShowMVC.Models.Usuario> usuarios = ViewBag.Pessoa;
+
+    int cont = 1;
+    Boolean existe = false;
+}
+<!-- ... end Responsive Header-BP -->
+<div class="header-spacer"></div>
+
+
+<div class="container">
+    <div class="row">
+
+        <!-- Main Content -->
+
+        <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+
+            <div class="ui-block">
+
+
+
+                <!-- News Feed Form  -->
+
+                <div class="news-feed-form">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active inline-items" data-toggle="tab" href="#home-1" role="tab" aria-expanded="true">
+
+                                <svg class="olymp-status-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-status-icon"></use></svg>
+
+                                <span>Postagem</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
+                            @using (Html.BeginForm("Index", "LandingPage", FormMethod.Post, htmlAttributes: new { }))
+                            {
+                                <div class="author-thumb">
+                                    <img src="~/Uploads/@ViewBag.Imagem" style="width:36px;height:36px;">
+                                </div>
+                                <div class="form-group with-icon label-floating is-empty">
+                                    <textarea class="form-control" id="texto" name="texto" placeholder=""></textarea>
+                                </div>
+                                <div class="add-options-message">
+                                    <button class="btn btn-primary btn-md-2" type="submit">Realizar Postagem</button>
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                </div>
+
+                            }
+                        </div>
+
+                        <div class="tab-pane" id="profile-1" role="tabpanel" aria-expanded="true">
+                            <form>
+                                <div class="author-thumb">
+                                    <img src="~/Uploads/@ViewBag.Imagem" style="width:36px;height:36px;">
+                                </div>
+                                <div class="form-group with-icon label-floating is-empty">
+                                    <label class="control-label">Share what you are thinking here...</label>
+                                    <textarea class="form-control" placeholder=""></textarea>
+                                </div>
+                                <div class="add-options-message">
+                                    <a href="#" class="options-message" data-toggle="tooltip" data-placement="top" data-original-title="ADD PHOTOS">
+                                        <svg class="olymp-camera-icon" data-toggle="modal" data-target="#update-header-photo"><use xlink:href="svg-icons/sprites/icons.svg#olymp-camera-icon"></use></svg>
+                                    </a>
+                                    <a href="#" class="options-message" data-toggle="tooltip" data-placement="top" data-original-title="TAG YOUR FRIENDS">
+                                        <svg class="olymp-computer-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-computer-icon"></use></svg>
+                                    </a>
+
+                                    <a href="#" class="options-message" data-toggle="tooltip" data-placement="top" data-original-title="ADD LOCATION">
+                                        <svg class="olymp-small-pin-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-small-pin-icon"></use></svg>
+                                    </a>
+
+                                    <button class="btn btn-primary btn-md-2">Post Status</button>
+                                    <button class="btn btn-md-2 btn-border-think btn-transparent c-grey">Preview</button>
+
+                                </div>
+
+                            </form>
+                        </div>
+
+
+
+                        <div class="tab-pane" id="blog" role="tabpanel" aria-expanded="true">
+                            <form>
+                                <div class="author-thumb">
+                                    <img src="~/Uploads/@ViewBag.Imagem" style="width:36px;height:36px;">
+                                </div>
+                                <div class="form-group with-icon label-floating is-empty">
+                                    <label class="control-label">Share what you are thinking here...</label>
+                                    <textarea class="form-control" placeholder=""></textarea>
+                                </div>
+                                <div class="add-options-message">
+                                    <a href="#" class="options-message" data-toggle="tooltip" data-placement="top" data-original-title="ADD PHOTOS">
+                                        <svg class="olymp-camera-icon" data-toggle="modal" data-target="#update-header-photo"><use xlink:href="svg-icons/sprites/icons.svg#olymp-camera-icon"></use></svg>
+                                    </a>
+                                    <a href="#" class="options-message" data-toggle="tooltip" data-placement="top" data-original-title="TAG YOUR FRIENDS">
+                                        <svg class="olymp-computer-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-computer-icon"></use></svg>
+                                    </a>
+
+                                    <a href="#" class="options-message" data-toggle="tooltip" data-placement="top" data-original-title="ADD LOCATION">
+                                        <svg class="olymp-small-pin-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-small-pin-icon"></use></svg>
+                                    </a>
+
+                                    <button class="btn btn-primary btn-md-2">Post Status</button>
+                                    <button class="btn btn-md-2 btn-border-think btn-transparent c-grey">Preview</button>
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- ... end News Feed Form  -->
+            </div>
+            <!-- Post -->
+            @foreach (var amz in amizades.Where(a => a.UsuarioId1 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito || a.UsuarioId2 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito))
+            {
+                foreach (var post in Model.Where(p => p.UsuarioId == amz.UsuarioId1 || p.UsuarioId == amz.UsuarioId2 && p.Usuario.Bloqueado != Bloqueado.Sim && p.Usuario.Inativo != Inativo.Sim).OrderByDescending(p => p.Data))
+                {
+                    <div id="newsfeed-items-grid">
+                        <div class="ui-block">
+                            <article class="hentry post video">
+                                <div class="post__author author vcard inline-items">
+                                    @foreach (var mid in post.Usuario.Midia.Where(m => m.TipoMidiaId == 5))
+                                    {
+                                        <img src="~/Uploads/@mid.Link" alt="author">
+                                    }
+                                    <div class="author-date">
+                                        @Html.ActionLink(post.Usuario.Nome, "PerfilAmigo", "Series", new { id = post.Usuario.UsuarioId }, htmlAttributes: new { @class = "h6 post__author-name fn" })
+                                        <div class="post__date">
+                                            <time class="published" datetime="2004-07-24T18:18">
+                                                @post.Data
+                                            </time>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p>@post.Descricao</p>
+                            </article>
+                        </div>
+                    </div>
+                }
+            }
+            @foreach (var post in Model.Where(p => p.UsuarioId == 4).OrderByDescending(p => p.Data))
+            {
+                <div id="newsfeed-items-grid">
+                    <div class="ui-block">
+                        <article class="hentry post video">
+                            <div class="post__author author vcard inline-items">
+                                @foreach (var mid in post.Usuario.Midia.Where(m => m.TipoMidiaId == 5))
+                                {
+                                    <img src="~/Uploads/@mid.Link" alt="author">
+                                }
+                                <div class="author-date">
+                                    <a class="h6 post__author-name fn" href="#">@post.Usuario.Nome</a>
+                                </div>
+                            </div>
+                            <p>@post.Descricao</p>
+                        </article>
+                    </div>
+                </div>
+            }
+            <!-- End Post -->
+
+            <a id="load-more-button" href="#" class="btn btn-control btn-more" data-load-link="items-to-load.html" data-container="newsfeed-items-grid"><svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
+
+        </main>
+
+        <!-- ... end Main Content -->
+        <!-- Left Sidebar -->
+
+        <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-12 col-12">
+
+            <div class="ui-block">
+                <div class="ui-block-title">
+                    <h6 class="title">Séries Recentes</h6>
+                </div>
+
+                <!-- W-Friend-Pages-Added -->
+                <ul class="widget w-friend-pages-added notification-list friend-requests">
+                    @foreach (var ser in series.OrderByDescending(m => m.SeriesId))
+                    {
+                        cont++;
+                        <li class="inline-items">
+                            <div class="author-thumb">
+                                @foreach (var mid in ser.Midia.Where(m => m.TipoMidiaId == 1))
+                                {
+                                    <img src="~/Uploads/@mid.Link" style="height:36px;width:36px" stalt="photo">
+                                }
+                            </div>
+                            <div class="notification-event">
+                                @Html.ActionLink(ser.Nome, "Perfil", "Series", new { id = ser.SeriesId }, htmlAttributes: new { @class = "h6" })
+                            </div>
+                        </li>
+                        if (cont > 5)
+                        {
+                            cont = 1;
+                            break;
+                        }
+                    }
+
+                </ul>
+                <!-- .. end W-Friend-Pages-Added -->
+            </div>
+        </aside>
+
+        <!-- ... end Left Sidebar -->
+        <!-- Right Sidebar -->
+
+        <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-12 col-12">
+
+
+
+            <div class="ui-block">
+                <div class="ui-block-title">
+                    <h6 class="title">Sugestão de amigos</h6>
+                </div>
+
+
+
+                <!-- W-Action -->
+
+                <ul class="widget w-friend-pages-added notification-list friend-requests">
+
+                    @foreach (var pes in usuarios.Where(u => u.UsuarioId != 4 && u.Bloqueado != Bloqueado.Sim && u.UsuarioId != ViewBag.Usuario.UsuarioId))
+                    {
+                        foreach (var amz in amizades.Where(a => a.UsuarioId1 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito || a.UsuarioId2 == ViewBag.Usuario.UsuarioId))
+                        {
+                            if (pes.UsuarioId == amz.UsuarioId1 || pes.UsuarioId == amz.UsuarioId2)
+                            {
+                                existe = true;
+                            }
+                        }
+
+                        if (existe)
+                        {
+                            existe = false;
+                            continue;
+                        }
+
+                        cont++;
+                        <li class="inline-items">
+                            <div class="author-thumb">
+                                @foreach (var mid in pes.Midia.Where(m => m.TipoMidiaId == 5))
+                                {
+                                    <img src="~/Uploads/@mid.Link" style="height:36px;width:36px" stalt="photo">
+                                }
+                            </div>
+                            <div class="notification-event">
+                                @Html.ActionLink(pes.Nome, "PerfilAmigo", "Series", new { id = pes.UsuarioId }, htmlAttributes: new { @class = "h6" })
+                            </div>
+                        </li>
+                        if (cont > 5)
+                        {
+                            break;
+                        }
+                    }
+
+                </ul>
+
+                <!-- ... end W-Action -->
+            </div>
+
+            <div class="ui-block">
+
+                <div class="ui-block-title">
+                    <h6 class="title">Atividade de amigos</h6>
+                </div>
+
+                <ul class="widget w-friend-pages-added notification-list friend-requests"></ul>
+
+            </div>
+        </aside>
+
+        <!-- ... end Right Sidebar -->
+
+    </div>
+</div>
+
+
+<!-- Window-popup Update Header Photo -->
+
+<div class="modal fade" id="update-header-photo" tabindex="-1" role="dialog" aria-labelledby="update-header-photo" aria-hidden="true">
+    <div class="modal-dialog window-popup update-header-photo" role="document">
+        <div class="modal-content">
+            <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                <svg class="olymp-close-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+            </a>
+
+            <div class="modal-header">
+                <h6 class="title">Adicione imagens</h6>
+            </div>
+
+            <div class="modal-body">
+                <a href="#" class="upload-photo-item">
+                    <svg class="olymp-computer-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-computer-icon"></use></svg>
+
+                    <h6>Upload imagem</h6>
+                    <span>Adicione uma imagem do seu computador.</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

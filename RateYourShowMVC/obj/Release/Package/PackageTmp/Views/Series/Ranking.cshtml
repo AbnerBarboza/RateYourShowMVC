@@ -1,0 +1,88 @@
+﻿@model IEnumerable<RateYourShowMVC.Models.Usuarioserie>
+
+@{
+    ViewBag.Title = "Ranking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int cont = 0;
+}
+
+
+<div class="header-spacer"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="ui-block">
+                <div class="top-header">
+                    <div class="top-header-thumb">
+                        <img src="~/img/ranking.jpg" alt="nature">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="ui-block">
+                <div class="ui-block-title">
+                    <div class="h6 title">Ranking das séries em alta</div>
+                    <a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="ui-block">
+                <table class="event-item-table">
+                    <tbody>
+                        @foreach (var rank in Model.GroupBy(g => g.Series.SeriesId).Select(s => new
+                        {
+                            Codigo = s.Key,
+                            Nome = s.Select(a => a.Series.Nome).FirstOrDefault(),
+                            Soma = s.Sum(a => a.Avaliacao),
+                            Id = s.Select(b => b.Series.SeriesId).FirstOrDefault(),
+                        }).OrderByDescending(o => o.Soma).ToList())
+                        {
+                            cont++;
+                        <tr class="event-item">
+                            <td class="upcoming">
+                                <div class="date-event">
+                                    <span class="day">@cont</span>
+                                    <span style="text-transform:uppercase;">Posição</span>
+                                </div>
+                            </td>
+                            <td class="author">
+                                <div class="event-author inline-items">
+                                    <div class="author-date">
+                                        <a href="#" class="author-name h6">@rank.Nome</a>
+                                    </div>
+                                    <div class="author-thumb">
+                                        <label>@rank.Soma Votos</label>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="add-event">
+                                @Html.ActionLink("Seguir Série", "Perfil", new { id = rank.Id }, htmlAttributes: new { @class = "btn btn-breez btn-sm" })
+
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="ui-block-title ui-block-title-small">
+                    <h6 class="title">Ranking</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

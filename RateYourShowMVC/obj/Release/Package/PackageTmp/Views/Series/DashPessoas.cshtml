@@ -1,0 +1,78 @@
+﻿@model IEnumerable<RateYourShowMVC.Models.Usuario>
+@using RateYourShowMVC.Models;
+
+@{
+    ViewBag.Title = "Pessoas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Boolean foto;
+    RateYourShowMVC.Models.Usuario usuario = ViewBag.Usuario;
+}
+
+<div class="header-spacer"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="ui-block">
+                <div class="top-header">
+                    <div class="top-header-thumb">
+                        <img src="~/img/Prancheta 2-100.jpg" style="width:1600px;height:325px" alt="nature">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="ui-block responsive-flex">
+                <div class="ui-block-title">
+                    <div class="h6 title">Usuarios</div>
+                    @using (Html.BeginForm("DashPessoas", "Series", FormMethod.Post, htmlAttributes: new { @class = "w-search" }))
+                    {
+
+                        <div class="form-group with-button is-empty">
+                            <input class="form-control" id="procurar" name="procurar" placeholder="procure usuários..." type="text" />
+                            <button type="submit">
+                                <svg class="olymp-magnifying-glass-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use></svg>
+                            </button>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Album atores-->
+<div class="container">
+    @foreach (var item in Model.Where(p => p.UsuarioId != 4 && p.UsuarioId != usuario.UsuarioId && p.Bloqueado != Bloqueado.Sim && p.Inativo != Inativo.Sim).OrderBy(n => n.Nome))
+    {
+        foto = false;
+        <div class="photo-item col-4-width">
+            @foreach (var mid in item.Midia.Where(m => m.TipoMidiaId == 5))
+            {
+                <img src="~/Uploads/@mid.Link" style="height:300px;width:310px" stalt="photo">
+
+                foto = true;
+            }
+            @if (!foto)
+            {
+                <img src="~/Uploads/default.jpg" style="height:300px;width:310px" stalt="photo">
+
+            }
+            <div class="overlay overlay-dark"></div>
+            <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="full-block"></a>
+            <div class="content">
+                @Html.ActionLink(item.Nome, "PerfilAmigo", new { id = item.UsuarioId }, htmlAttributes: new { @class = "h6 title" })
+            </div>
+        </div>
+    }
+</div>
+<!-- end Album atores-->
