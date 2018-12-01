@@ -1,0 +1,91 @@
+﻿@model IEnumerable<RateYourShowMVC.Models.Series>
+@using RateYourShowMVC.Models;
+
+@{
+    ViewBag.Title = "Series";
+    Layout = "~/Views/Shared/_Administrador.cshtml";
+    Boolean midia;
+}
+
+<div class="header-spacer"></div>
+
+<div class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+    <div class="container">
+        <div class="row">
+            <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="ui-block responsive-flex">
+                    <div class="ui-block-title">
+                        <div class="h6 title">Galeria de Séries</div>
+
+                        @using (Html.BeginForm("Series", "Administrador", FormMethod.Post, htmlAttributes: new { @class = "w-search" }))
+                        {
+
+                            <div class="form-group with-button is-empty">
+                                <input class="form-control" id="procurar" name="procurar" placeholder="procure séries..." type="text" />
+                                <button type="submit">
+                                    <svg class="olymp-magnifying-glass-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use></svg>
+                                </button>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="photo-item col-4-width">
+            <img src="~/img/adicionar-botao_318-32466.jpg" style="height:200px;width:300px" alt="Usuário">
+            <div class="overlay overlay-dark"></div>
+            <div class="more" style="z-index:1;">
+            </div>
+
+            <a href="#" data-toggle="modal" data-target="#batata" class="full-block"></a>
+            <div class="content">
+                <!--<a href="#" class="h6 title">Header Photos</a>-->
+                @Html.ActionLink("Adicionar Série", "CadastroSerie", new { }, htmlAttributes: new { @class = "h6 title" })
+            </div>
+        </div>
+        @foreach (var item in Model.OrderBy(s => s.Nome))
+        {
+            midia = false;
+            <div class="photo-item col-4-width">
+                @foreach (var mid in item.Midia.Where(m => m.TipoMidiaId == 1))
+                {
+                    <img src="~/Uploads/@mid.Link" style="height:200px;width:300px" stalt="photo">
+                    midia = true;
+                }
+                @if (!midia)
+                {
+                    <img src="~/img/default.png" style="height:200px;width:300px" stalt="photo">
+                }
+                <div class="overlay overlay-dark"></div>
+                <div class="more" style="z-index:1;  ">
+                    <svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+                    <ul class="more-dropdown" style="width:160px; padding: 5px 5px 5px 20px;">
+                        <li>
+                            @if (item.Inativo == Inativo.Não)
+                            {
+                                @Html.ActionLink("Inativar", "Series", new { id = item.SeriesId }, htmlAttributes: new { style = "color:red;" })
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Reativar", "Series", new { id = item.SeriesId }, htmlAttributes: new { style = "color:blue;" })
+
+                            }
+                        </li>
+                        <li>
+                            @Html.ActionLink("Editar Séries", "EditarSerie", new { id = item.SeriesId }, htmlAttributes: new { })
+                        </li>
+                    </ul>
+                </div>
+                <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="  full-block"></a>
+                <div class="content">
+                    <h6 class="title">@item.Nome</h6>
+                </div>
+            </div>
+        }
+    </div>
+</div>

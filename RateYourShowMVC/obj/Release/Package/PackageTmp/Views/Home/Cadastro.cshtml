@@ -1,0 +1,369 @@
+﻿@model RateYourShowMVC.ViewsModel.CadastroUsuario
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+    <link rel="icon" type="image/png" href="~/img/logo.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="~/img/logo.png" sizes="32x32">
+
+    <link rel="icon" type="image/x-icon" href="~/img/logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="~/img/logo.png" />
+
+
+    <title>RYS| Bem-vindo!</title>
+
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Main Font -->
+    <!--Bootstrap CSS-->
+    <link href="~/Content/bootstrap-reboot.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-grid.css" rel="stylesheet" />
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <!-- Main Styles CSS -->
+    <link href="~/Content/main.css" rel="stylesheet" />
+    <link href="~/Content/fonts.css" rel="stylesheet" />
+
+
+
+</head>
+
+<body class="landing-page">
+
+    <div class="content-bg-wrap"></div>
+
+
+    <!-- Header Standard Landing  -->
+
+    <div class="header--standard header--standard-landing" id="header--standard">
+        <div class="container">
+            <div class="header--standard-wrap">
+
+                <a href="~/Home/Index" class="logo">
+                    <div class="img-wrap">
+                        <img src="~/img/logo.png" alt="Olympus">
+                        <img src="~/img/logo-colored-small.png" alt="Olympus" class="logo-colored">
+                    </div>
+                    <div class="title-block">
+                        <h6 class="logo-title">Rate Your Show</h6>
+                        <div class="sub-title">A rede social para as suas séries</div>
+                    </div>
+                </a>
+
+                <a href="#" class="open-responsive-menu js-open-responsive-menu">
+                    <svg class="olymp-menu-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-menu-icon"></use></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ... end Header Standard Landing  -->
+    <div class="header-spacer--standard"></div>
+
+    <div class="container">
+        <div class="row display-flex">
+            <div class="col col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
+                <div class="landing-content">
+                    <h1>Crie uma conta, siga suas séries preferidas e amigos, compartilhe e controle suas séries favoritas.</h1>
+                </div>
+            </div>
+
+            <div class="col col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
+
+                <!-- Login-Registration Form  -->
+
+                <div class="registration-login-form">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link @ViewBag.Cadastro" data-toggle="tab" href="#home" role="tab">
+                                <svg class="olymp-login-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-register-icon"></use></svg>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @ViewBag.Login" data-toggle="tab" href="#profile" role="tab">
+                                <svg class="olymp-register-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-login-icon"></use></svg>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane @ViewBag.Cadastro" id="home" role="tabpanel" data-mh="log-tab">
+                            <div class="title h6">Junte-se ao Rate Your Show</div>
+                            @using (Html.BeginForm("Cadastro", "Home", FormMethod.Post, htmlAttributes: new { @class = "content" }))
+                            {
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="row">
+                                    <div class="col col-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label">Nome Completo</label>
+                                            <input class="form-control" placeholder="" id="Nome" name="Nome" type="text" required>
+                                        </div>
+                                    </div>
+                                    <div class="col col-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label">Email</label>
+                                            <input class="form-control" placeholder="" id="Email" name="Email" type="email" required>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-12 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label">Senha</label>
+                                                    <input class="form-control" id="Senha" name="Senha" data-toggle="tooltip" data-placement="top" data-original-title="As senhas devem ter no mínimo 8 caracteres, letras maiúsculas, letras minúsculas, números e símbolos." placeholder="" type="password" required>
+                                                </div>
+                                            </div>
+                                            <div class="col col-12 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label">Confirme senha</label>
+                                                    <input class="form-control" id="ConfirmarSenha" name="ConfirmarSenha" placeholder="" type="password" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-12 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                <div class="form-group date-time-picker label-floating">
+                                                    <label class="control-label">Data de nascimento</label>
+                                                    <input type="date" id="DatadeNascimento" name="DatadeNascimento" />
+                                                    <span class="input-group-addon">
+                                                        <svg class="olymp-calendar-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-calendar-icon"></use></svg>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col col-12 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                <div class="form-group label-floating is-select">
+                                                    @Html.DropDownListFor(model => model.Sexo, (ViewBag.Genero as SelectList), htmlAttributes: new { @class = "" })
+                                                    <label class="control-label">Gênero</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="remember">
+                                            <div class="checkbox">
+                                                <label>
+                                                    @Html.CheckBox("TermosdeUso")
+                                                    Eu aceito os <a data-toggle="modal" data-target="#termo-uso" href="#termo-uso">Termos de uso </a> do RYS
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <button class="btn btn-purple btn-lg full-width" type="submit" name="button" value="cadastrar">Complete o cadastro!</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="tab-pane @ViewBag.Login" id="profile" role="tabpanel" data-mh="log-tab">
+                            <div class="title h6">Bem-vindo de volta! Qual a série de hoje?</div>
+                            @using (Html.BeginForm("Cadastro", "Home", FormMethod.Post, htmlAttributes: new { @class = "content" }))
+                            {
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="row">
+                                    <div class="col col-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label">Email</label>
+                                            <input class="form-control" placeholder="" type="email" name="email" id="email">
+                                        </div>
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label">Senha</label>
+                                            <input class="form-control" placeholder="" type="password" name="senha" id="senha">
+                                        </div>
+
+                                        <div class="remember">
+
+                                            <div class="checkbox">
+                                                <label>
+                                                    @Html.CheckBox("Lembrar")
+                                                    Lembre-me
+                                                </label>
+                                            </div>
+                                            <a href="~/Home/RecuperarSenha" class="forgot">Esqueceu a senha?</a>
+                                        </div>
+                                        <button class="btn btn-purple btn-lg full-width" name="button" type="submit" value="entrar">Entrar!</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ... end Login-Registration Form  -->
+        </div>
+    </div>
+
+
+
+    <!-- Termo de uso Popup -->
+
+    <div class="modal fade" id="termo-uso" tabindex="-1" role="dialog" aria-labelledby="termo-uso" aria-hidden="true">
+        <div class="modal-dialog window-popup edit-my-poll-popup" role="document">
+            <div class="modal-content">
+                <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+                </a>
+                <div class="modal-body">
+                    <div class="edit-my-poll-head bg-primary">
+                        <div class="head-content">
+                            <h2 class="title">Termos de uso</h2>
+                            <div class="place inline-items">
+                                <span style="text-transform:uppercase">Rate Your Show</span>
+                            </div>
+                        </div>
+
+                        <img class="poll-img" src="~/img/poll.png" alt="screen">
+                    </div>
+
+                    <div class="edit-my-poll-content">
+                        <p>
+                            Estes Termos regem seu uso do Rate Your Show e dos recursos e serviços
+                            que oferecemos, exceto quando declaramos expressamente que
+                            outros termos (e não estes) se aplicam.
+                        </p>
+                        <h3>Nossos Serviços</h3>
+
+                        <ul class="list--styled smallest-icon icon-blue">
+                            <h6><i class="fa fa-circle" aria-hidden="true"></i>Ajudar você a descobrir séries e amigos possam ser de seu interesse:</h6>
+                            <li>
+                                exibimos para você anúncios, séries e outros conteúdos patrocinados ou não para ajudá-lo a descobrir conteúdo.
+                                Nossos parceiros nos pagam para mostrar o conteúdo deles para você, e nós projetamos nossos serviços de modo que o conteúdo
+                                patrocinado que você vê seja tão relevante e útil.
+
+                            </li>
+                            <br />
+                            <h6><i class="fa fa-circle" aria-hidden="true"></i>Permitir que você controle suas séries:</h6>
+
+                            <li>
+                                ajudamos você a controlar suas séries, conforme você vai assistindo os episódios da sua série
+                                é possivel ir marcando os episódios, além ver o que outros usuários estão comentando do episódio.
+
+                            </li>
+                        </ul>
+                        <h3>Como notificaremos você sobre mudanças nesta política?</h3>
+                        <p>
+                            Notificaremos você antes de fazer alterações nesta política e daremos a você a oportunidade de analisar a
+                            política revisada antes de decidir continuar usando nossos Produtos.
+                        </p>
+                        <h3>Como entrar em contato com o Rate Your Show em caso de dúvidas</h3>
+                        <p>
+                            Se tiver dúvidas sobre esta política, você pode nos contatar conforme descrito abaixo.
+                            Podemos resolver conflitos que você tenha conosco relacionados às nossas práticas e políticas de
+                            privacidade. Você pode entrar em contato atraves desde <a href="#">link</a>.
+                        </p>
+
+                        Data da última revisão: 22 de setembro de 2018
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ...fim  Termo de usos Popup -->
+    <!-- JS Scripts -->
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/jquery.appear.js"></script>
+    <script src="~/Scripts/jquery.mousewheel.js"></script>
+    <script src="~/Scripts/perfect-scrollbar.js"></script>
+    <script src="~/Scripts/jquery.matchHeight.js"></script>
+    <script src="~/Scripts/svgxuse.js"></script>
+    <script src="~/Scripts/imagesloaded.pkgd.js"></script>
+    <script src="~/Scripts/Headroom.js"></script>
+    <script src="~/Scripts/velocity.js"></script>
+    <script src="~/Scripts/ScrollMagic.js"></script>
+    <script src="~/Scripts/jquery.waypoints.js"></script>
+    <script src="~/Scripts/jquery.countTo.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/material.min.js"></script>
+    <script src="~/Scripts/bootstrap-select.js"></script>
+    <script src="~/Scripts/smooth-scroll.js"></script>
+    <script src="~/Scripts/selectize.js"></script>
+    <script src="~/Scripts/swiper.jquery.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/daterangepicker.js"></script>
+    <script src="~/Scripts/simplecalendar.js"></script>
+    <script src="~/Scripts/fullcalendar.js"></script>
+    <script src="~/Scripts/isotope.pkgd.js"></script>
+    <script src="~/Scripts/ajax-pagination.js"></script>
+    <script src="~/Scripts/Chart.js"></script>
+    <script src="~/Scripts/chartjs-plugin-deferred.js"></script>
+    <script src="~/Scripts/circle-progress.js"></script>
+    <script src="~/Scripts/loader.js"></script>
+    <script src="~/Scripts/run-chart.js"></script>
+    <script src="~/Scripts/jquery.magnific-popup.js"></script>
+    <script src="~/Scripts/jquery.gifplayer.js"></script>
+    <script src="~/Scripts/mediaelement-and-player.js"></script>
+    <script src="~/Scripts/mediaelement-playlist-plugin.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+
+    <script defer src="~/fonts/fontawesome-all.js"></script>
+
+    <script src="~/Scripts/webfontloader.min.js"></script>
+
+    <script src="~/Scripts/base-init.js"></script>
+    <script src="~/Scripts/sweetalert2.min.js"></script>
+    <script src="~/Scripts/sweetalert2.js"></script>
+    <script src="~/Scripts/sweetalert2.all.js"></script>
+    <script src="~/Scripts/sweetalert2.all.min.js"></script>
+
+    @* swall *@
+    <script src="sweetalert2.all.min.js"></script>
+    <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+    <script src="sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="sweetalert2.min.css">
+
+
+
+    <script>
+        WebFont.load({
+            google: {
+                families: ['Roboto:300,400,500,700:latin']
+            }
+        });
+    </script>
+        @if (TempData["Sucesso"] != null)
+        {
+            <script type="text/javascript">
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+
+                toast({
+                    type: 'success',
+                    title: 'Cadastrado com Sucesso'
+                })
+            </script>
+        }
+        @if (TempData["erro"] != null)
+        {
+            <script type="text/javascript">
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+
+                toast({
+                    type: 'error',
+                    title: 'Erro no Cadastro'
+                })
+            </script>
+        }
+
+</body>
+</html>

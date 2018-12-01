@@ -1,0 +1,48 @@
+﻿@model RateYourShowMVC.Models.Equipe
+@{
+    ViewBag.Title = "EditarPersonalidade";
+    Layout = "~/Views/Shared/_Administrador.cshtml";
+}
+
+<div class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+    <div class="ui-block">
+        <div class="ui-block-title">
+            <h6 class="title">Editar Personalidades</h6>
+        </div>
+        <div class="ui-block-content">
+
+
+            <!-- Personal Information Form  -->
+
+            @using (Html.BeginForm("EditarPersonalidade", "Administrador", FormMethod.Post, htmlAttributes: new { }))
+            {
+                <div class="row">
+                    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <input class="form-control" placeholder="" name="EquipeId" id="EquipeId" value="@Model.EquipeId" type="hidden">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Nome</label>
+                            <input class="form-control" placeholder="" name="Nome" id="Nome" value="@Model.Nome" type="text">
+                        </div>
+                        <div class="form-group label-floating">
+                            <label class="control-label">Data de nascimento</label>
+                            <input type="date" name="Data" id="Data" value="@Model.Datadenascimento.ToString("yyyy-MM-dd")" />
+                        </div>
+                        <div class="form-group label-floating">
+                            <label class="control-label">Nacionalidade</label>
+                            <input class="form-control" placeholder="" name="Nacionalidade" id="Nacionalidade" value="@Model.Nacionalidade" type="text">
+                        </div>
+                    </div>
+                    <div class="col col-lg-3 col-md-3 col-sm-12 col-12">
+                    </div>
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <button class="btn btn-primary btn-lg full-width" type="submit">Salvar Alterações</button>
+                    </div>
+                    <div class="col col-lg-3 col-md-3 col-sm-12 col-12">
+                    </div>
+
+                </div>
+            }
+            <!-- ... end Personal Information Form  -->
+        </div>
+    </div>
+</div>

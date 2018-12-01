@@ -15,66 +15,6 @@ namespace RateYourShowMVC.Controllers
     {
         private Contexto db = new Contexto();
         // GET: Series
-
-
-        public ActionResult MarcarEpisodio(int? id)
-        {
-            HttpCookie cookie = Request.Cookies.Get("UsuId");
-
-            if ((cookie == null || cookie.Value == ""))
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            ViewBag.Amizade = db.Amizade.ToList();
-            ViewBag.Pessoa = db.Usuario.ToList();
-
-            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
-            ViewBag.Usuario = usu;
-            Usuarioserie uss = db.UsuarioSerie.Find(usu.UsuarioId, id);
-
-            ViewBag.Seguir = 1;
-
-
-            if (uss != null)
-            {
-                if (uss.Seguindo == Seguindo.Sim)
-                {
-                    ViewBag.Seguir = 0;
-                }
-            }
-
-            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
-
-            ViewBag.Imagem = "default.jpg";
-
-            if (mid != null)
-            {
-                ViewBag.Imagem = mid.Link;
-            }
-
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Series series = db.Serie.Find(id);
-            if (series == null)
-            {
-                return HttpNotFound();
-            }
-
-            if (series.Inativo == Inativo.Sim)
-            {
-                return RedirectToAction("Index", "LandingPage");
-            }
-
-            return View(series);
-
-        }
-
-
-
-
         public ActionResult DashSeries()
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
@@ -436,6 +376,7 @@ namespace RateYourShowMVC.Controllers
 
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
+            ViewBag.Episodio = db.Episodio.ToList();
 
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
@@ -487,6 +428,7 @@ namespace RateYourShowMVC.Controllers
 
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
+            ViewBag.Episodio = db.Episodio.ToList();
 
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
@@ -496,7 +438,10 @@ namespace RateYourShowMVC.Controllers
 
             ViewBag.Seguir = 1;
 
-
+            if(seguir == "marcar")
+            {
+                return RedirectToAction("MarcarEpisodio", "Series", new { id });
+            }
 
             Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
 
@@ -703,5 +648,89 @@ namespace RateYourShowMVC.Controllers
             ViewBag.Usuario = usu;
             return View();
         }
+
+        public ActionResult MarcarEpisodio(int? id, int? Epid)
+        {
+            HttpCookie cookie = Request.Cookies.Get("UsuId");
+
+            if ((cookie == null || cookie.Value == ""))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            ViewBag.Episodio = db.Episodio.ToList();
+            ViewBag.Amizade = db.Amizade.ToList();
+            ViewBag.Pessoa = db.Usuario.ToList();
+            ViewBag.usuarioEpi = db.UsuarioEpisodio.ToList();
+
+            Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
+            ViewBag.Usuario = usu;
+            Usuarioserie uss = db.UsuarioSerie.Find(usu.UsuarioId, id);
+
+            ViewBag.Seguir = 1;
+
+
+            if (uss != null)
+            {
+                if (uss.Seguindo == Seguindo.Sim)
+                {
+                    ViewBag.Seguir = 0;
+                }
+            }
+
+            Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
+
+            ViewBag.Imagem = "default.jpg";
+
+            if (mid != null)
+            {
+                ViewBag.Imagem = mid.Link;
+            }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Series series = db.Serie.Find(id);
+            if (series == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (series.Inativo == Inativo.Sim)
+            {
+                return RedirectToAction("Index", "LandingPage");
+            }
+
+            if(Epid != null)
+            {
+                Usuarioepisodio usep = new Usuarioepisodio
+                {
+                    EpisodioId = Convert.ToInt32(Epid),
+                    UsuarioId = usu.UsuarioId,
+                    Data = DateTime.Now
+                };
+
+                Usuarioepisodio verifica = db.UsuarioEpisodio.Find(usu.UsuarioId, Convert.ToInt32(Epid));
+
+
+                if(verifica == null) { 
+                db.UsuarioEpisodio.Add(usep);
+                db.SaveChanges();
+                TempData["MarcarEpisodio"] = "ok";
+                }
+                else
+                {
+                    db.UsuarioEpisodio.Remove(verifica);
+                    db.SaveChanges();
+                    TempData["RemoveEpisodio"] = "ok";
+                }
+                return RedirectToAction("MarcarEpisodio", "Series", new { id });
+            }
+
+            return View(series);
+
+        }
+
+
     }
 }

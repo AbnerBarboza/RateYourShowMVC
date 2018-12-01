@@ -1,0 +1,39 @@
+﻿@model RateYourShowMVC.Models.Usuario
+
+@{
+    ViewBag.Title = "Desativar Conta";
+    Layout = "~/Views/Shared/_ConfiguracaoUsu.cshtml";
+}
+
+
+<div class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+    <div class="ui-block">
+        <div class="ui-block-title">
+            <h6 class="title" style="color:red;">Desativar Conta</h6>
+        </div>
+        <div class="ui-block-content">
+
+            <!-- Personal Information Form  -->
+
+            @using (Html.BeginForm("DesativarConta", "ConfiguracoesUsuario", FormMethod.Post, htmlAttributes: new { }))
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group label-floating is-empty">
+                    <label class="control-label">Email</label>
+                    <input class="form-control" placeholder="" id="email" name="email" value="" type="text">
+                </div>
+                <div class="form-group label-floating is-empty">
+                    <label class="control-label">Senha</label>
+                    <input class="form-control" placeholder="" id="senha" name="senha" value="" type="password">
+                </div>
+
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+                    <button class="btn btn-primary btn-lg full-width" type="submit">Desativar</button>
+                </div>
+            }
+
+            <!-- ... end Personal Information Form  -->
+        </div>
+    </div>
+</div>

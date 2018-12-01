@@ -1,0 +1,166 @@
+﻿@model RateYourShowMVC.Models.Series
+@using RateYourShowMVC.Models;
+
+@{
+    ViewBag.Title = Model.Nome;
+    Layout = "~/Views/Shared/_Administrador.cshtml";
+
+    IEnumerable<RateYourShowMVC.Models.Equipe> equipe = ViewBag.Equipe;
+}
+
+<div class="header-spacer"></div>
+
+<div class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+    <div class="container">
+        <div class="row">
+            <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="ui-block responsive-flex">
+                    <div class="ui-block-title">
+                        <div class="h6 title">Adcionar Personalidades em @Model.Nome</div>
+
+                        @using (Html.BeginForm("Personalidades", "Administrador", FormMethod.Post, htmlAttributes: new { @class = "w-search" }))
+                        {
+
+                            <div class="form-group with-button is-empty">
+                                <input class="form-control" id="procurar" name="procurar" placeholder="procure atores..." type="text" />
+                                <button name="button" id="button" value="buscar" type="submit">
+                                    <svg class="olymp-magnifying-glass-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use></svg>
+                                </button>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        @foreach (var item in equipe.OrderBy(s => s.Nome))
+        {
+            <div class="photo-item col-4-width">
+                @foreach (var mid in item.Midia.Where(m => m.TipoMidiaId == 2))
+                {
+                    <img src="~/Uploads/@mid.Link" style="height:200px;width:300px" stalt="photo">
+                }
+                <div class="overlay overlay-dark"></div>
+                <div class="more" style="z-index:1;  ">
+                    <svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+                    <ul class="more-dropdown" style="width:160px; padding: 5px 5px 5px 20px;">
+                        <li>
+                            <a href="#" data-toggle="modal" id="@item.EquipeId" onclick="ShowId('EquipeId',this.id), CarregaTipo('EquipeTipoId','1')" data-target="#Personagem">Como personagem</a>
+                        </li>
+                        <li>
+                            <a href="#" data-toggle="modal" id="@item.EquipeId" onclick="ShowId('EquipeId2',this.id), CarregaTipo('EquipeTipoId2','2')" data-target="#ProdDir">Como diretor</a>
+                        </li>
+                        <li>
+                            <a href="#" data-toggle="modal" id="@item.EquipeId" onclick="ShowId('EquipeId2',this.id), CarregaTipo('EquipeTipoId2','3')" data-target="#ProdDir">Como Produtor</a>
+                        </li>
+                    </ul>
+                </div>
+                <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="  full-block"></a>
+                <div class="content">
+                    <h6 class="title">@item.Nome</h6>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="Personagem" tabindex="-1" role="dialog" aria-labelledby="batata" aria-hidden="true">
+    <div class="modal-dialog window-popup batata" role="document">
+        <div class="modal-content" style="margin-left:300px; margin-right:300px;">
+            <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                <svg class="olymp-close-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+            </a>
+
+            <div class="modal-header">
+                <h6 class="title">Adcionar Personagem</h6>
+            </div>
+
+            <div class="modal-body">
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="card">
+
+                        <div id="desativar" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                            @using (Html.BeginForm("AdicionarPersonagem", "Administrador", FormMethod.Post, htmlAttributes: new { }))
+                            {
+                                <input id="EquipeId" name="EquipeId" hidden />
+                                <input id="EquipeTipoId" name="EquipeTipoId" hidden />
+                                <input id="SeriesId" name="SeriesId" value="@Model.SeriesId" hidden />
+                                <div class="form-group label-floating is-empty">
+                                    <br />
+                                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">Nome do Personagem</label>
+                                            <input class="form-control" placeholder="" name="Personagem" id="Personagem" type="text" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <button class="btn btn-primary btn-lg full-width" type="submit" value="Adicionar">Adicionar</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ProdDir" tabindex="-1" role="dialog" aria-labelledby="batata" aria-hidden="true">
+    <div class="modal-dialog window-popup batata" role="document">
+        <div class="modal-content" style="margin-left:300px; margin-right:300px;">
+            <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                <svg class="olymp-close-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+            </a>
+
+            <div class="modal-header">
+                <h6 class="title">Adcionar Personagem</h6>
+            </div>
+
+            <div class="modal-body">
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="card">
+
+                        <div id="desativar" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                            @using (Html.BeginForm("AdicionarPersonagem", "Administrador", FormMethod.Post, htmlAttributes: new { }))
+                            {
+                                <div class="card-header" role="tab" id="headingTwo">
+                                    <h6 class="mb-0">
+                                        Ter Certeza que Deseja Realizar essa Alteração?
+                                    </h6>
+                                </div>
+                                <input id="EquipeId2" name="EquipeId" hidden />
+                                <input id="EquipeTipoId2" name="EquipeTipoId" hidden />
+                                <input id="SeriesId" name="SeriesId" value="@Model.SeriesId" hidden />
+                                <input id="Personagem" name="Personagem" value="null" hidden />
+                                <div class="form-group label-floating is-empty">
+                                    <br />
+                                </div>
+                                <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <button class="btn btn-primary btn-lg full-width" type="submit" value="Adicionar">Adicionar</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    const ShowId = (id, id2) => {
+        document.getElementById(id).value = id2;
+    }
+    const CarregaTipo = (id, Tipo) => {
+        document.getElementById(id).value = Tipo;
+    }
+</script>

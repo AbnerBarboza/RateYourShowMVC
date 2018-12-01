@@ -14,6 +14,7 @@ namespace RateYourShowMVC.Controllers
 {
     public class HomeController : Controller
     {
+        Criptografia crp = new Criptografia();
         private Contexto db = new Contexto();
         UsuarioServices usuarioServices = new UsuarioServices();
 
@@ -173,7 +174,8 @@ namespace RateYourShowMVC.Controllers
         public ActionResult Cadastro([Bind(Include = "Nome,Email,Senha,DatadeNascimento,Sexo,ConfirmarSenha,TermosdeUso")] CadastroUsuario usuario, string button, string email, string senha)
         {
             ViewBag.Sexo = new SelectList(Enum.GetValues(typeof(Sexo)));
-            
+
+
             string Senha = "^(?=.*[0-9].*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
 
             if (button == "cadastrar")
@@ -215,7 +217,7 @@ namespace RateYourShowMVC.Controllers
                 {
                     DatadeNascimento = usuario.DatadeNascimento,
                     Nome = usuario.Nome,
-                    Senha = usuario.Senha,
+                    Senha =  crp.CriptografaSHA512(usuario.Senha),
                     TipoUsuario = TipoUsuario.Comum,
                     Bloqueado = Bloqueado.Não,
                     Inativo = Inativo.Não,
@@ -271,7 +273,7 @@ namespace RateYourShowMVC.Controllers
                 Usuario usu = db.Usuario.Where(t => t.Email == email).ToList().FirstOrDefault();
                 if (usu != null)
                 {
-                    if (usu.Senha != senha)
+                    if (usu.Senha != crp.CriptografaSHA512(senha))
                     {
                         ModelState.AddModelError("", "Senha Incorreta!");
                         return View();
@@ -416,7 +418,7 @@ namespace RateYourShowMVC.Controllers
                         return View();
                     }
 
-                    usu.Senha = senha;
+                    usu.Senha = crp.CriptografaSHA512(senha);
 
                     if (rec.Vencimento < DateTime.Now || rec.Valido == false)
                     {

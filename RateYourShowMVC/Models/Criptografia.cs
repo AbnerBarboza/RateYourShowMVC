@@ -2,21 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using CryptSharp;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+using System.Text;
+using System.Security.Cryptography;
+
 namespace RateYourShowMVC.Models
 {
-    public static class Criptografia
+    public class Criptografia
     {
-        public static string Codifica(string senha)
-        {
-            string crypt = CryptSharp.Crypter.Sha512.GenerateSalt();
-            crypt = CryptSharp.Crypter.Sha512.Crypt(senha, crypt);
-            return crypt;
-        }
 
-        public static bool Compara(string senha, string hash)
+        public string CriptografaSHA512(string valor)
         {
-            return Crypter.CheckPassword(senha, hash);
+            UnicodeEncoding UE = new UnicodeEncoding();
+            byte[] HashValue, MessageBytes = UE.GetBytes(valor);
+            SHA512Managed SHhash = new SHA512Managed();
+            string strHex = "";
+
+            HashValue = SHhash.ComputeHash(MessageBytes);
+            foreach (byte b in HashValue)
+            {
+                strHex += String.Format("{0:x2}", b);
+            }
+            return strHex;
         }
     }
 }

@@ -1,0 +1,99 @@
+﻿@model RateYourShowMVC.Models.Equipe
+
+@{
+    ViewBag.Title = "Personagem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="header-spacer"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="ui-block responsive-flex">
+                <div class="ui-block-title">
+                    <div class="h6 title">@Model.Nome</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-12 col-12">
+            <div class="ui-block">
+                <div class="ui-block-title">
+                    @foreach (var mid in Model.Midia.Where(m => m.TipoMidiaId == 2))
+                    {
+                        <img src="~/Uploads/@mid.Link" style="height:300px;width:310px" stalt="photo">
+
+                    }
+                </div>
+                <div class="ui-block-content">
+
+
+
+                    <!-- W-Personal-Info -->
+                    <h6 class="title">Perfil</h6>
+
+                    <ul class="widget w-personal-info item-block">
+                        <li>
+                            <span class="title">Nome:</span>
+                            <span class="text">@Model.Nome</span>
+                        </li>
+                        <li>
+                            <span class="title">Data de nascimento:</span>
+                            <span class="text">@Model.Datadenascimento.ToString("dd/MM/yyyy")</span>
+                        </li>
+                        <li>
+                            <span class="title">Nacionalidade:</span>
+                            <a href="#" class="text">@Model.Nacionalidade</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+        <div class="col col-xl-9 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-12 col-12">
+
+            <div class="row">
+                <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="ui-block responsive-flex">
+                        <div class="ui-block-title">
+                            <div class="h6 title">Filmografia</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--FIlmes-->
+            @foreach (var se in Model.SerieEquipe)
+            {
+                <div class="photo-item col-3-width">
+                    @foreach (var mid in se.Series.Midia.Where(m => m.TipoMidiaId == 1))
+                    {
+                        <img src="~/Uploads/@mid.Link" alt="photo">
+                    }
+                    <div class="overlay overlay-dark"></div>
+                    <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="  full-block"></a>
+                    <div class="content">
+                        @Html.ActionLink(se.Series.Nome, "Perfil", new { id = se.Series.SeriesId }, htmlAttributes: new { @class = "h4" })
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!--end FIlmes-->
+
+    </div>
+
+
+
+
+</div>
+
+
