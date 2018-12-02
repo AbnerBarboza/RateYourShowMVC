@@ -179,7 +179,7 @@
                     </div>
 
                     <span>Suas séries estão quase todas atualizadas!</span>
-                    -->
+                        -->
                 </div>
             </div>
         </div>
@@ -187,6 +187,129 @@
 
     <!-- ... FIM DO MENU LATERAL -->
     <!-- MENU LATERAL RESPONSIVO -->
+
+    <div class="fixed-sidebar fixed-sidebar-responsive">
+
+        <div class="fixed-sidebar-left sidebar--small" id="sidebar-left-responsive">
+            <a href="#" class="logo js-sidebar-open">
+                <img src="~/img/logo.png" alt="Olympus">
+            </a>
+
+        </div>
+
+        <div class="fixed-sidebar-left sidebar--large" id="sidebar-left-1-responsive">
+            <a href="#" class="logo">
+                <div class="img-wrap">
+                    <img src="~/img/logo.png" alt="Olympus">
+                </div>
+                <div class="title-block">
+                    <h6 class="logo-title">Rate Your Show</h6>
+                </div>
+            </a>
+
+            <div class="mCustomScrollbar" data-mcs-theme="dark">
+
+
+
+                <div class="ui-block-title ui-block-title-small">
+                    <h6 class="title">MENU</h6>
+                </div>
+
+                <ul class="left-menu">
+                    <li>
+                        <a href="#" class="js-sidebar-open">
+                            <svg class="olymp-close-icon left-menu-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+                            <span class="left-menu-title">Menu</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mobile-index.html">
+                            <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="DASHBOARD"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-newsfeed-icon"></use></svg>
+                            <span class="left-menu-title">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="Mobile-28-YourAccount-PersonalInformation.html">
+                            <svg class="olymp-star-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="PERFIL"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-star-icon"></use></svg>
+                            <span class="left-menu-title">Perfil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mobile-29-YourAccount-AccountSettings.html">
+                            <svg class="olymp-play-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="SÉRIES"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-play-icon"></use></svg>
+                            <span class="left-menu-title">Séries</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="Mobile-30-YourAccount-ChangePassword.html">
+                            <svg class="olymp-happy-face-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="ATORES"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
+                            <span class="left-menu-title">Atores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="Mobile-31-YourAccount-HobbiesAndInterests.html">
+                            <svg class="olymp-plus-iconn left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="PESSOAS"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
+                            <span class="left-menu-title">Pessoas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="Mobile-31-YourAccount-HobbiesAndInterests.html">
+                            <svg class="olymp-trophy-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="RANKING"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-trophy-icon"></use></svg>
+                            <span class="left-menu-title">Ranking</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Series/ListaDeAmigos">
+                            <svg class="olymp-plus-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="LISTA DE AMIGOS"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="ui-block-title ui-block-title-small">
+                    <h6 class="title" style="text-transform: uppercase;">conta</h6>
+                </div>
+
+                <ul class="account-settings">
+                    <li>
+                        <a href="~/ConfiguracoesUsuario/InformacoesPessoais">
+
+                            <svg class="olymp-menu-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-menu-icon"></use></svg>
+
+                            <span>Configuração da conta</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Home/Index">
+                            <svg class="olymp-logout-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-logout-icon"></use></svg>
+
+                            <span>Sair</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="ui-block-title ui-block-title-small">
+                    <h6 class="title">Rate Your Show</h6>
+                </div>
+
+                <ul class="about-olympus">
+                    <li>
+                        <a href="#">
+                            <span>Termos de uso</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span>Requisição de série</span>
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ... MENU LATERAL RESPONSIVO -->
 
     <div class="fixed-sidebar fixed-sidebar-responsive">
 
@@ -351,9 +474,12 @@
                                                 <a href="#" class="h6 notification-friend">@pes.Nome</a>
                                                 <span class="chat-message-item">@item.Datadeconvite</span>
                                             </div>
-                                            <span class="notification-icon">
-                                                @Html.ActionLink("Responder", "PerfilAmigo", "Series", new { id = pes.UsuarioId }, htmlAttributes: new { @class = "btn btn-blue" })
-                                            </span>
+                                            <div>
+                                                <a href="@Url.Action("PerfilAmigo","Series", new { id = pes.UsuarioId })">
+                                                    <span style="font-size: 1.8em; color: #FF5E3A;">
+                                                        <i class="fas fa-user-plus"></i>
+                                                    </span>
+                                            </div>
                                         }
 
                                     </li>
@@ -951,6 +1077,134 @@
             toast({
                 type: 'success',
                 title: "Marcação Removida!"
+            })
+        </script>
+    }
+    @if (TempData["Postagem"] != null)
+    {
+        <script type="text/javascript">
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+            toast({
+                type: 'success',
+                title: "Publicação Realizada!"
+            })
+        </script>
+    }
+    @if (TempData["PostagemErro"] != null)
+    {
+        <script type="text/javascript">
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+            toast({
+                type: 'error',
+                title: "Erro na Publicação!"
+            })
+        </script>
+    }
+    @if (TempData["Denuncia"] != null)
+    {
+        <script type="text/javascript">
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+            toast({
+                type: 'success',
+                title: "Denúncia realizada!"
+            })
+        </script>
+    }
+    @if (TempData["Editar"] != null)
+    {
+        <script type="text/javascript">
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+            toast({
+                type: 'success',
+                title: "Edição realizada!"
+            })
+        </script>
+    }
+    @if (TempData["Comentario"] != null)
+    {
+        <script type="text/javascript">
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+            toast({
+                type: 'success',
+                title: "Comentario publicado!"
+            })
+        </script>
+    }
+    @if (TempData["Excluir"] != null)
+    {
+        <script type="text/javascript">
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+            toast({
+                type: 'success',
+                title: "Publicação removida!"
+            })
+        </script>
+    }
+    @if (TempData["Avaliacao"] != null)
+    {
+        <script type="text/javascript">
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+            toast({
+                type: 'success',
+                title: "Avaliação realizada!"
+            })
+        </script>
+    }
+    @if (TempData["Removida"] != null)
+    {
+        <script type="text/javascript">
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+            toast({
+                type: 'success',
+                title: "Avaliação removida!"
             })
         </script>
     }

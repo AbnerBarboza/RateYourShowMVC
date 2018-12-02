@@ -24,7 +24,7 @@ namespace RateYourShowMVC.Models
         public int UsuarioId1 { get; set; }
 
         [ForeignKey("Series")]
-        public int SeriesId { get; set; }
+        public int? SeriesId { get; set; }
 
         [ForeignKey("Publicacao")]
         public int PublicacaoId { get; set; }

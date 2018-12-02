@@ -331,7 +331,7 @@ namespace RateYourShowMVC.Controllers
         [ValidateInput(false)]
         public ActionResult RecuperarSenha(string email, string button, string codigo, string senha, string confirmarsenha)
         {
-            string Senha = "^(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+            string Senha = "^(?=.*[0-9].*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
 
             if (button == "enviar")
             {

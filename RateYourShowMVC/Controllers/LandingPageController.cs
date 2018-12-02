@@ -4,6 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using RateYourShowMVC.Models;
+using RateYourShowMVC.ViewsModel;
+using RateYourShowMVC.Services;
+using System.Web.Security;
+using CryptSharp;
+using System.Data.Entity;
+using System.Text.RegularExpressions;
 namespace RateYourShowMVC.Controllers
 {
     public class LandingPageController : Controller
@@ -19,7 +25,7 @@ namespace RateYourShowMVC.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-
+            ViewBag.Midia = db.Midia.ToList();
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
 
@@ -33,7 +39,7 @@ namespace RateYourShowMVC.Controllers
                 ViewBag.Imagem = mid.Link;
             }
 
-
+            ViewBag.Comentario = db.Comentario.ToList();
             ViewBag.Series = db.Serie.ToList();
             ViewBag.Amizades = db.Amizade.ToList();
             ViewBag.Usuario = usu;
@@ -41,10 +47,11 @@ namespace RateYourShowMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string texto)
+        public ActionResult Index(string texto, string botao, int? PublicacaoId, string Descricao, string Texto, string motivo)
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
+            ViewBag.Midia = db.Midia.ToList();
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
 
@@ -58,15 +65,68 @@ namespace RateYourShowMVC.Controllers
                 ViewBag.Imagem = mid.Link;
             }
 
-
-
-
             ViewBag.Series = db.Serie.ToList();
             ViewBag.Amizades = db.Amizade.ToList();
             ViewBag.Usuario = usu;
+            ViewBag.Comentario = db.Comentario.ToList();
+
+            if (botao == "Editar")
+            {
+                Publicacao publ = db.Publicacao.Find(PublicacaoId);
+                publ.Descricao = Descricao;
+                db.Entry(publ).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["Editar"] = "ok";
+
+                return RedirectToAction("Index", "LandingPage");
+
+            }
+            else if (botao == "Excluir")
+            {
+                Publicacao publ = db.Publicacao.Find(PublicacaoId);
+                
+                foreach(var com in db.Comentario.Where(c => c.PublicacaoId == publ.PublicacaoId))
+                {
+                    db.Comentario.Remove(com);
+                }
+                db.SaveChanges();
+
+                db.Publicacao.Remove(publ);
+                db.SaveChanges();
+                TempData["Excluir"] = "ok";
+
+                return RedirectToAction("Index", "LandingPage");
+            }
+            else if (botao == "Comentar")
+            {
+                Publicacao publ = db.Publicacao.Find(PublicacaoId);
+
+                Comentario com = new Comentario();
+
+                com.PublicacaoId = Convert.ToInt32(PublicacaoId);
+                com.Texto = Texto;
+                com.Inativo = Inativo.Não;
+                com.UsuarioId = usu.UsuarioId;
+                com.UsuarioId1 = Convert.ToInt32(publ.UsuarioId);
+                com.Datadepublicacao = DateTime.Now;
+
+                db.Comentario.Add(com);
+                db.SaveChanges();
+                TempData["Comentario"] = "ok";
+
+                return RedirectToAction("Index", db.Publicacao.ToList());
+
+            }else if (botao == "Denunciar")
+            {
+                TempData["MSG"] = Funcoes.EnviarEmail("rys.rateyourshow@gmail.com", "[DENUNCIA] - " + PublicacaoId,motivo);
+                TempData["Denuncia"] = "ok";
+                return RedirectToAction("Index", db.Publicacao.ToList());
+            }
+
             if (texto.Length > 255 || texto.Length < 3)
             {
                 ModelState.AddModelError("", "O texto deve ter entre 3 e 255 caractéres.");
+                TempData["PostagemErro"] = "ok";
                 return View(db.Publicacao.ToList());
             }
 
@@ -83,6 +143,8 @@ namespace RateYourShowMVC.Controllers
                 db.Publicacao.Add(pub);
                 db.SaveChanges();
             }
+            TempData["Postagem"] = "ok";
+
             return RedirectToAction("Index", db.Publicacao.ToList());
         }
     }

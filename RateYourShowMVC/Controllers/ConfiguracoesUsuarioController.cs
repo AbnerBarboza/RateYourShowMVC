@@ -14,6 +14,7 @@ namespace RateYourShowMVC.Controllers
     public class ConfiguracoesUsuarioController : Controller
     {
         private Contexto db = new Contexto();
+        Criptografia crp = new Criptografia();
 
         // GET: ConfiguracoesUsuario
         public ActionResult InformacoesPessoais()
@@ -256,7 +257,7 @@ namespace RateYourShowMVC.Controllers
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
 
-            string Senha = "^(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,200}$";
+            string Senha = "^(?=.*[0-9].*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
 
             ViewBag.Imagem = "default.jpg";
 
@@ -283,7 +284,7 @@ namespace RateYourShowMVC.Controllers
                 return View();
             }
 
-            usu.Senha = SenhaNova;
+            usu.Senha = crp.CriptografaSHA512(SenhaNova);
 
             if (ModelState.IsValid)
             {

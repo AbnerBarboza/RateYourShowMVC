@@ -25,7 +25,7 @@ namespace RateYourShowMVC.Models
         public Boolean Spoiler { get; set; }        
     
         [DefaultValue(0)]
-        [Range(0,5)]
+        [Range(-1,1)]
         public int Avaliacao { get; set; }
 
         public DateTime Datedeinicio { get; set; }

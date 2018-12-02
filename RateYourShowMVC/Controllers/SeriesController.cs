@@ -15,7 +15,7 @@ namespace RateYourShowMVC.Controllers
     {
         private Contexto db = new Contexto();
         // GET: Series
-        public ActionResult DashSeries()
+        public ActionResult DashSeries(int? SerID1, int? SerID0)
         {
             HttpCookie cookie = Request.Cookies.Get("UsuId");
 
@@ -26,6 +26,7 @@ namespace RateYourShowMVC.Controllers
 
             ViewBag.Amizade = db.Amizade.ToList();
             ViewBag.Pessoa = db.Usuario.ToList();
+            ViewBag.UsuarioSerie = db.UsuarioSerie.ToList();
 
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             ViewBag.Usuario = usu;
@@ -37,6 +38,86 @@ namespace RateYourShowMVC.Controllers
             if (mid != null)
             {
                 ViewBag.Imagem = mid.Link;
+            }
+
+            if (SerID1 != null)
+            {
+                Usuarioserie uss = db.UsuarioSerie.Find(usu.UsuarioId, SerID1);
+                if (uss != null)
+                {
+                    if (uss.Avaliacao == 1)
+                    {
+                        uss.Avaliacao = 0;
+                        db.Entry(uss).State = EntityState.Modified;
+                        db.SaveChanges();
+                        TempData["Removida"] = "ok";
+
+                    }
+                    else
+                    {
+                        uss.Avaliacao = 1;
+                        db.Entry(uss).State = EntityState.Modified;
+                        db.SaveChanges();
+                        TempData["Avaliacao"] = "ok";
+                    }
+
+                }
+                else
+                {
+                    Usuarioserie use = new Usuarioserie
+                    {
+                        UsuarioId = usu.UsuarioId,
+                        SeriesId = Convert.ToInt32(SerID1),
+                        Spoiler = false,
+                        Avaliacao = 1,
+                        Datedeinicio = DateTime.Now,
+                        Seguindo = Seguindo.Não
+                    };
+                    db.UsuarioSerie.Add(use);
+                    db.SaveChanges();
+                    TempData["Avaliacao"] = "ok";
+                }
+                return RedirectToAction("DashSeries", "Series");
+            }
+            else if (SerID0 != null)
+            {
+                Usuarioserie uss = db.UsuarioSerie.Find(usu.UsuarioId, SerID0);
+
+                if (uss != null)
+                {
+                    if (uss.Avaliacao == -1)
+                    {
+                        uss.Avaliacao = 0;
+                        db.Entry(uss).State = EntityState.Modified;
+                        db.SaveChanges();
+                        TempData["Removida"] = "ok";
+
+                    }
+                    else
+                    {
+                        uss.Avaliacao = -1;
+                        db.Entry(uss).State = EntityState.Modified;
+                        db.SaveChanges();
+                        TempData["Avaliacao"] = "ok";
+
+                    }
+                }
+                else
+                {
+                    Usuarioserie use = new Usuarioserie
+                    {
+                        UsuarioId = usu.UsuarioId,
+                        SeriesId = Convert.ToInt32(SerID1),
+                        Spoiler = false,
+                        Avaliacao = -1,
+                        Datedeinicio = DateTime.Now,
+                        Seguindo = Seguindo.Não
+                    };
+                    db.UsuarioSerie.Add(use);
+                    db.SaveChanges();
+                    TempData["Avaliacao"] = "ok";
+                }
+                return RedirectToAction("DashSeries", "Series");
             }
 
             var serie = db.Serie;
@@ -67,9 +148,9 @@ namespace RateYourShowMVC.Controllers
             Amizade ami = db.Amizade.Find(usu.UsuarioId, id);
             Amizade ami2 = db.Amizade.Find(id, usu.UsuarioId);
 
-            if(ami != null)
+            if (ami != null)
             {
-                if(ami.Status == Status.Aceito)
+                if (ami.Status == Status.Aceito)
                 {
                     ViewBag.Convite = 2;
                 }
@@ -79,13 +160,13 @@ namespace RateYourShowMVC.Controllers
                 }
             }
 
-            if(ami2 != null)
+            if (ami2 != null)
             {
-                if(ami2.Status == Status.Aceito)
+                if (ami2.Status == Status.Aceito)
                 {
                     ViewBag.Convite = 2;
                 }
-                if(ami2.Status == Status.Pendente)
+                if (ami2.Status == Status.Pendente)
                 {
                     ViewBag.Convite = 3;
                 }
@@ -165,7 +246,7 @@ namespace RateYourShowMVC.Controllers
             ViewBag.Series = db.Serie.ToList();
 
 
-            if(Convite == "1")
+            if (Convite == "1")
             {
                 Amizade ami = new Amizade
                 {
@@ -196,9 +277,10 @@ namespace RateYourShowMVC.Controllers
             {
                 Amizade ami = db.Amizade.Find(usu.UsuarioId, id);
                 Amizade ami2 = db.Amizade.Find(id, usu.UsuarioId);
-                if(ami != null) { 
-                db.Amizade.Remove(ami);
-                db.SaveChanges();
+                if (ami != null)
+                {
+                    db.Amizade.Remove(ami);
+                    db.SaveChanges();
                 }
                 else
                 {
@@ -211,7 +293,7 @@ namespace RateYourShowMVC.Controllers
             }
             if (Convite == "4")
             {
-                Amizade ami = db.Amizade.Find(id,usu.UsuarioId);
+                Amizade ami = db.Amizade.Find(id, usu.UsuarioId);
 
                 ami.Status = Status.Aceito;
                 ami.Dataresposta = DateTime.Now;
@@ -438,7 +520,7 @@ namespace RateYourShowMVC.Controllers
 
             ViewBag.Seguir = 1;
 
-            if(seguir == "marcar")
+            if (seguir == "marcar")
             {
                 return RedirectToAction("MarcarEpisodio", "Series", new { id });
             }
@@ -477,9 +559,18 @@ namespace RateYourShowMVC.Controllers
                 db.UsuarioSerie.Add(use);
                 db.SaveChanges();
             }
-            else
+            else if (uss.Seguindo == Seguindo.Não)
             {
-                db.UsuarioSerie.Remove(uss);
+                uss.Seguindo = Seguindo.Sim;
+                db.Entry(uss).State = EntityState.Modified;
+                db.SaveChanges();
+
+
+            }
+            else if (uss.Seguindo == Seguindo.Sim)
+            {
+                uss.Seguindo = Seguindo.Não;
+                db.Entry(uss).State = EntityState.Modified;
                 db.SaveChanges();
             }
 
@@ -565,7 +656,7 @@ namespace RateYourShowMVC.Controllers
                 return HttpNotFound();
             }
 
-            if(equipe.Inativo == Inativo.Sim)
+            if (equipe.Inativo == Inativo.Sim)
             {
                 return RedirectToAction("Index", "LandingPage");
             }
@@ -595,7 +686,7 @@ namespace RateYourShowMVC.Controllers
                 ViewBag.Imagem = mid.Link;
             }
 
-            if(id != null)
+            if (id != null)
             {
                 Amizade ami = db.Amizade.Find(usu.UsuarioId, id);
                 Amizade ami2 = db.Amizade.Find(id, usu.UsuarioId);
@@ -630,7 +721,7 @@ namespace RateYourShowMVC.Controllers
             }
 
             ViewBag.Amizade = db.Amizade.ToList();
-            ViewBag.Pessoa = db.Usuario.Where(u => u.Nome.Contains(procurar) && u.Bloqueado != Bloqueado.Sim); 
+            ViewBag.Pessoa = db.Usuario.Where(u => u.Nome.Contains(procurar) && u.Bloqueado != Bloqueado.Sim);
 
             Usuario usu = db.Usuario.Find(Convert.ToInt32(cookie.Value));
             Midia mid = db.Midia.Where(t => t.UsuarioId == usu.UsuarioId).ToList().FirstOrDefault();
@@ -701,7 +792,7 @@ namespace RateYourShowMVC.Controllers
                 return RedirectToAction("Index", "LandingPage");
             }
 
-            if(Epid != null)
+            if (Epid != null)
             {
                 Usuarioepisodio usep = new Usuarioepisodio
                 {
@@ -713,10 +804,11 @@ namespace RateYourShowMVC.Controllers
                 Usuarioepisodio verifica = db.UsuarioEpisodio.Find(usu.UsuarioId, Convert.ToInt32(Epid));
 
 
-                if(verifica == null) { 
-                db.UsuarioEpisodio.Add(usep);
-                db.SaveChanges();
-                TempData["MarcarEpisodio"] = "ok";
+                if (verifica == null)
+                {
+                    db.UsuarioEpisodio.Add(usep);
+                    db.SaveChanges();
+                    TempData["MarcarEpisodio"] = "ok";
                 }
                 else
                 {

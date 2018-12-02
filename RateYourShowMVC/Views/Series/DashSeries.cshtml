@@ -4,6 +4,9 @@
 @{
     ViewBag.Title = "Séries";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int avaliacao = 0;
+    IEnumerable<RateYourShowMVC.Models.Usuarioserie> usserie = ViewBag.UsuarioSerie;
+
 }
 
 <div class="header-spacer"></div>
@@ -53,6 +56,12 @@
 <div class="container">
     @foreach (var item in Model.Where(u => u.Inativo == Inativo.Não).OrderBy(s => s.Nome))
     {
+        avaliacao = 0;
+
+        foreach (var uss in usserie.Where(us => us.SeriesId == item.SeriesId && us.UsuarioId == ViewBag.Usuario.UsuarioId))
+        {
+            avaliacao = uss.Avaliacao;
+        }
 
         <div class="photo-item col-4-width">
             @foreach (var mid in item.Midia.Where(m => m.TipoMidiaId == 1))
@@ -63,6 +72,34 @@
             <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="  full-block"></a>
             <div class="content">
                 @Html.ActionLink(item.Nome, "Perfil", new { id = item.SeriesId }, htmlAttributes: new { @class = "h6 title" })
+
+                <a href="@Url.Action("DashSeries", "Series", new { SerID1 = item.SeriesId })">
+                    @if (avaliacao == 1)
+                    {
+                        <span style="font-size: 1.8em; color: #FF5E3A;">
+                            <i class="fas fa-thumbs-up"></i>
+                        </span>
+                    }
+                    else
+                    {
+                        <span style="font-size: 1.8em; color: #3F4257;">
+                            <i class="fas fa-thumbs-up"></i>
+                        </span>
+                    }
+                    <a href="@Url.Action("DashSeries", "Series", new { SerID0 = item.SeriesId })">
+                        @if (avaliacao == -1)
+                        {
+
+                            <span style="font-size: 1.8em; color: #FF5E3A;">
+                                <i class="fas fa-thumbs-down"></i>
+                            </span>
+                        }
+                        else
+                        {
+                            <span style="font-size: 1.8em; color: #3F4257;">
+                                <i class="fas fa-thumbs-down"></i>
+                            </span>
+                        }
             </div>
         </div>
     }

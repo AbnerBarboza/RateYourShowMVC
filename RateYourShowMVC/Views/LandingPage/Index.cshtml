@@ -7,7 +7,8 @@
     IEnumerable<RateYourShowMVC.Models.Series> series = ViewBag.Series;
     IEnumerable<RateYourShowMVC.Models.Amizade> amizades = ViewBag.Amizades;
     IEnumerable<RateYourShowMVC.Models.Usuario> usuarios = ViewBag.Pessoa;
-
+    IEnumerable<RateYourShowMVC.Models.Comentario> comentarios = ViewBag.Comentario;
+    IEnumerable<RateYourShowMVC.Models.Midia> midia = ViewBag.Midia;
     int cont = 1;
     Boolean existe = false;
 }
@@ -22,7 +23,7 @@
         <!-- Main Content -->
 
         <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-               <div class="ui-block">
+            <div class="ui-block">
                 <!-- News Feed Form  -->
 
                 <div class="news-feed-form">
@@ -123,311 +124,121 @@
 
 
 
-            <div id="newsfeed-items-grid">
-
-                
-
-                <div class="ui-block">
 
 
-                    <article class="hentry post">
+            <!-- Post -->
 
-                        <div class="post__author author vcard inline-items">
-                            <img src="~/img/avatar10-sm.jpg" alt="author">
+            @foreach (var post in Model.Where(p => p.Usuario.Bloqueado != Bloqueado.Sim && p.Usuario.Inativo != Inativo.Sim).OrderByDescending(p => p.Data))
+            {
+                existe = false;
+                if (post.UsuarioId == ViewBag.Usuario.UsuarioId)
+                {
+                    existe = true;
+                }
 
-                            <div class="author-date">
-                                <a class="h6 post__author-name fn" href="#">Elaine Dreyfuss</a>
-                                <div class="post__date">
-                                    <time class="published" datetime="2004-07-24T18:18">
-                                        9 hours ago
-                                    </time>
-                                </div>
-                            </div>
+                foreach (var amz in amizades.Where(a => a.UsuarioId1 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito || a.UsuarioId2 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito))
+                {
+                    existe = true;
+                }
 
-                            <div class="more">
-                                <svg class="olymp-three-dots-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
-                                <ul class="more-dropdown">
-                                    <li>
-                                        <a data-toggle="modal" data-target="#editar-post" href="#">Editar Post</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Deletar Post</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Denunciar Post</a>
-                                    </li>                                    
-                                </ul>
-                            </div>
+                if (!existe)
+                {
+                    continue;
+                }
 
-                        </div>
-
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo incididunt ut
-                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris consequat.
-                        </p>
-
-                        <div class="post-additional-info inline-items">
-
-                            <a href="#" class="post-add-icon inline-items">
-                                <svg class="olymp-heart-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-heart-icon"></use></svg>
-                                <span>24</span>
-                            </a>
-
-                            <ul class="friends-harmonic">
-                                <li>
-                                    <a href="#">
-                                        <img src="img/friend-harmonic7.jpg" alt="friend">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="img/friend-harmonic8.jpg" alt="friend">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="img/friend-harmonic9.jpg" alt="friend">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="img/friend-harmonic10.jpg" alt="friend">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="img/friend-harmonic11.jpg" alt="friend">
-                                    </a>
-                                </li>
-                            </ul>
-
-                            <div class="names-people-likes">
-                                <a href="#">You</a>, <a href="#">Elaine</a> and
-                                <br>22 more liked this
-                            </div>
+                <div id="newsfeed-items-grid">
+                    <div class="ui-block">
 
 
-                            <div class="comments-shared">
-                                <a href="#" class="post-add-icon inline-items">
-                                    <svg class="olymp-speech-balloon-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-speech-balloon-icon"></use></svg>
-                                    <span>17</span>
-                                </a>
+                        <article class="hentry post">
 
-                                <a href="#" class="post-add-icon inline-items">
-                                    <svg class="olymp-share-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-share-icon"></use></svg>
-                                    <span>24</span>
-                                </a>
-                            </div>
-
-
-                        </div>
-
-                        <div class="control-block-button post-control-button">
-
-                            <a href="#" class="btn btn-control">
-                                <svg class="olymp-like-post-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-like-post-icon"></use></svg>
-                            </a>
-
-                            <a href="#" class="btn btn-control">
-                                <svg class="olymp-comments-post-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-comments-post-icon"></use></svg>
-                            </a>
-
-                            <a href="#" class="btn btn-control">
-                                <svg class="olymp-share-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-share-icon"></use></svg>
-                            </a>
-
-                        </div>
-
-                    </article>
-
-                    <!-- Comments -->
-
-                    <ul class="comments-list">
-                        <li class="comment-item">
                             <div class="post__author author vcard inline-items">
-                                <img src="img/author-page.jpg" alt="author">
+                                @foreach (var mid in post.Usuario.Midia.Where(m => m.TipoMidiaId == 5))
+                                {
+                                    <img src="~/Uploads/@mid.Link" alt="author">
+                                }
 
                                 <div class="author-date">
-                                    <a class="h6 post__author-name fn" href="02-ProfilePage.html">James Spiegel</a>
+                                    @Html.ActionLink(post.Usuario.Nome, "PerfilAmigo", "Series", new { id = post.Usuario.UsuarioId }, htmlAttributes: new { @class = "h6 post__author-name fn" })
                                     <div class="post__date">
                                         <time class="published" datetime="2004-07-24T18:18">
-                                            38 mins ago
+                                            @post.Data
                                         </time>
                                     </div>
                                 </div>
-
-                                <a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
-
-                            </div>
-
-                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium der doloremque laudantium.</p>
-
-                            <a href="#" class="post-add-icon inline-items">
-                                <svg class="olymp-heart-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-heart-icon"></use></svg>
-                                <span>3</span>
-                            </a>
-                            <a href="#" class="reply">Reply</a>
-                        </li>
-                        <li class="comment-item">
-                            <div class="post__author author vcard inline-items">
-                                <img src="img/avatar1-sm.jpg" alt="author">
-
-                                <div class="author-date">
-                                    <a class="h6 post__author-name fn" href="#">Mathilda Brinker</a>
-                                    <div class="post__date">
-                                        <time class="published" datetime="2004-07-24T18:18">
-                                            1 hour ago
-                                        </time>
-                                    </div>
+                                <div class="more">
+                                    <svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+                                    <ul class="more-dropdown">
+                                        @if (ViewBag.Usuario.UsuarioId == post.UsuarioId)
+                                        {
+                                            <li>
+                                                <a data-toggle="modal" id="@post.PublicacaoId" onclick="ShowId('PublicacaoId1',this.id), CarregaTexto('Descricao','@post.Descricao')" data-target="#editar-post" href="#">Editar Post</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <a data-toggle="modal" id="@post.PublicacaoId" onclick="ShowId('PublicacaoId2',this.id)" data-target="#denunciar-post" href="#">Denunciar Post</a>
+                                            </li>
+                                        }
+                                    </ul>
                                 </div>
-
-                                <a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
 
                             </div>
 
                             <p>
-                                Ratione voluptatem sequi en lod nesciunt. Neque porro quisquam est, quinder dolorem ipsum
-                                quia dolor sit amet, consectetur adipisci velit en lorem ipsum duis aute irure dolor in reprehenderit in voluptate velit esse cillum.
+                                @post.Descricao
                             </p>
 
-                            <a href="#" class="post-add-icon inline-items">
-                                <svg class="olymp-heart-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-heart-icon"></use></svg>
-                                <span>8</span>
-                            </a>
-                            <a href="#" class="reply">Reply</a>
-                        </li>
-                    </ul>
 
-                    <!-- ... end Comments -->
+                        </article>
+                        @using (Html.BeginForm("Index", "LandingPage", FormMethod.Post, htmlAttributes: new { @class = "comment-form inline-items" }))
+                        {
 
-                    <a href="#" class="more-comments">View more comments <span>+</span></a>
-
-
-                    <!-- Comment Form  -->
-
-                    <form class="comment-form inline-items">
-
-                        <div class="post__author author vcard inline-items">
-                            <img src="img/author-page.jpg" alt="author">
-
-                            <div class="form-group with-icon-right ">
-                                <textarea class="form-control" placeholder=""></textarea>
-                                <div class="add-options-message">
-                                    <a href="#" class="options-message" data-toggle="modal" data-target="#update-header-photo">
-                                        <svg class="olymp-camera-icon">
-                                            <use xlink:href="svg-icons/sprites/icons.svg#olymp-camera-icon"></use>
-                                        </svg>
-                                    </a>
+                            <div class="post__author author vcard inline-items">
+                                <img src="~/Uploads/@ViewBag.Imagem" alt="author">
+                                <input value="@post.PublicacaoId" id="PublicacaoId" name="PublicacaoId" hidden />
+                                <div class="form-group with-icon-right ">
+                                    <textarea class="form-control" id="Texto" name="Texto"></textarea>
+                                    <div class="add-options-message">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <button class="btn btn-md-2 btn-primary">Post Comment</button>
+                            <button class="btn btn-md-2 btn-primary" id="botao" name="botao" value="Comentar" type="submit">Comentar</button>
 
-                        <button class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color">Cancel</button>
+                            <button class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color">Cancelar</button>
 
-                    </form>
-
-                    <!-- ... end Comment Form  -->
-                </div>
-
-               
-
-            </div>
-
-
-
-            <!-- Post -->
-            @foreach (var amz in amizades.Where(a => a.UsuarioId1 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito || a.UsuarioId2 == ViewBag.Usuario.UsuarioId && a.Status == Status.Aceito))
-            {
-                foreach (var post in Model.Where(p => p.UsuarioId == amz.UsuarioId1 || p.UsuarioId == amz.UsuarioId2 && p.Usuario.Bloqueado != Bloqueado.Sim && p.Usuario.Inativo != Inativo.Sim).OrderByDescending(p => p.Data))
-                {
-                    <div id="newsfeed-items-grid">
-                        <div class="ui-block">
-
-
-                            <article class="hentry post">
-
-                                <div class="post__author author vcard inline-items">
-                                    @foreach (var mid in post.Usuario.Midia.Where(m => m.TipoMidiaId == 5))
-                                    {
-                                        <img src="~/Uploads/@mid.Link" alt="author">
-                                    }
-
+                        }
+                        <!-- Comments -->
+                        <hr />
+                        <ul class="comments-list">
+                            @foreach (var com in comentarios.Where(c => c.PublicacaoId == post.PublicacaoId))
+                            {
+                                <li class="comment-item">
+                                    <div class="post__author author vcard inline-items">
+                                        @foreach (var mid in midia.Where(m => m.UsuarioId == com.UsuarioId && m.TipoMidiaId == 5))
+                                        {
+                                            <img src="~/Uploads/@mid.Link" alt="author">
+                                        }
                                         <div class="author-date">
-                                            @Html.ActionLink(post.Usuario.Nome, "PerfilAmigo", "Series", new { id = post.Usuario.UsuarioId }, htmlAttributes: new { @class = "h6 post__author-name fn" })
+                                            <a class="h6 post__author-name fn" href="02-ProfilePage.html">@com.Usuario.Nome</a>
                                             <div class="post__date">
                                                 <time class="published" datetime="2004-07-24T18:18">
-                                                    @post.Data
+                                                    @com.Datadepublicacao
                                                 </time>
                                             </div>
                                         </div>
-
-                                    <div class="more">
-                                        <svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
-                                        <ul class="more-dropdown">
-                                            <li>
-                                                <a href="#">Editar Postagem</a>
-                                            </li>
-                                        </ul>
                                     </div>
 
-                                </div>
-
-                                <p>
-                                    @post.Descricao
-                                </p>
-                                <div class="control-block-button post-control-button">
-
-                                    <a href="#" class="btn btn-control">
-                                        <svg class="olymp-comments-post-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-comments-post-icon"></use></svg>
-                                    </a>
-
-                                </div>
-
-                            </article>
-
-                            <!-- Comments -->
-
-                            <ul class="comments-list">
-                                <li class="comment-item">
-                                    <div class="post__author author vcard inline-items">
-                                        <img src="img/author-page.jpg" alt="author">
-
-                                        <div class="author-date">
-                                            <a class="h6 post__author-name fn" href="02-ProfilePage.html">James Spiegel</a>
-                                            <div class="post__date">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium der doloremque laudantium.</p>
+                                    <p>@com.Texto</p>
                                 </li>
-                            </ul>
+                            }
+                        </ul>
 
-                            <!-- ... end Comments -->
-                            <!-- Comment Form  -->
-
-                            <form class="comment-form inline-items">
-
-                                <div class="post__author author vcard inline-items">
-                                    <img src="img/author-page.jpg" alt="author">
-
-                                    <div class="form-group with-icon-right ">
-                                        <textarea class="form-control" placeholder=""></textarea>
-                                        <div class="add-options-message">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <button class="btn btn-md-2 btn-primary">Post Comment</button>
-
-                                <button class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color">Cancel</button>
-
-                            </form>
-                        </div>
+                        <!-- ... end Comments -->
                     </div>
-                }
+                </div>
             }
             @foreach (var post in Model.Where(p => p.UsuarioId == 4).OrderByDescending(p => p.Data))
             {
@@ -444,23 +255,6 @@
                                 </div>
                             </div>
                             <p>@post.Descricao</p>
-                            <div class="more">
-                                <svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
-                                <ul class="more-dropdown">
-                                    <li>
-                                        <a href="#">Edit Post</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Delete Post</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Turn Off Notifications</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Select as Featured</a>
-                                    </li>
-                                </ul>
-                            </div>
                         </article>
                     </div>
                 </div>
@@ -584,67 +378,104 @@
 
 
 <!-- Window-popup Update Header Photo -->
+<!-- desativarConta Popup -->
 
-  <!-- desativarConta Popup -->
-
-<div class="modal fade" id="editar-post" tabindex="-1" role="dialog" aria-labelledby="editar-post" aria-hidden="true" style="margin: 7em;">
-
-    <div class="modal-dialog window-popup editar-post" role="document">
-
-        <div class="modal-content">
-
+<div class="modal fade" id="editar-post" tabindex="-1" role="dialog" aria-labelledby="editar-post" aria-hidden="true">
+    <div class="modal-dialog window-popup batata" role="document">
+        <div class="modal-content" style="margin-left:300px; margin-right:300px;">
             <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
-                <svg class="olymp-close-icon">
-                    <use xlink:href="~/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
-                </svg>
+                <svg class="olymp-close-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
             </a>
-            
-                <div class="modal-body">
-                    
-                        <article class="hentry post has-post-thumbnail thumb-full-width">
-                            <div class="col col-xl-11 order-xl-11 col-lg-11 order-lg-11 col-md-11 col-sm-11 col-11">
-                                <div class="post__author author vcard inline-items">
-                                    <img src="~/img/author-page.jpg" alt="author">
 
-                                    <div class="author-date">
-                                        <a class="h6 post__author-name fn" href="02-ProfilePage.html">James Spiegel</a>
-                                    </div>
+            <div class="modal-header">
+                <h6 class="title">Editar publicação</h6>
+            </div>
 
-                               
+            <div class="modal-body">
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingTwo">
+                            <h6 class="mb-0">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#desativar" aria-expanded="true" aria-controls="desativar">
+                                    Deseja editar essa publicação
+                                    <svg class="olymp-dropdown-arrow-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+                                </a>
+                            </h6>
+                        </div>
+
+                        <div id="desativar" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                            @using (Html.BeginForm("Index", "LandingPage", FormMethod.Post, htmlAttributes: new { }))
+                            {
+                                <input id="PublicacaoId1" name="PublicacaoId" hidden />
+                                <div class="form-group label-floating is-empty">
+                                    <br />
+                                    <input id="Descricao" name="Descricao" />
                                 </div>
-
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectadipisicing elit, sed do eiusmod por incidid ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud lorem exercitation ullamco laboris
-                                    nisi ut aliquip ex ea commodo consequat.
-                                </p>
-
-                                <p>
-                                    Duis en aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
-                                    aperiam, eaque ipsa quae ab illo inventore veri
-                                </p>
-                            </div>
-                    <div class="control-block-button post-control-button">
-
-                        <button class="btn btn-control">
-                            <i class="fas fa-check"></i>
-                        </button>
-
-                        <button class="btn btn-control">
-                            <i class="fas fa-times"></i>
-                        </button>
-                        
-
+                                <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <button class="btn btn-primary btn-lg" type="submit" name="botao" id="botao" value="Editar">Editar</button>
+                                    <button class="btn btn-bg-secondary btn-lg" type="submit" name="botao" id="botao" value="Excluir">Excluir</button>
+                                </div>
+                            }
+                        </div>
                     </div>
 
-                </article>
-
-
-
-
+                </div>
             </div>
+
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="denunciar-post" tabindex="-1" role="dialog" aria-labelledby="denunciar-post" aria-hidden="true">
+    <div class="modal-dialog window-popup batata" role="document">
+        <div class="modal-content" style="margin-left:300px; margin-right:300px;">
+            <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                <svg class="olymp-close-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+            </a>
+
+            <div class="modal-header">
+                <h6 class="title">Denunciar publicação</h6>
+            </div>
+
+            <div class="modal-body">
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingTwo">
+                            <h6 class="mb-0">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#desativar" aria-expanded="true" aria-controls="desativar">
+                                    Porque deseja denunciar essa publicação?
+                                    <svg class="olymp-dropdown-arrow-icon"><use xlink:href="~/svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+                                </a>
+                            </h6>
+                        </div>
+
+                        <div id="desativar" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                            @using (Html.BeginForm("Index", "LandingPage", FormMethod.Post, htmlAttributes: new { }))
+                            {
+                                <input id="PublicacaoId2" name="PublicacaoId" hidden />
+                                <div class="form-group label-floating is-empty">
+                                    <br />
+                                    <textarea rows="4" id="motivo" name="motivo" cols="100" placeholder="Motivo do denúncia"></textarea>
+                                </div>
+                                <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <button class="btn btn-primary btn-lg full-width" value="Denunciar" id="botao" name="botao" type="submit">Denúnciar</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    const ShowId = (id, id2) => {
+        document.getElementById(id).value = id2;
+    }
+    const CarregaTexto = (id, id2) => {
+        document.getElementById(id).value = id2;
+    }
+</script>
